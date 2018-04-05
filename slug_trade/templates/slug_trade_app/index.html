@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% extends "slug_trade_app/base.html" %}
+
+<title>Home</title>
+
+{% block body_block %}
+  <h2>Homepage</h2>
+
+  {{test}}
+
+  <div class="" style="padding: 40px 0;">
+      <a href="{% url 'slug_trade_app:products' %}">Products Page</a>
+  </div>
+{% endblock %}

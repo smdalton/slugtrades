@@ -1,0 +1,27 @@
+h2 {
+  color: red;
+}
+
+.products-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#toggle-button {
+  max-width: 200px;
+  padding: 20px 40px;
+  border: 1px solid #2B2B2B;
+  border-radius: 5px;
+  background: #fff;
+  color: #2B2B2B;
+  cursor: pointer;
+}
+
+#toggle-button:hover {
+  background: #2B2B2B;
+  color: #fff;
+}
+
+.pop-img {
+  display: none;
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+<title>Products</title>
+
+{% block body_block %}
+  <h2>Products Page</h2>
+  <div class="products-container">
+    <a href="{% url 'slug_trade_app:index' %}">Home</a>
+    <button id="toggle-button" type="button" name="button" onclick="toggle()">Click me!</button>
+
+    <img class="pop-img" src="{% static "images/destiny2.jpg" %}" alt="Destiny 2">
+  </div>
+
+{% endblock %}
