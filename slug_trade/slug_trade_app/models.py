@@ -19,21 +19,23 @@ CAMPUS_STATUS = (
 
 class Item(models.Model):
     # who owns the item
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=9, decimal_places=2)
     category = models.CharField(max_length=1,
                                 default="O",
                                 choices=ITEM_CATEGORIES)
+    image = models.ImageField(upload_to='item_pictures')
 
 
-class Picture(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    picture_url = models.URLField()
+#
+# class Picture(models.Model):
+#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+#     picture = models.ImageField(upload_to='profile_optional', blank=True)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    picture = models.ForeignKey(Picture)
+    picture = models.ImageField(upload_to='profile_picture')
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=3,
                                 default="on",
@@ -50,7 +52,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 class Offer(models.Model):
-    bidded_on = models.ForeignKey(Item, on_delete=models.CASCADE)
-    bidded_on = models.ForeignKey(Item, on_delete=models.CASCADE)
+    bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
+    bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
 
 
