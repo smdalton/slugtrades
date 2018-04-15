@@ -67,10 +67,10 @@ class ItemOfferAdmin(admin.ModelAdmin):
         return obj.item.offer_item.name
 
 class CashOfferAdmin(admin.ModelAdmin):
-    list_display = ['get_item_name']
+    list_display = ['get_item_name','offer_amount']
 
     def get_item_name(self, obj):
-        return obj.item.name + obj.offer_amount
+        return obj.item.name
 
 
 # Register your models here.
