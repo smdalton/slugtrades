@@ -37,7 +37,7 @@ ITEM_CONDITION = (
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_picture')
+    profile_picture = models.ImageField(upload_to='static/profile_pictures')
     bio = models.TextField(max_length=500, blank=True)
     on_off_campus = models.CharField(max_length=3,
                                 default="on",
@@ -59,24 +59,26 @@ class Item(models.Model):
                                 choices=ITEM_CATEGORIES,
                                 blank=False)
     trade_options = models.CharField(max_length=80,
+                                     default='1',
                                     choices=TRADE_OPTIONS,
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
-    description = models.TextField(blank=False)
+    description = models.TextField(blank=False, default=' ')
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
-                                blank=False)
+                                blank=False,
+                                 default='2')
     def __str__(self):
         return self.name
 
 
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    image1 = models.ImageField(upload_to='product_images', blank=False)
-    image2 = models.ImageField(upload_to='product_images', blank=True)
-    image3 = models.ImageField(upload_to='product_images', blank=True)
-    image4 = models.ImageField(upload_to='product_images', blank=True)
-    image5 = models.ImageField(upload_to='product_images', blank=True)
+    image1 = models.ImageField(upload_to='static/item_images', blank=False)
+    image2 = models.ImageField(upload_to='static/item_images', blank=True)
+    image3 = models.ImageField(upload_to='static/item_images', blank=True)
+    image4 = models.ImageField(upload_to='static/item_images', blank=True)
+    image5 = models.ImageField(upload_to='static/item_images', blank=True)
 
 
 class ItemComment(models.Model):
@@ -111,13 +113,6 @@ class CashOffer(models.Model):
 
 
 
-
-#
-# class Picture(models.Model):
-#     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-#     picture = models.ImageField(upload_to='profile_optional', blank=True)
-
-# These are needed to ensure auto creation of the other
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
