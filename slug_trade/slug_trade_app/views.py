@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from . import models
 from django.http import HttpResponseRedirect
-import json
 # Create your views here.
 
 def index(request):
