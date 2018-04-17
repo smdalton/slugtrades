@@ -1,0 +1,29 @@
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+{% block body_block %}
+<form action="/slug_trade_app/edit_profile/" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <h3>Profile Picture</h3>
+  <img id="img" src="{{user.userprofile.profile_picture.url}}" width="240"><br><br>
+  <input id="upload" type="file" name="profile_picture"><br><br>
+
+  <label>First Name</label>
+  <input name="first_name" value="{{user.first_name}}"><br><br>
+
+  <label>Last Name</label>
+  <input name="last_name" value="{{user.last_name}}"><br><br>
+
+  <label>Where do you live?</label>
+  <select name="on_off_campus">
+    <option value="on">On Campus</option>
+    <option value="off">Off Campus</option>
+  </select><br><br>
+
+  <label>Bio</label><br>
+  <textarea name="bio">{{user.userprofile.bio}}</textarea><br>
+
+  <input type="submit" value="Save">
+</form>
+{% endblock %}
