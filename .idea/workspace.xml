@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="73a80302-92fa-4bd2-b685-03e011c34569" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/pyclean.sh" afterPath="$PROJECT_DIR$/pyclean.sh" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade/settings.py" afterPath="$PROJECT_DIR$/slug_trade/slug_trade/settings.py" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/urls.py" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/urls.py" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/views.py" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/views.py" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/profile.html" afterPath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/profile.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
