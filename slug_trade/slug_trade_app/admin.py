@@ -8,11 +8,13 @@ from . models import UserProfile, Item, Offer, Wishlist, ItemComment, ItemImage,
 # class ProfileAdmin(admin.ModelAdmin):
 #     list_display = ('')
 
+
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
+
 
 class CustomUserAdmin(UserAdmin):
     inlines = (UserProfileInline, )
@@ -30,6 +32,7 @@ class ItemAdmin(admin.ModelAdmin):
     def get_name(self, obj):
         return obj.user.first_name + " " + obj.user.last_name
 
+
 class ItemCommentAdmin(admin.ModelAdmin):
     list_display = ['get_item_name','time_stamp','comment']
 
@@ -39,11 +42,13 @@ class ItemCommentAdmin(admin.ModelAdmin):
     def get_item_name(self, obj):
         return obj.item.name
 
+
 class ItemImageAdmin(admin.ModelAdmin):
     list_display = ['get_item_name']
 
     def get_item_name(self, obj):
         return obj.item.name
+
 
 class WishlistAdmin(admin.ModelAdmin):
     list_display = ['wishlist_item_description','get_name']
@@ -52,19 +57,19 @@ class WishlistAdmin(admin.ModelAdmin):
         return obj.user.first_name + " " + obj.user.last_name
 
 
-
-
 class OfferCommentAdmin(admin.ModelAdmin):
     list_display = ['get_item_name']
 
     def get_item_name(self, obj):
         return obj.item.name + obj.comment
 
+
 class ItemOfferAdmin(admin.ModelAdmin):
     list_display = ['get_item_name']
 
     def get_item_name(self, obj):
         return obj.item.offer_item.name
+
 
 class CashOfferAdmin(admin.ModelAdmin):
     list_display = ['get_item_name','offer_amount']
