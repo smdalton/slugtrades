@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 
-  alert("Javascript is working!");
+  console.log("Javascript is working!");
 
   //toggles image on products page
   var isVisible = false;
