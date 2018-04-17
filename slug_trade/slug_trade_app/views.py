@@ -9,3 +9,12 @@ def index(request):
 
 def products(request):
     return render(request, 'slug_trade_app/products.html')
+
+
+
+def profile(request):
+
+    if request.user.is_authenticated():
+        return render(request, 'slug_trade_app/profile.html')
+    else:
+        return render(request,'slug_trade_app/not_authenticated.html')

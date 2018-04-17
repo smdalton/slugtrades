@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+<title>Oops!</title>
+
+{% block body_block %}
+<h1>Shucks, it looks like your not logged in</h1>
+<h2>Go here to log in or sign up
+    <a href="">this link is broken, btu should point to the sign-up/login page</a>
+</h2>
+<
+<img src="{% static "images/error_images/tenor.gif" %}" alt="profile picture">
+{% endblock %}
