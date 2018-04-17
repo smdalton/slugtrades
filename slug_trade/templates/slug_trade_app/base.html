@@ -11,6 +11,15 @@
 
   <body>
     <h1>BASE</h1>
+    {% if request.path != "/slug_trade_app/login/" %}
+      {% if user.is_authenticated %}
+        <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+        <p>You can logout <a href="/slug_trade_app/logout/">here</a></p>
+      {% else %}
+        <p>Welcome, new user. Please log in <a href="/slug_trade_app/login/">here</a>.</p>
+      {% endif %}
+    {% endif %}
+
     {% block body_block %}
     {% endblock %}
   </body>

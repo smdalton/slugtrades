@@ -130,3 +130,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'slug_trade/media')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+
+LOGIN_REDIRECT_URL = '/slug_trade_app/home/'
