@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+from django.contrib.auth.models import User
+from . import models
 # Create your views here.
 
 def index(request):
@@ -15,6 +16,7 @@ def products(request):
 def profile(request):
 
     if request.user.is_authenticated():
-        return render(request, 'slug_trade_app/profile.html')
+        print(request.user)
+        return render(request, 'slug_trade_app/profile.html', {'user': request.user})
     else:
-        return render(request,'slug_trade_app/not_authenticated.html')
+        return render(request, 'slug_trade_app/not_authenticated.html')
