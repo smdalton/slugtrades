@@ -1,0 +1,24 @@
+{% extends "slug_trade_app/base.html" %}
+
+<title>Sign Up</title>
+
+{% block body_block %}
+
+  <div class="" style="padding: 40px 0;">
+      <a href="{% url 'slug_trade_app:index' %}">Home</a>
+  </div>
+
+  {% if registered %}
+    <h1>Thank you for registering!</h1>
+  {% else %}
+    <h2>Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ user_form.as_p }}
+      {{ profile_form.as_p }}
+
+      <input type="submit" name="" value="Sign Up">
+    </form>
+  {% endif %}
+
+{% endblock %}

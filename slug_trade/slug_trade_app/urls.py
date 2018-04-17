@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'slug_trade_app/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'slug_trade_app/logout.html'}, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^signup/$', views.signup, name='signup'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

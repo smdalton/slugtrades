@@ -20,5 +20,5 @@ from slug_trade_app import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
-    url(r'^slug_trade_app/', include('slug_trade_app.urls')),
+    url('', include('slug_trade_app.urls')),
 ]
