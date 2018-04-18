@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from slug_trade_app.models import UserProfile
 
 class UserForm(forms.ModelForm):
+    
     password = forms.CharField(widget=forms.PasswordInput())
-    User.user_name = "e@gmail.com"
 
     class Meta():
         model = User

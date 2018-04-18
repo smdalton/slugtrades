@@ -37,7 +37,7 @@ ITEM_CONDITION = (
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='static/profile_pictures')
+    profile_picture = models.ImageField(upload_to='static/profile_pictures', blank=True )
     bio = models.TextField(max_length=500, blank=True)
     on_off_campus = models.CharField(max_length=3,
                                 default="on",

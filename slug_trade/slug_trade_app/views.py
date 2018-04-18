@@ -32,16 +32,16 @@ def signup(request):
         print(profile_form.is_valid())
 
         if user_form.is_valid() and profile_form.is_valid():
-            print (user_form.cleaned_data['email'])
+
             user = user_form.save()
             user.set_password(user.password)
             user.save()
 
-            profile= profile_form.save(commit=False)
-
+            profile = profile_form.save(commit=False)
             profile.user = user
 
-            profile.profile_picture = request.FILES['profile_picture']
+            if 'profile_picture' in request.FILES:
+                profile.profile_picture = request.FILES['profile_picture']
 
             profile.save()
 
