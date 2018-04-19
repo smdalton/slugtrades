@@ -13,10 +13,10 @@
     <h1>BASE</h1>
     {% if request.path != "/slug_trade_app/login/" %}
       {% if user.is_authenticated %}
-        <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+        <p>Welcome, {{ user.first_name }}. Thanks for logging in.</p>
         <p>You can logout <a href="/logout/">here</a></p>
       {% else %}
-        <p>Welcome, new user. Please log in <a href="/login/">here</a>.</p>
+        <p>Welcome, new user. Please log in <a href="/login/">here</a>, or <a href="/signup/">Sign Up</a></p>
       {% endif %}
     {% endif %}
 
