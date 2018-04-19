@@ -29,7 +29,7 @@ def edit_profile(request):
         user.userprofile.on_off_campus = data['on_off_campus']
         user.userprofile.profile_picture = request.FILES['profile_picture']
         user.save()
-        return HttpResponseRedirect('/slug_trade_app/profile/')
+        return HttpResponseRedirect('/profile/')
     else:
         if request.user.is_authenticated():
             return render(request, 'slug_trade_app/edit_profile.html', {'user': request.user, 'no_pic': False})
