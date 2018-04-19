@@ -11,8 +11,6 @@ def index(request):
 def products(request):
     return render(request, 'slug_trade_app/products.html')
 
-
-
 def profile(request):
 
     if request.user.is_authenticated():
