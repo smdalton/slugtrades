@@ -22,5 +22,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
-    url(r'^slug_trade_app/', include('slug_trade_app.urls')),
+    url('', include('slug_trade_app.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
