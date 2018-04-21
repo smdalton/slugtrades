@@ -11,22 +11,24 @@ from django.core.files import File
 from time import sleep
 fake = Faker()
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
 
     fake.seed(4321)
     random.seed(4321)
-    num_users = 10
-    profile_data = [(fake.name(), fake.text(), random.choice(['on', 'off'])) for counter in range(num_users)]
-    relative_dir = 'slug_trade/media/db_populate/profile_pics'
+    num_users = 12
+    # name, bio, on/off
+
+
+    profile_pic_dir = 'slug_trade/media/db_populate/profile_pics'
         # Todo get the photos directory
+    item_pic_dir = 'slug_trade/media/db_populate/item_pics'
     help = 'This is a customized command accessible from manage.py'
     print('calling populate db with  manage.py')
+# creates admin account and saves it
 
-    # creates admin account and saves it
     def generate_date(self):
         return
-
 
     def create_admin(self):
 
@@ -43,36 +45,33 @@ class Command(BaseCommand):
                                'after having been in college for like 9 years'
         # TODO://
         counter = 0
-        # When looking at the project from the point of view of your system's root directory
-        # when looking in from top level of project, this is where the profile pics are at
-
-        # pick a specific
-        filename = os.listdir(os.path.join(os.getcwd(), self.relative_dir))[counter]
+        #
+        filename = os.listdir(os.path.join(os.getcwd(), self.profile_pic_dir))[counter]
         user.userprofile.on_off_campus = random.choice(['on', 'off'])
-        full_path = os.path.join(os.getcwd(), self.relative_dir, filename)
+        full_path = os.path.join(os.getcwd(), self.profile_pic_dir, filename)
         print(full_path)
         user.userprofile.profile_picture.save(user.first_name, File(open(full_path, 'rb')))
         user.userprofile.save()
         return
 
-    def create_single_user(self, information):
-        user = User.objects.create_user(information[0])
-        return
-
     def create_users(self):
+        # profile data contains all of the fake information
+        profile_data = [(fake.name(), fake.text(), random.choice(['on', 'off']), counter) for counter in range(self.num_users)]
 
-        for name, text, location in self.profile_data:
+        for name, bio, location, counter in profile_data:
             user = User.objects.create_user(name.split(' ')[0], 'pass1234')
             user.is_superuser = False
             user.is_staff = False
             user.first_name = name.split(' ')[0]
             user.last_name = name.split(' ')[1]
             user.save()
+            user.userprofile.bio = bio
+            user.userprofile.on_off_campus = location
+            filename = os.listdir(os.path.join(os.getcwd(), self.profile_pic_dir))[counter]
+            full_path = os.path.join(os.getcwd(), self.profile_pic_dir, filename)
+            user.userprofile.profile_picture.save(user.first_name, File(open(full_path, 'rb')))
+            user.userprofile.save()
 
-            user.userprofile.bio = fake.text()
-
-
-    # utility
     def dir_print(self):
         print("\n\n ===========current Dir is {0} ===========\n".format(
             os.getcwd()
