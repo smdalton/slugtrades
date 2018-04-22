@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+<title>Products</title>
+
+{% block body_block %}
+{% for user in users%}
+    <h1>{{user.first_name}}'s Profile</h1>
+
+
+{% if user.userprofile.profile_picture %}
+    <h4>Current Photo:</h4>
+    <img src="{{user.userprofile.profile_picture.url}}" width="240">
+{% endif %}
+
+<p>It looks like you live {{user.userprofile.on_off_campus}} campus</p>
+
+<h4>This is your public bio:</h4>
+<p>{{user.userprofile.bio}}</p>
+{%endfor%}}
+{% endblock %}
