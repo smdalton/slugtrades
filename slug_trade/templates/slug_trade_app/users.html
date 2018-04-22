@@ -9,11 +9,11 @@
     <h1>{{user.first_name}}'s Profile</h1>
 
 
-{% if user.userprofile.profile_picture %}
+{#{% if user.userprofile.profile_picture %}#}
     <h4>Current Photo:</h4>
     <img src="{{user.userprofile.profile_picture.url}}" width="240">
-{% endif %}
-
+{#{% endif %}#}
+<p>Your email: {{ user.email }}</p>
 <p>It looks like you live {{user.userprofile.on_off_campus}} campus</p>
 
 <h4>This is your public bio:</h4>

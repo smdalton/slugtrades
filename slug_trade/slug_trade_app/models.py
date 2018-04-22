@@ -69,7 +69,7 @@ class Item(models.Model):
                                 blank=False,
                                  default='2')
     def __str__(self):
-        return self.name
+        return f"name: {self.name} price:{self.price} category:{self.category}"
 
 
 class ItemImage(models.Model):
@@ -79,6 +79,9 @@ class ItemImage(models.Model):
     image3 = models.ImageField(upload_to='static/item_images', blank=True)
     image4 = models.ImageField(upload_to='static/item_images', blank=True)
     image5 = models.ImageField(upload_to='static/item_images', blank=True)
+
+    def __str__(self):
+        return f"You are accessing the ItemImage correctly {self.item}"
 
 
 class ItemComment(models.Model):
