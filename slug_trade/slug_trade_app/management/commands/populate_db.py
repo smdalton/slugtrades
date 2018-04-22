@@ -100,11 +100,22 @@ class Command(BaseCommand):
         pictures_list = [item for item in os.listdir(os.path.join(os.getcwd(), self.item_pic_dir)) if not item.startswith('.')]
         item_names = [picture.split(' ')[0] for picture in pictures_list if not picture.startswith('.')]
 
+        TRADE_OPTIONS = (
+            ('0','Cash Only'),
+            ('1','Cash with items on top'),
+            ('2','Trade only'),
+            ('3','Free')
+        )
         # pictures list:
         for picture in pictures_list:
             user = next(from_user_list)
             picture_name = picture.split('.')[0]
-            item = models.Item(user=user, name=picture_name, price=random.random()*100, category='C', description=fake.text())
+            item = models.Item(user=user,
+                               name=picture_name,
+                               price=random.random()*100,
+                               category='C',
+                               description=fake.text(),
+                               trade_options=random.choice(['0','2','3']))
             item.save()
             full_path = os.path.join(os.getcwd(), self.item_pic_dir, picture)
             image = models.ItemImage(item=item)
