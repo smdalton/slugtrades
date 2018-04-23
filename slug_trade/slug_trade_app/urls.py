@@ -14,6 +14,10 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'slug_trade_app/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
+
     # url(r'^items/$', views.show_items, name='items'),
-    url(r'^users/$', views.show_users, name='users')
+    url(r'^users/$', views.show_users, name='users'),
+
+    url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
+
 ]

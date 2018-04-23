@@ -1,0 +1,21 @@
+
+{% extends "slug_trade_app/base.html" %}
+
+{% block body_block %}
+
+    <h2>Edit Profile</h2>
+    <form enctype="multipart/form-data" method="post" >
+      {% csrf_token %}
+      {{ user_form.as_p }}
+      {% if user.userprofile.profile_picture %}
+        <img id="img" src="{{user.userprofile.profile_picture.url}}" width="240"><br>
+      {% else %}
+        <img id="img" src="" width="240"><br>
+      {% endif %}
+      {{ profile_picture_form }}
+      {{ user_profile_form.as_p }}
+      
+      <input type="submit" name="" value="Save">
+    </form>
+
+{% endblock %}
