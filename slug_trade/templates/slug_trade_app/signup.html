@@ -12,9 +12,20 @@
     <h1>Thank you for registering!</h1>
   {% else %}
     <h2>Sign Up</h2>
-    <form enctype="multipart/form-data" method="post" >
+    <form method="post" enctype="multipart/form-data" >
       {% csrf_token %}
-      {{ user_form.as_p }}
+      {{ user_form.username }}
+      {{ user_form.first_name }}
+      {{ user_form.first_name.errors }}
+      {{ user_form.last_name }}
+      {{ user_form.last_name.errors }}
+      {{ user_form.email }}
+      {{ user_form.email.errors }}
+      {{ user_form.password1 }}
+      {{ user_form.password1.errors }}
+      {{ user_form.password2 }}
+      {{ user_form.password2.errors }}
+      <!-- {{ user_form.as_p }} -->
       {{ profile_form.as_p }}
 
 
