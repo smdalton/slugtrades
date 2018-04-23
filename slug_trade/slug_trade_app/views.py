@@ -112,7 +112,9 @@ def add_closet_item(request):
         return redirect('/profile')
 
     else:
-        form = ClosetItem()
-        photos = ClosetItemPhotos()
-        return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos})
-
+        if request.user.is_authenticated():
+            form = ClosetItem()
+            photos = ClosetItemPhotos()
+            return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos})
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
