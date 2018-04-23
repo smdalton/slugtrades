@@ -41,6 +41,8 @@ class Command(BaseCommand):
         user.last_name = 'istrator'
         # userprofile fields
         user.save()
+        profile = models.UserProfile(user=user)
+        profile.save()
         # Operations
         user.userprofile.bio = 'This is a test bio for admin, I chose this photo because this is what I feel like inside\n' \
                                'after having been in college for like 9 years'
@@ -69,6 +71,8 @@ class Command(BaseCommand):
             user.first_name = name.split(' ')[0]
             user.last_name = name.split(' ')[1]
             user.save()
+            profile = models.UserProfile(user=user)
+            profile.save()
             user.userprofile.bio = bio
             if self.debug: print('setting location', location)
             user.userprofile.on_off_campus = location
