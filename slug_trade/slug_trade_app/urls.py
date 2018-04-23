@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^home/$', views.index, name='index'),
     url(r'^products/$', views.products, name='products'),
     url(r'^login/$', auth_views.login, {'template_name': 'slug_trade_app/login.html'}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'template_name': 'slug_trade_app/logout.html'}, name='logout'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
 ]

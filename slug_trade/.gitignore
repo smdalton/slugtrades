@@ -1,7 +1,4 @@
-# Mac-specific system files
-.DS_Store
-
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL / IDE files
 __pycache__/
 *.py[cod]
 db.sqlite3
@@ -10,6 +7,7 @@ media/
 # C extensions
 *.so
 .DS_Store
+../.idea
 
 
 # Distribution / packaging

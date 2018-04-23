@@ -19,7 +19,6 @@ def profile(request):
         return render(request, 'slug_trade_app/profile.html', {'user': request.user})
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
-
 def edit_profile(request):
     if request.method == 'POST':
         user_instance = User.objects.get(id=request.user.id)
