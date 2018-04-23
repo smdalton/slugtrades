@@ -167,18 +167,19 @@ class Command(BaseCommand):
         # wipe the db
         if test:
             # test functions go in here
-            self.create_item()
             self.wipe_db()
             self.stdout.write('flushed')
             self.create_admin()
+            self.create_item()
             self.create_users()
             self.create_items()
 
         else:
-            self.create_item()
+
             self.wipe_db()
             self.stdout.write('flushed')
             self.create_admin()
+            self.create_item()
             self.create_users()
             self.create_items()
 
