@@ -5,35 +5,17 @@ from slug_trade_app.models import UserProfile
 
 class UserForm(UserCreationForm):
 
-    username = forms.CharField(
-        error_messages={'required': 'Username is required', 'max_length': 'Username name too long'}, required=True,
-        max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input', 'id': 'username', 'name': 'fname', 'value' : 'MyCo', 'placeholder': 'Username','autocomplete':'given-name'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input', 'id': 'username', 'name': 'fname', 'value' : 'MyCo', 'placeholder': 'Username','autocomplete':'given-name', 'required': True, 'maxlength': 256}))
 
-    first_name = forms.CharField(
-        error_messages={'max_length': 'First name too long'},
-        max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input', 'name': 'fname','placeholder': 'First Name','autocomplete':'given-name', 'required': True}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input', 'name': 'fname','placeholder': 'First Name','autocomplete':'given-name', 'required': True, 'maxlength': 30}))
 
-    last_name = forms.CharField(
-        error_messages={'max_length': 'Last name too long'}, 
-        max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name': 'fname','placeholder': 'Last Name','autocomplete':'family-name', 'required': True}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name': 'fname','placeholder': 'Last Name','autocomplete':'family-name', 'required': True, 'maxlength': 30}))
 
-    email = forms.CharField(
-        error_messages={'max_length': 'Email is too long'},
-        max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email', 'required': True}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email', 'required': True, 'maxlength': 256}))
 
-    password1 = forms.CharField(
-        error_messages={'max_length': 'Password is too long'},
-        max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Password','autocomplete':'password', 'type': 'password', 'required': True}))
+    password1 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Password','autocomplete':'password', 'type': 'password', 'required': True, 'maxlength': 256}))
 
-    password2 = forms.CharField(
-        error_messages={'max_length': 'Password is too long'},
-        max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Verification Password', 'type': 'password', 'required': True}))
+    password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Verification Password', 'type': 'password', 'required': True, 'maxlength': 256}))
 
     def clean_email(self):
         username = self.cleaned_data["email"]
