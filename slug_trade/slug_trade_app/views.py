@@ -31,8 +31,7 @@ def signup(request):
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
 
-        if user_form.is_valid():
-            print("3")
+        if user_form.is_valid() and profile_form.is_valid():
 
             #create user
             created_user = user_form.save()
@@ -43,9 +42,13 @@ def signup(request):
 
             #create extended profile
             created_profile = profile_form.save(commit=False)
-            created_profile.user = created_user
-            profile.profile_picture = request.FILES['profile_picture']
-            created_profile.save()
+            profile = UserProfile(
+                user = created_user,
+                profile_picture = request.FILES['profile_picture'],
+                bio = created_profile.bio,
+                on_off_campus = created_profile.on_off_campus
+            )   
+            profile.save()
 
             #authentication
             email = user_form.cleaned_data.get('email')

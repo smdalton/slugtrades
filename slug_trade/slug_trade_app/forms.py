@@ -65,3 +65,7 @@ class UserProfileForm(forms.ModelForm):
             'bio',
             'on_off_campus'
         )
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
+        self.fields['profile_picture'].widget.attrs.update({'required': True})
