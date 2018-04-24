@@ -11,29 +11,29 @@ class UserForm(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-input', 'id': 'username', 'name': 'fname', 'value' : 'MyCo', 'placeholder': 'Username','autocomplete':'given-name'}))
 
     first_name = forms.CharField(
-        error_messages={'required': 'First name is required', 'max_length': 'First name too long'}, required=True,
+        error_messages={'max_length': 'First name too long'},
         max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input', 'name': 'fname','placeholder': 'First Name','autocomplete':'given-name'}))
+        widget=forms.TextInput(attrs={'class': 'form-input', 'name': 'fname','placeholder': 'First Name','autocomplete':'given-name', 'required': True}))
 
     last_name = forms.CharField(
-        error_messages={'required': 'Last name is required', 'max_length': 'Last name too long'}, required=True,
+        error_messages={'max_length': 'Last name too long'}, 
         max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name': 'fname','placeholder': 'Last Name','autocomplete':'family-name'}))
+        widget=forms.TextInput(attrs={'class': 'form-input','name': 'fname','placeholder': 'Last Name','autocomplete':'family-name', 'required': True}))
 
     email = forms.CharField(
-        error_messages={'required': 'Email address is required', 'max_length': 'Email is too long'}, required=True,
+        error_messages={'max_length': 'Email is too long'},
         max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email'}))
+        widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email', 'required': True}))
 
     password1 = forms.CharField(
-        error_messages={'required': 'Password required', 'max_length': 'Password is too long'}, required=True,
+        error_messages={'max_length': 'Password is too long'},
         max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Password','autocomplete':'password'}))
+        widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Password','autocomplete':'password', 'type': 'password', 'required': True}))
 
     password2 = forms.CharField(
-        error_messages={'required': 'Verification password required', 'max_length': 'Password is too long'}, required=True,
+        error_messages={'max_length': 'Password is too long'},
         max_length=256,
-        widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Verification Password'}))
+        widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Verification Password', 'type': 'password', 'required': True}))
 
     def clean_email(self):
         username = self.cleaned_data["email"]
@@ -69,3 +69,5 @@ class UserProfileForm(forms.ModelForm):
         super(UserProfileForm, self).__init__(*args, **kwargs)
         self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
         self.fields['profile_picture'].widget.attrs.update({'required': True})
+        self.fields['bio'].widget.attrs.update({'required': True})
+        self.fields['on_off_campus'].widget.attrs.update({'required': True})
