@@ -1,0 +1,39 @@
+{% extends "slug_trade_app/base.html" %}
+
+{% block body_block %}
+
+<h2>Add Closet Item</h2>
+<form enctype="multipart/form-data" method="post" >
+
+	{% csrf_token %}
+
+	{% if blank_name %}
+		<h4>Please enter a name for the item</h4>
+	{% endif %}
+
+	{{ form.as_p }}
+
+	<label>Image 1</label>
+	{{ photos.image1 }}
+	<button type="button" id="clear_image1">Reset</button><br><br>
+
+	<label>Image 2</label>
+	{{ photos.image2 }}
+	<button type="button" id="clear_image2">Reset</button><br><br>
+
+	<label>Image 3</label>
+	{{ photos.image3 }}
+	<button type="button" id="clear_image3">Reset</button><br><br>
+
+	<label>Image 4</label>
+	{{ photos.image4 }}
+	<button type="button" id="clear_image4">Reset</button><br><br>
+
+	<label>Image 5</label>
+	{{ photos.image5 }}
+	<button type="button" id="clear_image5">Reset</button><br><br>
+
+	<input type="submit" name="" value="Save">
+</form>
+
+{% endblock %}
