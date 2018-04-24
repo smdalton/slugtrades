@@ -31,7 +31,7 @@ ITEM_CONDITION = (
     ('1','Fair'),
     ('2','Good'),
     ('3','Like New'),
-    ('3','New')
+    ('4','New')
 )
 
 

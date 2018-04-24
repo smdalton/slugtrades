@@ -9,8 +9,9 @@
 		<h4>Please enter a name for the item</h4>
 	{% endif %}
 	{{ form.as_p }}
-	{{ photos.as_p }}
-	 <input type="submit" name="" value="Save">
+	{{ photos.as_p }}<br>
+	<button type="button" id="clear_photos">Clear Photos</button><br>
+	<input type="submit" name="" value="Save">
 </form>
 
 {% endblock %}

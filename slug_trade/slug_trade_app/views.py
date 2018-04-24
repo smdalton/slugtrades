@@ -57,6 +57,8 @@ def add_closet_item(request):
             print('form is valid')
             item = form.save(commit=False)
             item.user = request.user
+            if item.price < 0:
+                item.price = 0
             form.save()
 
             if photos.is_valid():

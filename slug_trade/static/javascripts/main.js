@@ -29,4 +29,15 @@ $(document).ready(function() {
     });
   });
 
+  $(function() {
+    $('#clear_photos').click(function() {
+      console.log('here')
+      $("#id_image1").val("");
+      $("#id_image2").val("");
+      $("#id_image3").val("");
+      $("#id_image4").val("");
+      $("#id_image5").val("");
+    });
+  });
+
 });
