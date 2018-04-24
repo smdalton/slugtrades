@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-from slug_trade_app.forms import UserForm, UserProfileForm
+from slug_trade_app.forms import UserForm, SignupUserProfileForm
 from . import models
 from slug_trade_app.models import UserProfile
 
@@ -29,7 +29,7 @@ def signup(request):
     if request.method == 'POST':
 
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        profile_form = SignupUserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
 
@@ -71,6 +71,6 @@ def signup(request):
 
     else:
         user_form = UserForm()
-        profile_form = UserProfileForm()
+        profile_form = SignupUserProfileForm()
 
         return render(request, 'slug_trade_app/signup.html', {'user_form': user_form, 'profile_form': profile_form})

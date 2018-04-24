@@ -39,7 +39,7 @@ class UserForm(UserCreationForm):
         )
 
 
-class UserProfileForm(forms.ModelForm):
+class SignupUserProfileForm(forms.ModelForm):
     class Meta():
         model = UserProfile
         fields = (
@@ -48,7 +48,7 @@ class UserProfileForm(forms.ModelForm):
             'on_off_campus'
         )
     def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
+        super(SignupUserProfileForm, self).__init__(*args, **kwargs)
         self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
         self.fields['profile_picture'].widget.attrs.update({'required': True})
         self.fields['bio'].widget.attrs.update({'required': True})
