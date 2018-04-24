@@ -63,7 +63,7 @@ class UserForm(UserCreationForm):
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name': 'fname','placeholder': 'Last Name','autocomplete':'family-name', 'required': True, 'maxlength': 30}))
 
-    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email', 'required': True, 'maxlength': 256}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email', 'required': True, 'maxlength': 256, 'type': 'email'}))
 
     password1 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Password','autocomplete':'password', 'type': 'password', 'required': True, 'maxlength': 256}))
 
