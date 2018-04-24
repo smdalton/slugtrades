@@ -31,7 +31,7 @@ ITEM_CONDITION = (
     ('1','Fair'),
     ('2','Good'),
     ('3','Like New'),
-    ('3','New')
+    ('4','New')
 )
 
 
@@ -63,7 +63,7 @@ class Item(models.Model):
                                     choices=TRADE_OPTIONS,
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
-    description = models.TextField(blank=False, default=' ')
+    description = models.TextField(blank=False, default='')
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
                                 blank=False,

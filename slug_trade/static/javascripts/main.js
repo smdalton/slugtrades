@@ -14,6 +14,7 @@ $(document).ready(function() {
       }
   });
 
+  //displays a preview of profile picture in edit_profile page
   $(function() {
     $('#id_file').change(function() {
       var input = this;
@@ -28,5 +29,38 @@ $(document).ready(function() {
       }
     });
   });
+
+  // ---- all of these functions clear images out of the file selectors inside add_closet_item ----
+  $(function() {
+    $('#clear_image1').click(function() {
+      console.log('here');
+      $("#id_image1").val("");
+    });
+  });
+
+  $(function() {
+    $('#clear_image2').click(function() {
+      $("#id_image2").val("");
+    });
+  });
+
+  $(function() {
+    $('#clear_image3').click(function() {
+      $("#id_image3").val("");
+    });
+  });
+
+  $(function() {
+    $('#clear_image4').click(function() {
+      $("#id_image4").val("");
+    });
+  });
+
+  $(function() {
+    $('#clear_image5').click(function() {
+      $("#id_image5").val("");
+    });
+  });
+  // -- endblock -----
 
 });
