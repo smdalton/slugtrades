@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import RegexValidator
 
 
 ITEM_CATEGORIES = (
@@ -37,7 +38,7 @@ ITEM_CONDITION = (
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='static/profile_pictures')
+    profile_picture = models.ImageField(upload_to='static/profile_pictures', blank=True)
     bio = models.TextField(max_length=500, blank=True)
     on_off_campus = models.CharField(max_length=3,
                                 default="on",
@@ -109,18 +110,6 @@ class CashOffer(models.Model):
     is_current = models.BooleanField(default=True)
     current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_cash_bidder")
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
-
-
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()
 
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
