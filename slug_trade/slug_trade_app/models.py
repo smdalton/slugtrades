@@ -36,6 +36,8 @@ ITEM_CONDITION = (
 )
 
 
+#class User
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='static/profile_pictures', blank=True)
@@ -70,7 +72,7 @@ class Item(models.Model):
                                 blank=False,
                                  default='2')
     def __str__(self):
-        return self.name
+        return f"name: {self.name} price:{self.price} category:{self.category}"
 
 
 class ItemImage(models.Model):
@@ -80,6 +82,9 @@ class ItemImage(models.Model):
     image3 = models.ImageField(upload_to='static/item_images', blank=True)
     image4 = models.ImageField(upload_to='static/item_images', blank=True)
     image5 = models.ImageField(upload_to='static/item_images', blank=True)
+
+    def __str__(self):
+        return f"You are accessing the ItemImage correctly {self.item}"
 
 
 class ItemComment(models.Model):
@@ -114,3 +119,4 @@ class CashOffer(models.Model):
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
     bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
+
