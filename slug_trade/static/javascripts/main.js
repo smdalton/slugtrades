@@ -14,7 +14,7 @@ $(document).ready(function() {
       }
   });
 
-  //displays a preview of profile picture in edit_profile page
+//displays a preview of profile picture in edit_profile page
   $(function() {
     $('#id_file').change(function() {
       var input = this;
@@ -24,6 +24,22 @@ $(document).ready(function() {
         var reader = new FileReader();
         reader.onload = function(e) {
           $('#img').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    });
+  });
+
+  //displays a preview of profile picture in signup page
+  $(function() {
+    $('#id_profile_picture').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#signup_img').attr('src', e.target.result);
         }
         reader.readAsDataURL(input.files[0]);
       }
@@ -64,3 +80,4 @@ $(document).ready(function() {
   // -- endblock -----
 
 });
+
