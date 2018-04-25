@@ -66,12 +66,13 @@ class Command(BaseCommand):
               'last name is User, who has email address testuser@somewhere.com, and lives on campus.'
         location = 'on'
 
-        user = User.objects.create_user(username=name, password='pass1234')
+        username = name.replace(' ', '')
+        user = User.objects.create_user(username=username.lower(), password='pass1234')
         user.is_superuser = False
         user.is_staff = False
         user.first_name = name.split(' ')[0]
         user.last_name = name.split(' ')[1]
-        user.email = (user.first_name + user.last_name + '@somewhere.com').lower()
+        user.email = (username + '@somewhere.com').lower()
         user.save()
 
         profile = models.UserProfile(user=user)
@@ -100,12 +101,13 @@ class Command(BaseCommand):
         profile_data = [(fake.name(), fake.text(), random.choice(['on', 'off']), counter) for counter in range(self.num_users)]
 
         for name, bio, location, counter in profile_data:
-            user = User.objects.create_user(username=name, password='pass1234')
+            username = name.replace(' ', '')
+            user = User.objects.create_user(username=username.lower(), password='pass1234')
             user.is_superuser = False
             user.is_staff = False
             user.first_name = name.split(' ')[0]
             user.last_name = name.split(' ')[1]
-            user.email = (user.first_name + user.last_name + '@somewhere.com').lower()
+            user.email = (username + '@somewhere.com').lower()
             user.save()
 
             profile = models.UserProfile(user=user)
