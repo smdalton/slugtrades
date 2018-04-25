@@ -190,7 +190,18 @@ class Command(BaseCommand):
         return
 
     def wipe_db(self):
+        # delete table entries
         call_command('flush')
+
+        # delete profile pictures
+        profile_path = os.path.join(os.getcwd(), 'slug_trade/media/static/profile_pictures/')
+        for filename in os.listdir(profile_path):
+            os.remove(profile_path + filename)
+
+        # delete item images
+        item_path = os.path.join(os.getcwd(), 'slug_trade/media/static/item_images/')
+        for filename in os.listdir(item_path):
+            os.remove(item_path + filename)
 
     def handle(self, **args):
         test = False
