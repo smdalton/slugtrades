@@ -2,107 +2,159 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from django.core.management import call_command
+
 from slug_trade_app import models
 from itertools import cycle
-
 from faker import Faker
 import random
 import os, sys
-from django.core.files import File
-from time import sleep
+
+# Modules for image handling
+from PIL import Image
+from django.core.files.base import ContentFile
+from io import BytesIO
+import glob
+
+
 fake = Faker()
 
-
 class Command(BaseCommand):
+    help = 'This is a customized command accessible from manage.py'
+
     debug = True
     fake.seed(4321)
     random.seed(4321)
     num_users = 12
-    # name, bio, on/off
 
+    debug_profile_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/')
+    debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
 
-    profile_pic_dir = 'slug_trade/media/db_populate/profile_pics'
-        # Todo get the photos directory
-    item_pic_dir = 'slug_trade/media/db_populate/item_pics'
-    help = 'This is a customized command accessible from manage.py'
-    print('calling populate db with  manage.py')
-# creates admin account and saves it
-
-    def generate_date(self):
-        return
-
+# Creates admin account and saves it into the database.
     def create_admin(self):
-
-        # Operations on user object
+        # Create admin user.
         user = User.objects.create_user('admin', password='pass1234')
         user.is_superuser = True
         user.is_staff = True
         user.first_name = 'admin'
         user.last_name = 'istrator'
-        # userprofile fields
         user.save()
+
         profile = models.UserProfile(user=user)
         profile.save()
-        # Operations
-        user.userprofile.bio = 'This is a test bio for admin, I chose this photo because this is what I feel like inside\n' \
-                               'after having been in college for like 9 years'
-        # TODO://
-        counter = 0
-        #
-        filename = os.listdir(os.path.join(os.getcwd(), self.profile_pic_dir))[counter]
-        user.userprofile.on_off_campus = random.choice(['on', 'off'])
-        full_path = os.path.join(os.getcwd(), self.profile_pic_dir, filename)
-        print(full_path)
-        user.userprofile.profile_picture.save(user.first_name, File(open(full_path, 'rb')))
+
+        user.userprofile.bio = 'This is a bio for the admin user,  whose first name is admin and ' \
+                               'last name is istrator, who has no email address, and lives off campus.'
+        user.userprofile.on_off_campus = 'off'
+
+        # get the debug image to use as the profile photo
+        filename = glob.glob(self.debug_profile_pic_path + 'debug.jpeg')[0]
+        extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+        image = Image.open(filename)
+        image_bytes = BytesIO()
+        image.save(image_bytes, image.format)
+
+        user.userprofile.profile_picture.save(user.first_name + extension, ContentFile(image_bytes.getvalue()))
         user.userprofile.save()
+
         return
 
-    def create_users(self):
+# Creates one user and saves it into the database.
+    def create_user(self):
+        # Create debug user information.
+        name = 'Test User'
+        bio = 'This is a bio for Test User,  whose first name is Test and ' \
+              'last name is User, who has email address testuser@somewhere.com, and lives on campus.'
+        location = 'on'
+
+        user = User.objects.create_user(username=name, password='pass1234')
+        user.is_superuser = False
+        user.is_staff = False
+        user.first_name = name.split(' ')[0]
+        user.last_name = name.split(' ')[1]
+        user.email = (user.first_name + user.last_name + '@somewhere.com').lower()
+        user.save()
+
+        profile = models.UserProfile(user=user)
+        profile.save()
+
+        user.userprofile.bio = bio
+        user.userprofile.on_off_campus = location
+
+        # get the debug image to use as the profile photo
+        filename = glob.glob(self.debug_profile_pic_path + 'debug.jpeg')[0]
+        extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+        image = Image.open(filename)
+        image_bytes = BytesIO()
+        image.save(image_bytes, image.format)
+
+        user.userprofile.profile_picture.save(user.first_name + extension, ContentFile(image_bytes.getvalue()))
+        user.userprofile.save()
+
+        return
+
+# Creates number of users specified in class declaration, populates the fields with random information, and saves them into the database.
+    def create_random_users(self):
+        image_list = glob.glob(self.debug_profile_pic_path + 'images-*.jpeg')
+
         # profile data contains all of the fake information
         profile_data = [(fake.name(), fake.text(), random.choice(['on', 'off']), counter) for counter in range(self.num_users)]
 
         for name, bio, location, counter in profile_data:
-            user = User.objects.create_user(username=name,
-                                            email=''.join((name+'@somewhere.com').split(' ')).lower(),
-                                            password='pass1234')
-            user.email
+            user = User.objects.create_user(username=name, password='pass1234')
             user.is_superuser = False
             user.is_staff = False
             user.first_name = name.split(' ')[0]
             user.last_name = name.split(' ')[1]
+            user.email = (user.first_name + user.last_name + '@somewhere.com').lower()
             user.save()
+
             profile = models.UserProfile(user=user)
             profile.save()
+
             user.userprofile.bio = bio
-            if self.debug: print('setting location', location)
             user.userprofile.on_off_campus = location
-            filename = os.listdir(os.path.join(os.getcwd(), self.profile_pic_dir))[counter]
-            full_path = os.path.join(os.getcwd(), self.profile_pic_dir, filename)
-            user.userprofile.profile_picture.save(user.first_name, File(open(full_path, 'rb')))
+
+            # get an image to use as the profile photo
+            filename = image_list[counter % len(image_list)]
+            extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+            image = Image.open(filename)
+            image_bytes = BytesIO()
+            image.save(image_bytes, image.format)
+
+            user.userprofile.profile_picture.save(user.first_name + extension, ContentFile(image_bytes.getvalue()))
             user.userprofile.save()
 
-    def create_item(self):
-        # assign one item per user at this point in time
+        return
 
-        # get a random user, assign them to the item
-        # list all of the users
+# Create one debug item for the user 'admin' and save it into the database.
+    def create_admin_item(self):
+        # get the user 'admin'
         user = User.objects.get(first_name='admin')
+
+        # create the debug item
         item = models.Item(user=user, name='test', price='5.99', category='C', description='placeholder')
         item.save()
-        filename = os.listdir(os.path.join(os.getcwd(), self.item_pic_dir))[0]
-        full_path = os.path.join(os.getcwd(), self.item_pic_dir, filename)
-        image = models.ItemImage(item=item)
-        image.image1.save('admin', File(open(full_path,'rb')))
-        image.save()
-        #print(image)
 
-    def create_items(self):
+        # get the debug image to use as the item image
+        filename = glob.glob(self.debug_item_pic_path + 'debug.jpeg')[0]
+        extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+        image = Image.open(filename)
+        image_bytes = BytesIO()
+        image.save(image_bytes, image.format)
 
+        modelimage = models.ItemImage(item=item)
+        modelimage.image1.save('admin' + extension, ContentFile(image_bytes.getvalue()))
+        modelimage.save()
+
+        return
+
+    def create_one_item_per_user(self):
         # create a cycle of all of the users of the database
-        print('all of the users:')
         from_user_list = cycle([user for user in User.objects.all()])
-        pictures_list = [item for item in os.listdir(os.path.join(os.getcwd(), self.item_pic_dir)) if not item.startswith('.')]
-        item_names = [picture.split(' ')[0] for picture in pictures_list if not picture.startswith('.')]
+
+        # get all of the debug item pictures
+        file_list = os.listdir(self.debug_item_pic_path)
+        pictures_list = [item for item in file_list]
 
         TRADE_OPTIONS = (
             ('0','Cash Only'),
@@ -110,7 +162,7 @@ class Command(BaseCommand):
             ('2','Trade only'),
             ('3','Free')
         )
-        # pictures list:
+        # create a random debug item for each image
         for picture in pictures_list:
             user = next(from_user_list)
             picture_name = picture.split('.')[0]
@@ -121,66 +173,35 @@ class Command(BaseCommand):
                                description=fake.text(),
                                trade_options=random.choice(['0','2','3']))
             item.save()
-            full_path = os.path.join(os.getcwd(), self.item_pic_dir, picture)
-            image = models.ItemImage(item=item)
-            image.image1.save(picture_name, File(open(full_path, 'rb')))
-            image.save()
-        # for picture in pictures get the picture path and filename from the list of all the pictures in pics directory
 
-        # get a random user
-        # create the item, naming it with the filename
-        # generate a random price ( or no price at all )
-        #
-        #
+            # get the item image from its name
+            filename = glob.glob(self.debug_item_pic_path + picture)[0]
+            extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+            image = Image.open(filename)
+            image_bytes = BytesIO()
+            image.save(image_bytes, image.format)
 
-        # create the base item with some default values
+            modelimage = models.ItemImage(item=item)
+            modelimage.image1.save(picture_name + extension, ContentFile(image_bytes.getvalue()))
+            modelimage.save()
+
         return
-
-    
-    def dir_print(self):
-        print("\n\n ===========current Dir is {0} ===========\n".format(
-            os.getcwd()
-        ))
-        print(os.listdir(os.getcwd()))
-
-    def get_photos(self):
-        self.dir_print()
-        # switch directories to the place with the photos
-        os.chdir(os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics'))
-        profile = os.listdir(os.getcwd())
-        print("files for profile pics", profile[0])
 
     def wipe_db(self):
         call_command('flush')
-        self.stdout.write('DB has been flushed')
-
-    def create_single_item(self):
-        # make a bike first
-        item = models.Item()
-
-
-        return
 
     def handle(self, **args):
         test = False
         #test = True
-        # wipe the db
-        if test:
-            # test functions go in here
-            self.wipe_db()
-            self.stdout.write('flushed')
-            self.create_admin()
-            self.create_item()
-            self.create_users()
-            self.create_items()
 
-        else:
+        self.wipe_db()
+        self.create_admin()
+        self.create_admin_item()
+        self.create_user()
+        self.create_random_users()
+        self.create_one_item_per_user()
 
-            self.wipe_db()
-            self.stdout.write('flushed')
-            self.create_admin()
-            self.create_item()
-            self.create_users()
-            self.create_items()
+        #if test:
+            #test functions go here
 
 
