@@ -193,13 +193,19 @@ class Command(BaseCommand):
         # delete table entries
         call_command('flush')
 
-        # delete profile pictures
+        # get the path of the profile and item images that are associated with database entries
         profile_path = os.path.join(os.getcwd(), 'slug_trade/media/static/profile_pictures/')
+        item_path = os.path.join(os.getcwd(), 'slug_trade/media/static/item_images/')
+
+        # create the directories if they don't already exist (git ignores empty directories)
+        if not os.path.exists(profile_path):
+            os.makedirs(profile_path)
+        if not os.path.exists(item_path):
+            os.makedirs(item_path)
+
+        # delete the images
         for filename in os.listdir(profile_path):
             os.remove(profile_path + filename)
-
-        # delete item images
-        item_path = os.path.join(os.getcwd(), 'slug_trade/media/static/item_images/')
         for filename in os.listdir(item_path):
             os.remove(item_path + filename)
 
