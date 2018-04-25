@@ -1,1 +1,4 @@
 Django==1.9.13
+virtualenv==15.2.0
+django==1.9.13
+pillow

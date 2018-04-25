@@ -1,0 +1,12 @@
+{% extends "slug_trade_app/base.html" %}
+{% block body_block %}
+<h2>Login</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>Email</label><br>
+  {{form.username}}<br><br>
+  <label>Password</label><br>
+  {{form.password}}<br><br>
+  <button type="submit">Login</button>
+</form>
+{% endblock %}

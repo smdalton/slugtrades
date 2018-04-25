@@ -1,12 +1,14 @@
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL / IDE files
 __pycache__/
 *.py[cod]
 db.sqlite3
 migrations/
 media/
-settings.py
 # C extensions
 *.so
+.DS_Store
+../.idea
+
 
 # Distribution / packaging
 .Python
