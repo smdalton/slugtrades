@@ -10,7 +10,9 @@
 
 {% if user.userprofile.profile_picture %}
 <h4>Current Photo:</h4>
-<img src="{{user.userprofile.profile_picture.url}}" width="240">
+<p>
+URL is: {{ user.userprofile.profile_picture.url }}
+</p><img src="{{user.userprofile.profile_picture.url}}" width="240">
 {% endif %}
 
 <p>It looks like you live {{user.userprofile.on_off_campus}} campus</p>
