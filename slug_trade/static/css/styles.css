@@ -30,3 +30,12 @@ h2 {
 .pop-img {
   display: none;
 }
+
+.cols {
+  -webkit-column-count: 3; /* Chrome, Safari, Opera */
+  -moz-column-count: 3; /* Firefox */
+  column-count: 3;
+}
+label {
+  font-size: 50px;
+}

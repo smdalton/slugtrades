@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
-from slug_trade_app.models import ItemImage
+from slug_trade_app.models import ItemImage, Item
 from slug_trade_app.models import UserProfile
 
 # Create your views here.
@@ -19,8 +19,11 @@ def index(request):
     return render(request, 'slug_trade_app/index.html',{'test':test})
 
 def products(request):
-    return render(request, 'slug_trade_app/products.html')
-
+    if request.user.is_authenticated():
+        items = ItemImage.objects.exclude(item__user=request.user)
+        return render(request, 'slug_trade_app/products.html', {'items': items})
+    else:
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
 # debug route
 def show_users(request):
