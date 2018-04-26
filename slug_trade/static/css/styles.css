@@ -30,3 +30,7 @@ h2 {
 .pop-img {
   display: none;
 }
+
+.closet-item-container table, th, td{
+  border: 2px solid black;
+}
