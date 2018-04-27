@@ -5,6 +5,19 @@
 <title>Products</title>
 
 {% block body_block %}
+	<form enctype="multipart/form-data" method="post">
+		{% csrf_token %}
+    	<select name="category">
+    		{% for category in categories %}
+    			{% if category.value == last_category %}
+    				<option value="{{category.value}}" selected="selected">{{category.name}}</option>
+    			{% else %}
+    				<option value="{{category.value}}">{{category.name}}</option>
+    			{% endif %}
+    		{% endfor %}
+    	</select>
+    	<input type="submit" name="" value="Save">
+    </form><br>
 	<div class="products cols">
 		{% for item in items %}
 			<div>
