@@ -21,14 +21,18 @@ def index(request):
 
 def products(request):
     categories = [
+        { 'name': 'All', 'value': 'All' },
         { 'name': 'Electronics', 'value': 'E' },
         { 'name': 'Household goods', 'value': 'H' },
         { 'name': 'Clothing', 'value': 'C' },
         { 'name': 'Other', 'value': 'O' }
     ]
     if request.method == 'POST':
-        print(request.POST['category'])
-        items_list = ItemImage.objects.exclude(item__user=request.user).filter(item__category=request.POST['category'])
+        if request.POST['category'] == 'All':
+            items_list = ItemImage.objects.exclude(item__user=request.user)
+        else:
+            items_list = ItemImage.objects.exclude(item__user=request.user).filter(item__category=request.POST['category'])
+
         paginator = Paginator(items_list, 6) # Show 6 items per page
         page = request.GET.get('page', 1)
 
@@ -54,7 +58,7 @@ def products(request):
             except EmptyPage:
                 items = paginator.page(paginator.num_pages)
 
-            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories})
+            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
 
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
