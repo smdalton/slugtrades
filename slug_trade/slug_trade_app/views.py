@@ -29,9 +29,9 @@ def products(request):
     ]
     if request.method == 'POST':
         if request.POST['category'] == 'All':
-            items_list = ItemImage.objects.exclude(item__user=request.user)
+            items_list = ItemImage.objects.all()
         else:
-            items_list = ItemImage.objects.exclude(item__user=request.user).filter(item__category=request.POST['category'])
+            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
 
         paginator = Paginator(items_list, 6) # Show 6 items per page
         page = request.GET.get('page', 1)
@@ -47,7 +47,7 @@ def products(request):
 
     else:
         if request.user.is_authenticated():
-            items_list = ItemImage.objects.exclude(item__user=request.user)
+            items_list = ItemImage.objects.all()
             paginator = Paginator(items_list, 6) # Show 6 items per page
             page = request.GET.get('page', 1)
 
