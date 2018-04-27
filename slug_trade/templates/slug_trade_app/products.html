@@ -5,12 +5,34 @@
 <title>Products</title>
 
 {% block body_block %}
-	<div class="cols">
+	<div class="products cols">
 		{% for item in items %}
 			<div>
-				<label>{{item.item.name}}</label><br>
-				<img src="{{item.image1.url}}" width="240"><br><br>
-			</div>
+	    		{{ item.item.name|upper }}<br>
+	    		<img src="{{item.image1.url}}" width="240">
+	    	</div>
 		{% endfor %}
 	</div>
+
+	{% if items.has_other_pages %}
+		<ul class="pagination">
+			{% if items.has_previous %}
+				<li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+			{% else %}
+				<li class="disabled"><span>&laquo;</span></li>
+			{% endif %}
+			{% for i in items.paginator.page_range %}
+				{% if items.number == i %}
+					<li class="active"><span>{{ i }}</span></li>
+				{% else %}
+					<li><a href="?page={{ i }}">{{ i }}</a></li>
+				{% endif %}
+			{% endfor %}
+			{% if items.has_next %}
+				<li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+			{% else %}
+				<li class="disabled"><span>&raquo;</span></li>
+			{% endif %}
+		</ul>
+	{% endif %}
 {% endblock %}

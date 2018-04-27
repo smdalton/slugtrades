@@ -7,6 +7,7 @@ from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureF
 from . import models
 from slug_trade_app.models import ItemImage, Item
 from slug_trade_app.models import UserProfile
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 debug = False
@@ -20,7 +21,17 @@ def index(request):
 
 def products(request):
     if request.user.is_authenticated():
-        items = ItemImage.objects.exclude(item__user=request.user)
+        items_list = ItemImage.objects.exclude(item__user=request.user)
+        paginator = Paginator(items_list, 6) # Show 6 contacts per page
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
         return render(request, 'slug_trade_app/products.html', {'items': items})
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
