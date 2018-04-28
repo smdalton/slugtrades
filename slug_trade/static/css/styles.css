@@ -30,3 +30,22 @@ h2 {
 .pop-img {
   display: none;
 }
+
+.products, .cols{
+  -webkit-column-count: 3; /* Chrome, Safari, Opera */
+  -moz-column-count: 3; /* Firefox */
+  column-count: 3;
+}
+.products label {
+  font-size: 50px;
+}
+
+.active {
+  background-color: powderblue
+}
+
+.pagination li {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid black;
+}

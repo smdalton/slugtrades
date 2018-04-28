@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
-from slug_trade_app.models import ItemImage
+from slug_trade_app.models import ItemImage, Item
 from slug_trade_app.models import UserProfile
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 debug = False
@@ -19,8 +20,48 @@ def index(request):
     return render(request, 'slug_trade_app/index.html',{'test':test})
 
 def products(request):
-    return render(request, 'slug_trade_app/products.html')
+    categories = [
+        { 'name': 'All', 'value': 'All' },
+        { 'name': 'Electronics', 'value': 'E' },
+        { 'name': 'Household goods', 'value': 'H' },
+        { 'name': 'Clothing', 'value': 'C' },
+        { 'name': 'Other', 'value': 'O' }
+    ]
+    if request.method == 'POST':
+        if request.POST['category'] == 'All':
+            items_list = ItemImage.objects.all()
+        else:
+            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
 
+        paginator = Paginator(items_list, 6) # Show 6 items per page
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': request.POST['category']})
+
+    else:
+        if request.user.is_authenticated():
+            items_list = ItemImage.objects.all()
+            paginator = Paginator(items_list, 6) # Show 6 items per page
+            page = request.GET.get('page', 1)
+
+            try:
+                items = paginator.page(page)
+            except PageNotAnInteger:
+                items = paginator.page(1)
+            except EmptyPage:
+                items = paginator.page(paginator.num_pages)
+
+            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
+
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
 
 # debug route
 def show_users(request):
