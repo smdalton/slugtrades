@@ -6,6 +6,7 @@ from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
 from slug_trade_app.models import ItemImage, UserProfile,Item
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 debug = False
@@ -18,8 +19,48 @@ def index(request):
     return render(request, 'slug_trade_app/index.html',{'test':test})
 
 def products(request):
-    return render(request, 'slug_trade_app/products.html')
+    categories = [
+        { 'name': 'All', 'value': 'All' },
+        { 'name': 'Electronics', 'value': 'E' },
+        { 'name': 'Household goods', 'value': 'H' },
+        { 'name': 'Clothing', 'value': 'C' },
+        { 'name': 'Other', 'value': 'O' }
+    ]
+    if request.method == 'POST':
+        if request.POST['category'] == 'All':
+            items_list = ItemImage.objects.all()
+        else:
+            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
 
+        paginator = Paginator(items_list, 6) # Show 6 items per page
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': request.POST['category']})
+
+    else:
+        if request.user.is_authenticated():
+            items_list = ItemImage.objects.all()
+            paginator = Paginator(items_list, 6) # Show 6 items per page
+            page = request.GET.get('page', 1)
+
+            try:
+                items = paginator.page(page)
+            except PageNotAnInteger:
+                items = paginator.page(1)
+            except EmptyPage:
+                items = paginator.page(paginator.num_pages)
+
+            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
+
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
 
 # debug route
 def show_users(request):
@@ -102,17 +143,20 @@ def edit_profile(request):
             user_profile_instance.save()
         return redirect('/profile')
     else:
-        user = User.objects.get(id=request.user.id)
-        user_form = UserModelForm(instance=user)
-        user_profile = user.userprofile
-        user_profile_form = UserProfileForm(instance=user_profile)
-        profile_picture_form = ProfilePictureForm()
-        return render(request, 'slug_trade_app/edit_profile.html', {
-            'user_form': user_form,
-            'user_profile_form': user_profile_form,
-            'profile_picture_form': profile_picture_form,
-            'user': request.user
-            })
+        if request.user.is_authenticated():
+            user = User.objects.get(id=request.user.id)
+            user_form = UserModelForm(instance=user)
+            user_profile = user.userprofile
+            user_profile_form = UserProfileForm(instance=user_profile)
+            profile_picture_form = ProfilePictureForm()
+            return render(request, 'slug_trade_app/edit_profile.html', {
+                'user_form': user_form, 
+                'user_profile_form': user_profile_form, 
+                'profile_picture_form': profile_picture_form,
+                'user': request.user
+                })
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
 
 def add_closet_item(request):
     if request.method == 'POST':

@@ -8,6 +8,7 @@ media/
 *.so
 .DS_Store
 ../.idea
+*.swp
 
 
 # Distribution / packaging
