@@ -8,7 +8,12 @@
 
   {{test}}
 
-  <div class="" style="padding: 40px 0;">
-      <a href="{% url 'slug_trade_app:products' %}">Products Page</a>
+  <div class="nav">
+    <div class="nav-item">
+        <a href="{% url 'slug_trade_app:profile' %}">Profile Page</a>
+    </div>
+    <div class="nav-item">
+        <a href="{% url 'slug_trade_app:products' %}">Products Page</a>
+    </div>
   </div>
 {% endblock %}

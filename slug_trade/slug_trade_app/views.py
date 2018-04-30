@@ -57,17 +57,32 @@ def show_users(request):
 
 
 def profile(request):
-    items = Item.objects.all()
-    for item in items:
-        print (item)
-        # print ("\n")
-    items_list = {"items_list":items}
-
     if request.user.is_authenticated():
+        # print(request.user.last_name)
+        # user = User.objects.filter(id=request.user.id)
+        # print (user)
+
+        items_list = Item.objects.filter(user__email=request.user.email)
+        item_images = []
+        for item in items_list:
+            print (item)
+            print (item.id)
+            item_images.append(ItemImage.objects.get(id=item.id))
+        # items_list = {"items_list":items}
+        # context = {
+        # 'items_list': items_list,
+        # 'item_images': item_images,
+        # }
+
         if debug:
             print(request.user)
         # return render(request, 'slug_trade_app/profile.html', {'user': request.user})
-        return render(request, 'slug_trade_app/profile.html', context=items_list)
+        print("are you here")
+        return render(request, 'slug_trade_app/profile.html', {
+            'items_list': items_list,
+            'item_imgaes': item_images
+            })
+        # return render(request, 'slug_trade_app/profile.html', context=items_list)
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
