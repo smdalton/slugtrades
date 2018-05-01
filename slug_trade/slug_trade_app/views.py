@@ -71,29 +71,30 @@ def show_users(request):
         for item in users:
             print(item.userprofile)
     return render(request, 'slug_trade_app/users.html', {'users': users})
-#
-# def show_items(request):
-#     # get items and item images by user
-#     items = models.Item.objects.all()
-#     users = User.objects.all()
-#     images = models.ItemImage.all()
-#
-#     final_dict = {}
-#
-#     # for user in User.objects.all():
-#     #     final_dict[user] = {}
-#     #     for item in models.Item.objects.filter(user=user):
-#     #         final_dict[user][item] = []
-#     #         for image in models.ItemImage.objects.filter(item=item):
-#     #             final_dict[user][item].append(image.image1.url)
-#
-#     return render(request, 'slug_trade_app/items.html',
-#                   {
-#                     'items': items,
-#                     'users': users,
-#                     'images': images
-#                   })
-#
+
+def public_profile_inspect(request, user_id):
+
+    '''
+    :param request: http request obj
+    :param user_id: database key for specific user to load details about
+    :return: render template
+    '''
+
+    print('attempting to get user id = ', user_id)
+    user_to_view = User.objects.get(id=user_id)
+    # get all of the items for the given user
+    items = Item.objects.get(user__id=user_id)
+    for item in items:
+        print(item)
+    # get all of the images for each item
+
+    return render(request, 'slug_trade_app/profile.html',
+                  {
+                      'user': user_to_view,
+                      'public': True
+
+                  })
+
 
 
 
@@ -108,12 +109,9 @@ def profile(request):
         for item in items_list:
             print (item)
             print (item.id)
+
             item_images.append(ItemImage.objects.get(id=item.id))
-        # items_list = {"items_list":items}
-        # context = {
-        # 'items_list': items_list,
-        # 'item_images': item_images,
-        # }
+
 
         if debug:
             print(request.user)
