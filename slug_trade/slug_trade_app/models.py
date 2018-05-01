@@ -83,8 +83,22 @@ class ItemImage(models.Model):
     image4 = models.ImageField(upload_to='static/item_images', blank=True)
     image5 = models.ImageField(upload_to='static/item_images', blank=True)
 
+    def get_image_list(self):
+        result = []
+        if self.image1:
+            result.append(self.image1.url)
+        if self.image2:
+            result.append(self.image2.url)
+        if self.image3:
+            result.append(self.image3.url)
+        if self.image4:
+            result.append(self.image4.url)
+        if self.image5:
+            result.append(self.image5.url)
+        return result
+
     def __str__(self):
-        return f"You are accessing the ItemImage correctly {self.item}"
+        return f"{self.item}"
 
 
 class ItemComment(models.Model):
