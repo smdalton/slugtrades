@@ -6,27 +6,23 @@
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+
     <title>Home</title>
   </head>
 
+  {% block nav_block %}{% endblock %}
+
   <body>
-    <h1>BASE</h1>
-    {% if request.path != "/login/" %}
-      {% if user.is_authenticated %}
-        <p>Welcome, {{ user.first_name }}. Thanks for logging in.</p>
-        <p>You can logout <a href="/logout/">here</a></p>
-      {% else %}
-        <p>Welcome, new user. Please log in <a href="/login/">here</a>, or <a href="/signup/">Sign Up</a></p>
-      {% endif %}
-    {% endif %}
-
-    {% block body_block %}
-
-
-    {% endblock %}
+    {% block body_block %}{% endblock %}
   </body>
 
   <footer>
+    {% block footer_block %}{% endblock %}
     <script type="text/javascript" src="{% static "javascripts/main.js" %}"></script>
   </footer>
 </html>

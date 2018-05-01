@@ -2,6 +2,10 @@
 
 <title>Sign Up</title>
 
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
 
   <div class="" style="padding: 40px 0;">
@@ -35,4 +39,8 @@
     </form>
   {% endif %}
 
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

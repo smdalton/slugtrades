@@ -1,6 +1,12 @@
 $(document).ready(function() {
 
-  console.log("Javascript is working!");
+  // show drop links on hover
+  $(".links-drop, .links-box-wrapper").hover(function(){
+      $('.links-box-wrapper').css('display','flex');
+  },function(){
+      $('.links-box-wrapper').css('display','none');
+  });
+
 
   //toggles image on products page
   var isVisible = false;
@@ -81,3 +87,14 @@ $(document).ready(function() {
 
 });
 
+
+//Smooth scrolling on steps
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
