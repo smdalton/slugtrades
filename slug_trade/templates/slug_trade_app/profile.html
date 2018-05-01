@@ -11,7 +11,7 @@
 {% if user.userprofile.profile_picture %}
 <h4>Current Photo:</h4>
 <p>
-URL is: {{ user.userprofile.profile_picture.url }}
+<!--URL is: {{ user.userprofile.profile_picture.url }}-->
 </p><img src="{{user.userprofile.profile_picture.url}}" width="240">
 {% endif %}
 
@@ -20,27 +20,32 @@ URL is: {{ user.userprofile.profile_picture.url }}
 <h4>This is your public bio:</h4>
 <p>{{user.userprofile.bio}}</p><br><br>
 
+
+{% if not public %}
 <a href="/edit_profile/">Edit Profile</a><br>
 <a href="/add_closet_item/">Add Item to Closet</a>
-
+{% endif %}
 <h2>Closet Items</h2>
 
 <div class="closet-item-container">
+
   <table>
-    {% if items_list %}
+    {% if item_data %}
     <thread>
       <th>Name</th>
       <th>Price</th>
       <th>Category</th>
       <th>Image</th>
     </thread>
-  <!-- {{items_list}} -->
-    {% for item in items_list %}
+
+    {% for item, images in item_data %}
     <tr>
       <td>{{item.name}}</td>
       <td>{{item.price}}</td>
       <td>{{item.category}}</td>
-      <td>{{item_images }}</td>
+      {% for image in images %}
+      <td><img src="{{image}}" width="240" alt=""></td>
+      {% endfor %}
     </tr>
     {% endfor %}
   </table>
