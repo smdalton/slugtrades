@@ -246,7 +246,7 @@ input[type=submit]:hover {
 }
 
 .drop-wrapper select {
-  padding: 20px 40px;
+  padding-left: 10px;
   border: 1px solid #d6d6d6;
   background: #fff;
   font-size: 16px;
