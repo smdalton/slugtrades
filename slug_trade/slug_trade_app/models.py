@@ -133,4 +133,3 @@ class CashOffer(models.Model):
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
     bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
-

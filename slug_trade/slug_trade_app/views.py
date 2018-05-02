@@ -6,7 +6,8 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
-from slug_trade_app.models import ItemImage, UserProfile,Item
+from slug_trade_app.models import ItemImage, Item
+from slug_trade_app.models import UserProfile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
@@ -120,10 +121,6 @@ def profile(request):
     """
 
     if request.user.is_authenticated():
-        # print(request.user.last_name)
-        # user = User.objects.filter(id=request.user.id)
-        # print (user)
-
         items= Item.objects.filter(user__id=request.user.id)
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
@@ -133,7 +130,6 @@ def profile(request):
             'public': False,
             'item_data': items_and_images
             })
-        # return render(request, 'slug_trade_app/profile.html', context=items_list)
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
@@ -161,8 +157,8 @@ def edit_profile(request):
             user_profile_form = UserProfileForm(instance=user_profile)
             profile_picture_form = ProfilePictureForm()
             return render(request, 'slug_trade_app/edit_profile.html', {
-                'user_form': user_form, 
-                'user_profile_form': user_profile_form, 
+                'user_form': user_form,
+                'user_profile_form': user_profile_form,
                 'profile_picture_form': profile_picture_form,
                 'user': request.user
                 })
@@ -263,11 +259,11 @@ def signup(request):
             created_profile = profile_form.save(commit=False)
 
             profile = UserProfile(
-                user=created_user,
-                profile_picture=request.FILES['profile_picture'],
-                bio=created_profile.bio,
-                on_off_campus=created_profile.on_off_campus
-            )
+                user = created_user,
+                profile_picture = request.FILES['profile_picture'],
+                bio = created_profile.bio,
+                on_off_campus = created_profile.on_off_campus
+            )   
             profile.save()
 
             # authentication

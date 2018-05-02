@@ -37,7 +37,6 @@ class Command(BaseCommand):
         user.is_staff = True
         user.first_name = 'admin'
         user.last_name = 'istrator'
-        user.email = 'admin@email.com'
         user.save()
 
         profile = models.UserProfile(user=user)
@@ -223,3 +222,5 @@ class Command(BaseCommand):
 
         #if test:
             #test functions go here
+
+
