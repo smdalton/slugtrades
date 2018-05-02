@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
-from slug_trade_app.models import ItemImage, UserProfile,Item
+from slug_trade_app.models import ItemImage, Item
+from slug_trade_app.models import UserProfile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
@@ -99,26 +100,16 @@ def show_users(request):
 
 def profile(request):
     if request.user.is_authenticated():
-        # print(request.user.last_name)
-        # user = User.objects.filter(id=request.user.id)
-        # print (user)
-
         items = Item.objects.filter(user__email=request.user.email)
         item_images = [ItemImage.objects.get(item=item).getImageList() for item in items]
         items_list = zip(items,item_images)
 
-
-        if debug:
-            print(request.user)
-        # return render(request, 'slug_trade_app/profile.html', {'user': request.user})
-        print("are you here")
         return render(request, 'slug_trade_app/profile.html', {
             'items': items,
             'item_imgaes': item_images,
             'items_list':items_list,
             'user': request.user,
             })
-        # return render(request, 'slug_trade_app/profile.html', context=items_list)
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
@@ -249,7 +240,7 @@ def signup(request):
                 profile_picture = request.FILES['profile_picture'],
                 bio = created_profile.bio,
                 on_off_campus = created_profile.on_off_campus
-            )
+            )   
             profile.save()
 
             #authentication
