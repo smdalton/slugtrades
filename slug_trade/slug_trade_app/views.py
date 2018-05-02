@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
-from slug_trade_app.models import ItemImage, Item
+from slug_trade_app.models import ItemImage, Item, Wishlist
 from slug_trade_app.models import UserProfile
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -105,11 +105,23 @@ def public_profile_inspect(request, user_id):
     items_and_images = zip(items, images)
     print("Items and images: ", items_and_images)
 
+    if request.method == 'POST':
+            item = Wishlist(
+                    user = request.user,
+                    wishlist_item_description = request.POST['description']
+                )
+            item.save()
+
+    wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
+
     return render(request, 'slug_trade_app/profile.html',
                   {
                       'user': user_to_view,
                       'public': True,
                       'item_data': items_and_images,
+                      'wishlist': wishlist,
+                      'show_add_button': int(user_id) == int(request.user.id),
+                      'empty_wishlist': len(wishlist) == 0
                   })
 
 
@@ -119,16 +131,27 @@ def profile(request):
         by default it displays relevant information about the user, if no user
         is logged in, it will redirect to a sign-up/broken page
     """
-
     if request.user.is_authenticated():
+
+        if request.method == 'POST':
+            item = Wishlist(
+                    user = request.user,
+                    wishlist_item_description = request.POST['description']
+                )
+            item.save()
+
         items= Item.objects.filter(user__id=request.user.id)
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
 
+        wishlist = Wishlist.objects.filter(user=request.user)
+
         return render(request, 'slug_trade_app/profile.html', {
             'user': request.user,
             'public': False,
-            'item_data': items_and_images
+            'item_data': items_and_images,
+            'wishlist': wishlist,
+            'show_add_button': True
             })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')

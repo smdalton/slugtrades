@@ -54,4 +54,22 @@
   {% endif %}
 
 </div>
+<h3>Wishlist</h3>
+{% if empty_wishlist %}
+  <p>{{user.first_name}}'s wishlist is empty</p>
+{% else %}
+  <ul>
+    {% for item in wishlist %}
+      <li>{{item.wishlist_item_description}}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if show_add_button %}
+<form enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+  <input type="text" name="description" placeholder="Add Wishlist Item">
+  <input type="submit" name="" value="Add">
+<form>
+{% endif %}
+
 {% endblock %}
