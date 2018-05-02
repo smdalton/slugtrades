@@ -103,25 +103,20 @@ def profile(request):
         # user = User.objects.filter(id=request.user.id)
         # print (user)
 
-        items_list = Item.objects.filter(user__email=request.user.email)
-        item_images = []
-        for item in items_list:
-            print (item)
-            print (item.id)
-            item_images.append(ItemImage.objects.get(id=item.id))
-        # items_list = {"items_list":items}
-        # context = {
-        # 'items_list': items_list,
-        # 'item_images': item_images,
-        # }
+        items = Item.objects.filter(user__email=request.user.email)
+        item_images = [ItemImage.objects.get(item=item).getImageList() for item in items]
+        items_list = zip(items,item_images)
+
 
         if debug:
             print(request.user)
         # return render(request, 'slug_trade_app/profile.html', {'user': request.user})
         print("are you here")
         return render(request, 'slug_trade_app/profile.html', {
-            'items_list': items_list,
-            'item_imgaes': item_images
+            'items': items,
+            'item_imgaes': item_images,
+            'items_list':items_list,
+            'user': request.user,
             })
         # return render(request, 'slug_trade_app/profile.html', context=items_list)
     else:
@@ -150,8 +145,8 @@ def edit_profile(request):
             user_profile_form = UserProfileForm(instance=user_profile)
             profile_picture_form = ProfilePictureForm()
             return render(request, 'slug_trade_app/edit_profile.html', {
-                'user_form': user_form, 
-                'user_profile_form': user_profile_form, 
+                'user_form': user_form,
+                'user_profile_form': user_profile_form,
                 'profile_picture_form': profile_picture_form,
                 'user': request.user
                 })

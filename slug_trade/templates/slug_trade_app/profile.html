@@ -34,13 +34,14 @@ URL is: {{ user.userprofile.profile_picture.url }}
       <th>Category</th>
       <th>Image</th>
     </thread>
-  <!-- {{items_list}} -->
-    {% for item in items_list %}
+    {% for item, images in items_list %}
     <tr>
       <td>{{item.name}}</td>
       <td>{{item.price}}</td>
       <td>{{item.category}}</td>
-      <td>{{item_images }}</td>
+      {% for image in images %}
+      <td><img src="{{image}}" width="100px" alt=""></td>
+      {% endfor %}
     </tr>
     {% endfor %}
   </table>
