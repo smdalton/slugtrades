@@ -20,11 +20,41 @@ fake = Faker()
 
 class Command(BaseCommand):
     help = 'This is a customized command accessible from manage.py'
-
+    """
+    bikes, books, cars?, dvd/bluray/,cell phones, clothes,
+    collectibles, computers, electronics, household, jewelry,
+    music instruments, tickets, tools, toys, video gaming
+    """
     debug = True
     fake.seed(4321)
     random.seed(4321)
     num_users = 12
+
+    # map filename to category for item creation script
+    categories = {
+         'bike.jpg': 'Bikes',
+         'book.jpeg': 'Books',
+         'broom.jpeg': 'Household',
+         'camera.jpeg': 'Electronics',
+         'debug.jpeg': 'Other',
+         'dresser.jpeg': 'Furniture',
+         'drill.jpeg': 'Tools',
+         'fridge.JPG': 'Appliances',
+         'hat.jpeg': 'Clothing',
+         'jacket.jpeg': 'Clothing',
+         'kettlebell.jpeg': 'Outdoors',
+         'keyboard.jpeg': 'Electronics',
+         'lamp.jpeg': 'Furniture',
+         'pen.jpeg': 'Office',
+         'planter.jpeg': 'Outdoors',
+         'pot.jpeg': 'Household',
+         'ps4.jpeg': 'Gaming',
+         'shoes.jpeg': 'Clothing',
+         'stools.jpeg': 'Furniture',
+         'table.jpg': 'Furniture',
+         'treadmill.jpeg': 'Fitness',
+         'vitamins.jpeg': 'Fitness'
+    }
 
     debug_profile_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/')
     debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')

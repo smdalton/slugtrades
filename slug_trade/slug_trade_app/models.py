@@ -6,10 +6,25 @@ from django.core.validators import RegexValidator
 
 
 ITEM_CATEGORIES = (
-    ('E','Electronics'),
-    ('H','Household goods'),
-    ('C','Clothing'),
-    ('O', 'Other')
+    ('E', 'Electronics'),
+    ('H', 'Household'),
+    ('C', 'Clothing'),
+    ('O', 'Other'),
+    ('BI', 'Bikes'),
+    ('BO', 'Books'),
+    ('MO', 'Movies'),
+    ('MU', 'Music'),
+    ('I', 'Instruments'),
+    ('TI', 'Tickets'),
+    ('TO', 'Tools'),
+    ('TOY', 'Toys'),
+    ('G', 'Gaming'),
+    ('OU', 'Outdoors'),
+    ('OF', 'Office'),
+    ('F', 'Furniture'),
+    ('A', 'Appliances'),
+    ('FI', 'Fitness'),
+
 )
 
 CAMPUS_STATUS = (
