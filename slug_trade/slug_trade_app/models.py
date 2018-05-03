@@ -12,12 +12,10 @@ ITEM_CATEGORIES = (
     ('O', 'Other')
 )
 
-
 CAMPUS_STATUS = (
     ('on', 'Located on campus'),
     ('off', 'Located off campus')
 )
-
 
 TRADE_OPTIONS = (
     ('0','Cash Only'),
@@ -34,7 +32,6 @@ ITEM_CONDITION = (
     ('3','Like New'),
     ('4','New')
 )
-
 
 #class User
 
