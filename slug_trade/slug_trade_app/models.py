@@ -24,6 +24,7 @@ ITEM_CATEGORIES = (
     ('F', 'Furniture'),
     ('A', 'Appliances'),
     ('FI', 'Fitness'),
+    ('OU', 'Outdoors')
 
 )
 

@@ -4,10 +4,6 @@ from django.contrib.auth.models import User
 
 from . models import UserProfile, Item, Offer, Wishlist, ItemComment, ItemImage, OfferComment, ItemOffer, CashOffer
 
-# @admin.register(Profile)
-# class ProfileAdmin(admin.ModelAdmin):
-#     list_display = ('')
-
 
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
@@ -17,7 +13,9 @@ class UserProfileInline(admin.StackedInline):
 
 
 class CustomUserAdmin(UserAdmin):
+
     inlines = (UserProfileInline, )
+
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
@@ -26,8 +24,8 @@ class CustomUserAdmin(UserAdmin):
 
 class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_filter = ['category','trade_options']
-    list_display = ['name','get_name','price','category','trade_options','bid_counter','condition']
+    list_filter = ['category', 'trade_options']
+    list_display = ['name', 'get_name', 'price', 'category', 'trade_options', 'bid_counter', 'condition']
 
     def get_name(self, obj):
         return obj.user.first_name + " " + obj.user.last_name
