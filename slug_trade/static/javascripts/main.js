@@ -49,7 +49,6 @@ $(document).ready(function() {
   // ---- all of these functions clear images out of the file selectors inside add_closet_item ----
   $(function() {
     $('#clear_image1').click(function() {
-      console.log('here');
       $("#id_image1").val("");
     });
   });
@@ -78,6 +77,25 @@ $(document).ready(function() {
     });
   });
   // -- endblock -----
+  //this function deletes an item from the wishlist on the profile
+  $(function() {
+    $('.delete_from_wishlist').click(function() {
+      let id = $(this).val();
+      $.ajax({
+        type: "POST",
+        url: "/delete_from_wishlist/",
+        data: {id: id}
+      });
+      $('#wishlist_' + String(id)).css('display', 'none');
+    });
+  });
 
+  //auto scroll to wishlist if an item was just added
+  if($('#wishlist_scroll_anchor').offset() != undefined) {
+    $('html, body').animate({
+          scrollTop: $('#wishlist_scroll_anchor').offset().top
+      }, 0);
+    $('#wishlist_item_description').focus();
+  }
 });
 
