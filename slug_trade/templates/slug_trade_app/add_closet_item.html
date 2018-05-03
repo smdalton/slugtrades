@@ -1,5 +1,9 @@
 {% extends "slug_trade_app/base.html" %}
 
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
 
 <h2>Add Closet Item</h2>
@@ -36,4 +40,8 @@
 	<input type="submit" name="" value="Save">
 </form>
 
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

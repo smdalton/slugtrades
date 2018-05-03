@@ -1,6 +1,9 @@
-<!DOCTYPE html>
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
+
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
 
 <title>Products</title>
 
@@ -22,4 +25,8 @@ URL is: {{ user.userprofile.profile_picture.url }}
 
 <a href="/edit_profile/">Edit Profile</a><br>
 <a href="/add_closet_item/">Add Item to Closet</a>
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

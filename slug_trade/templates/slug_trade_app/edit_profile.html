@@ -1,6 +1,10 @@
 
 {% extends "slug_trade_app/base.html" %}
 
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
 
     <h2>Edit Profile</h2>
@@ -14,8 +18,12 @@
       {% endif %}
       {{ profile_picture_form }}
       {{ user_profile_form.as_p }}
-      
+
       <input type="submit" name="" value="Save">
     </form>
 
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

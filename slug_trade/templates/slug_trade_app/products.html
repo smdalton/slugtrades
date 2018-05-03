@@ -3,6 +3,10 @@
 
 <title>Products</title>
 
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
 	<form enctype="multipart/form-data" method="post">
 		{% csrf_token %}
@@ -48,4 +52,8 @@
 	{% endif %}
 		</ul>
 	{% endif %}
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}
