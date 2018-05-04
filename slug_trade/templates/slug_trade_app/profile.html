@@ -1,6 +1,9 @@
-<!DOCTYPE html>
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
+
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
 
 <title>Products</title>
 
@@ -34,7 +37,6 @@
     <thread>
       <th>Name</th>
       <th>Price</th>
-      <th>Category</th>
       <th>Image</th>
     </thread>
 
@@ -42,7 +44,6 @@
     <tr>
       <td>{{item.name}}</td>
       <td>{{item.price}}</td>
-      <td>{{item.category}}</td>
       {% for image in images %}
       <td><img src="{{image}}" width="240" alt=""></td>
       {% endfor %}
@@ -79,4 +80,8 @@
 <form>
 {% endif %}
 
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

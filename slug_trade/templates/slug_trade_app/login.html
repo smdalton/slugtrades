@@ -1,4 +1,9 @@
 {% extends "slug_trade_app/base.html" %}
+
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
 <h2>Login</h2>
 <form method="post">
@@ -9,4 +14,8 @@
   {{form.password}}<br><br>
   <button type="submit">Login</button>
 </form>
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}
