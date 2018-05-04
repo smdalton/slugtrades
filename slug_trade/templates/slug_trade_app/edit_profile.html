@@ -6,22 +6,56 @@
 {% endblock %}
 
 {% block body_block %}
-
-    <h2>Edit Profile</h2>
-    <form enctype="multipart/form-data" method="post" >
-      {% csrf_token %}
-      {{ user_form.as_p }}
-      {% if user.userprofile.profile_picture %}
-        <img id="img" src="{{user.userprofile.profile_picture.url}}" width="240"><br>
-      {% else %}
-        <img id="img" src="" width="240"><br>
-      {% endif %}
-      {{ profile_picture_form }}
-      {{ user_profile_form.as_p }}
-
-      <input type="submit" name="" value="Save">
-    </form>
-
+  <div class="edit-profile-wrapper">
+    <div class="edit-profile-well"
+      <form enctype="multipart/form-data" method="post" >
+        {% csrf_token %}
+        <h3>Profile Picture</h3>
+        <div class="profile-picture-wrapper">
+          {% if user.userprofile.profile_picture %}
+            <img id="img" src="{{user.userprofile.profile_picture.url}}"><br>
+          {% else %}
+            <img id="img" src=""><br>
+          {% endif %}
+        </div>
+        <div class="flex-center">
+          {{ profile_picture_form.file }}
+        </div>
+        <div class="basic-info-wrapper">
+          <h3>Basic Information</h3>
+          <div class="basic-info-content-wrapper">
+            <div>
+              <div class="basic-info-name">First Name</div><br>
+              {{ user_form.first_name }}
+            </div>
+            <div>
+              <div class="basic-info-name">Last Name</div><br>
+              {{ user_form.last_name }}
+            </div>
+          </div>
+        </div>
+        <div class="bio-wrapper">
+          <h3>Your Public Bio</h3>
+          <div class="bio-content-wrapper text-center">
+            <div>
+              {{ user_profile_form.bio }}
+            </div>
+          </div>
+        </div>
+        <div class="location-wrapper">
+          <h3>Living Location</h3>
+          <div class="location-content-wrapper">
+            {{ user_profile_form.on_off_campus }}
+          </div>
+        </div>
+        <div class="submit-wrapper">
+          <div class="submit-wrapper-content">
+            <input type="submit" name="" value="Save">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}
 
 {% block footer_block %}

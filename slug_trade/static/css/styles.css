@@ -15,10 +15,6 @@
   display: none;
 }
 
-h2 {
-  color: red;
-}
-
 body {
   background: #fff;
   margin: 0;
@@ -703,6 +699,128 @@ input[type=submit]:hover {
   font-size: 18px;
   line-height: 24px;
 }
+
+/*edit profile*/
+.edit-profile-wrapper {
+  width: 100%;
+  height: auto;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.edit-profile-well {
+  padding: 30px;
+  width: 50%;
+  height: 50%;
+  border: 1px solid darkgray;
+  border-radius: 40px;
+  margin: auto;
+  background-color: #f8f8f8;
+}
+
+.profile-picture-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-picture-wrapper img {
+  border: 2px solid darkgray;
+  border-radius: 10px;
+  width: 240px;
+}
+
+.edit-profile-wrapper input[type=file] {
+  padding-top: 15px;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.basic-info-wrapper {
+  margin-top: 60px;
+  border-top: 2px solid darkgray;
+}
+
+.basic-info-content-wrapper {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 30px;
+  padding-bottom: 60px;
+}
+
+.basic-info-wrapper input[type=text] {
+  border: 1px solid darkgray;
+  border-radius: 7px;
+  padding: 5px;
+  font-size: 20px;
+  background-color: white;
+}
+
+.basic-info-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 15px;
+  color: #474747;
+}
+
+.bio-wrapper {
+  border-top: 2px solid darkgray;
+}
+
+.bio-content-wrapper {
+  padding-right: 25px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.bio-wrapper textarea {
+  border-radius: 20px;
+  padding: 10px;
+  resize: none;
+  width: 100%;
+  font-size: 15px;
+}
+
+.location-wrapper {
+  border-top: 2px solid darkgray;
+}
+
+.location-content-wrapper {
+  padding-top: 30;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.location-wrapper select {
+  padding-left: 10px;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  font-size: 16px;
+  margin: 5px 0;
+  width: 200px;
+  height: 50px;
+}
+
+.submit-wrapper {
+  border-top: 2px solid darkgray;
+}
+
+.submit-wrapper-content {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.edit-profile-wrapper h3 {
+  font-family: 'Archivo Black', sans-serif;
+  color: #474747;
+}
+/*edit profile*/
 
 /*buffer*/
 .buffer {
