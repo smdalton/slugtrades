@@ -112,10 +112,10 @@ def public_profile_inspect(request, user_id):
     if request.method == 'POST':
         # if the wishlist item already exists in the wishlist, do not add it again
         try:
-            existing_item = Wishlist.objects.get(user=request.user, wishlist_item_description=request.POST['description'])
-        except Wishlist.DoesNotExist:    
+            existing_item = Wishlist.objects.get(user=user_to_view, wishlist_item_description=request.POST['description'])
+        except Wishlist.DoesNotExist:
             item = Wishlist(
-                    user = request.user,
+                    user = user_to_view,
                     wishlist_item_description = request.POST['description']
                 )
             item.save()
@@ -147,7 +147,7 @@ def profile(request):
             # if the wishlist item already exists in the wishlist, do not add it again
             try:
                 existing_item = Wishlist.objects.get(user=request.user, wishlist_item_description=request.POST['description'])
-            except Wishlist.DoesNotExist:    
+            except Wishlist.DoesNotExist:
                 item = Wishlist(
                         user = request.user,
                         wishlist_item_description = request.POST['description']
@@ -307,7 +307,7 @@ def signup(request):
                 profile_picture = request.FILES['profile_picture'],
                 bio = created_profile.bio,
                 on_off_campus = created_profile.on_off_campus
-            )   
+            )
             profile.save()
 
             # authentication

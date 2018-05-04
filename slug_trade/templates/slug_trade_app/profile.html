@@ -67,7 +67,9 @@
     {% for item in wishlist %}
       <li id="wishlist_{{item.id}}">
         {{item.wishlist_item_description}}
-        <button class="delete_from_wishlist" value="{{item.id}}" >X</button>
+        {% if show_add_button %}
+          <button class="delete_from_wishlist" value="{{item.id}}" >X</button>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>
