@@ -94,8 +94,7 @@ $(document).ready(function() {
   if($('#wishlist_scroll_anchor').offset() != undefined) {
     $('html, body').animate({
           scrollTop: $('#wishlist_scroll_anchor').offset().top
-      }, 0);
+      }, 1);
     $('#wishlist_item_description').focus();
   }
 });
-
