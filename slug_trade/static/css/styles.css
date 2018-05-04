@@ -15,10 +15,6 @@
   display: none;
 }
 
-h2 {
-  color: red;
-}
-
 body {
   background: #fff;
   margin: 0;
@@ -156,6 +152,9 @@ body {
   justify-content: center;
   background: #333;
   color: #fff;
+  /* position:absolute;
+  bottom:0;
+  width:100%; */
 }
 
 .footer-body {
@@ -710,3 +709,95 @@ input[type=submit]:hover {
   z-index: 2;
 }
 /*buffer*/
+
+
+/************ Signup ************/
+.signup-form-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 40px;
+  /* background: linear-gradient(to bottom right, #fff581, #8DCCBA); */
+  background-image: url("../../static/images/hero_background.jpg");
+  background-size: cover;
+}
+
+.signup-form-body {
+  padding: 30px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+}
+
+.signup-form-inputs-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-form-inputs-first-last {
+  display: flex;
+}
+
+.signup_img {
+  width: 100%;
+}
+
+.form-input {
+  padding: 17px;
+  font-size: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #d6d6d6;
+}
+
+#first-name, #id_password1 {
+  width: 100%;
+  margin-right: 10px;
+}
+
+#last-name, #id_password2 {
+width: 100%;
+margin-left: 10px;
+}
+
+#id_bio {
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+}
+
+.signup-form-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+#id_profile_picture {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+#id_on_off_campus {
+  height: 50px;
+  margin: 20px 0;
+  background: #fff;
+  font-size: 15px;
+  border: 1px solid #d6d6d6;
+  color: #757575;
+}
+
+.bobby {
+  background: red;
+}
+
+.signup-form-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 30px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.signup-form-subtitle {
+  text-align: center;
+  margin-bottom: 15px;
+}

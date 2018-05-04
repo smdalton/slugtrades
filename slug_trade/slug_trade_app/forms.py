@@ -4,9 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 from slug_trade_app.models import UserProfile, Item, ItemImage
 
 class UserProfileForm(forms.ModelForm):
+
     class Meta():
         model = UserProfile
-        fields = ('bio', 'on_off_campus')
+        fields = (
+            'bio',
+            'on_off_campus'
+        )
+        widgets = {
+            'bio' : forms.TextInput(attrs={'class':'bobby'})
+        }
+
 
 
 class UserModelForm(forms.ModelForm):
@@ -16,6 +24,7 @@ class UserModelForm(forms.ModelForm):
             'first_name',
             'last_name'
         )
+
 
 class ProfilePictureForm(forms.Form):
     file = forms.FileField()
@@ -57,17 +66,53 @@ class ClosetItemPhotos(forms.Form):
 
 class UserForm(UserCreationForm):
 
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input', 'id': 'username', 'name': 'fname', 'value' : 'MyCo', 'placeholder': 'Username','autocomplete':'given-name', 'required': True, 'maxlength': 256}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
+                                                             'id': 'username',
+                                                             'name': 'fname',
+                                                             'value' : 'MyCo',
+                                                             'placeholder': 'Username',
+                                                             'autocomplete':'given-name',
+                                                             'required': True,
+                                                             'maxlength': 256}))
 
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input', 'name': 'fname','placeholder': 'First Name','autocomplete':'given-name', 'required': True, 'maxlength': 30}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
+                                                              'id': 'first-name',
+                                                              'name': 'fname',
+                                                              'placeholder': 'First Name',
+                                                              'autocomplete':'given-name',
+                                                              'required': True,
+                                                              'maxlength': 30}))
 
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name': 'fname','placeholder': 'Last Name','autocomplete':'family-name', 'required': True, 'maxlength': 30}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
+                                                              'id': 'last-name',
+                                                              'name': 'lname',
+                                                              'placeholder': 'Last Name',
+                                                              'autocomplete':'family-name',
+                                                              'required': True,
+                                                              'maxlength': 30}))
 
-    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'email','placeholder':'Email Address','autocomplete':'email', 'required': True, 'maxlength': 256, 'type': 'email'}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
+                                                              'name':'email',
+                                                              'placeholder':'Email Address',
+                                                              'autocomplete':'email',
+                                                              'required': True,
+                                                              'maxlength': 256,
+                                                              'type': 'email'}))
 
-    password1 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Password','autocomplete':'password', 'type': 'password', 'required': True, 'maxlength': 256}))
+    password1 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
+                                                              'name':'password',
+                                                              'placeholder':'Password',
+                                                              'autocomplete':'password',
+                                                              'type': 'password',
+                                                              'required': True,
+                                                              'maxlength': 256}))
 
-    password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input','name':'password','placeholder':'Verification Password', 'type': 'password', 'required': True, 'maxlength': 256}))
+    password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
+                                                              'name':'password',
+                                                              'placeholder':'Verification Password',
+                                                              'type': 'password',
+                                                              'required': True,
+                                                              'maxlength': 256}))
 
     def clean_email(self):
         username = self.cleaned_data["email"]
