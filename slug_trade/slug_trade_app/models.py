@@ -12,12 +12,10 @@ ITEM_CATEGORIES = (
     ('O', 'Other')
 )
 
-
 CAMPUS_STATUS = (
     ('on', 'Located on campus'),
     ('off', 'Located off campus')
 )
-
 
 TRADE_OPTIONS = (
     ('0','Cash Only'),
@@ -34,7 +32,6 @@ ITEM_CONDITION = (
     ('3','Like New'),
     ('4','New')
 )
-
 
 #class User
 
@@ -83,8 +80,22 @@ class ItemImage(models.Model):
     image4 = models.ImageField(upload_to='static/item_images', blank=True)
     image5 = models.ImageField(upload_to='static/item_images', blank=True)
 
+    def get_image_list(self):
+        result = []
+        if self.image1:
+            result.append(self.image1.url)
+        if self.image2:
+            result.append(self.image2.url)
+        if self.image3:
+            result.append(self.image3.url)
+        if self.image4:
+            result.append(self.image4.url)
+        if self.image5:
+            result.append(self.image5.url)
+        return result
+
     def __str__(self):
-        return f"You are accessing the ItemImage correctly {self.item}"
+        return f"{self.item}"
 
 
 class ItemComment(models.Model):
@@ -119,4 +130,3 @@ class CashOffer(models.Model):
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
     bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
-

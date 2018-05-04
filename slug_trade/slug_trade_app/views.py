@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -18,6 +19,7 @@ def index(request):
     if debug:
         print("in index view")
     return render(request, 'slug_trade_app/index.html',{'test':test})
+
 
 def products(request):
     categories = [
@@ -72,39 +74,65 @@ def show_users(request):
         for item in users:
             print(item.userprofile)
     return render(request, 'slug_trade_app/users.html', {'users': users})
-#
-# def show_items(request):
-#     # get items and item images by user
-#     items = models.Item.objects.all()
-#     users = User.objects.all()
-#     images = models.ItemImage.all()
-#
-#     final_dict = {}
-#
-#     # for user in User.objects.all():
-#     #     final_dict[user] = {}
-#     #     for item in models.Item.objects.filter(user=user):
-#     #         final_dict[user][item] = []
-#     #         for image in models.ItemImage.objects.filter(item=item):
-#     #             final_dict[user][item].append(image.image1.url)
-#
-#     return render(request, 'slug_trade_app/items.html',
-#                   {
-#                     'items': items,
-#                     'users': users,
-#                     'images': images
-#                   })
-#
 
+
+def public_profile_inspect(request, user_id):
+
+    """
+
+        :param request: http request obj
+        :param user_id: database key for specific user to load details about
+        REQUIREMENTS: user_id exists in the database and it corresponds correctly
+        to a specific user (numbers outside
+        :return: render template
+    """
+
+    # verify that the given user_id is in the database, and if no prompt a redirect
+    if not User.objects.filter(id=user_id).exists():
+        return HttpResponse('<h1>No user exists for your query <a href="/">Go home</a></h1>')
+
+    # get the user model object
+    user_to_view = User.objects.get(id=user_id)
+
+    # get all of the items for the given user
+    items = Item.objects.filter(user__id=user_id)
+
+    # get the list of each item's images from the models method get_image_list()
+    images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    # print(images)
+
+    # zip the two lists into one iterable together
+    items_and_images = zip(items, images)
+    print("Items and images: ", items_and_images)
+
+    return render(request, 'slug_trade_app/profile.html',
+                  {
+                      'user': user_to_view,
+                      'public': True,
+                      'item_data': items_and_images,
+                  })
 
 
 def profile(request):
+    """
+        profile is the view that handles authenticated users who have logged in
+        by default it displays relevant information about the user, if no user
+        is logged in, it will redirect to a sign-up/broken page
+    """
+
     if request.user.is_authenticated():
-        if debug:
-            print(request.user)
-        return render(request, 'slug_trade_app/profile.html', {'user': request.user})
+        items= Item.objects.filter(user__id=request.user.id)
+        images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
+        items_and_images = zip(items,images)
+
+        return render(request, 'slug_trade_app/profile.html', {
+            'user': request.user,
+            'public': False,
+            'item_data': items_and_images
+            })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
+
 
 def edit_profile(request):
     if request.method == 'POST':
@@ -129,13 +157,14 @@ def edit_profile(request):
             user_profile_form = UserProfileForm(instance=user_profile)
             profile_picture_form = ProfilePictureForm()
             return render(request, 'slug_trade_app/edit_profile.html', {
-                'user_form': user_form, 
-                'user_profile_form': user_profile_form, 
+                'user_form': user_form,
+                'user_profile_form': user_profile_form,
                 'profile_picture_form': profile_picture_form,
                 'user': request.user
                 })
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
+
 
 def add_closet_item(request):
     if request.method == 'POST':
@@ -164,12 +193,12 @@ def add_closet_item(request):
 
                 if len(pics) == 1:
                     insert = ItemImage(
-                        item = item,
+                        item=item,
                         image1=pics[0]
                     )
                 elif len(pics) == 2:
                     insert = ItemImage(
-                        item = item,
+                        item=item,
                         image1=pics[0],
                         image2=pics[1]
                     )
@@ -210,6 +239,7 @@ def add_closet_item(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
+
 def signup(request):
 
     if request.method == 'POST':
@@ -218,16 +248,16 @@ def signup(request):
         profile_form = SignupUserProfileForm(request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
-
-            #create user
+            # create user
             created_user = user_form.save()
 
             created_user.username = created_user.email
             created_user.set_password(user_form.cleaned_data.get('password1'))
             created_user.save()
 
-            #create extended profile
+            # create extended profile
             created_profile = profile_form.save(commit=False)
+
             profile = UserProfile(
                 user = created_user,
                 profile_picture = request.FILES['profile_picture'],
@@ -236,7 +266,7 @@ def signup(request):
             )   
             profile.save()
 
-            #authentication
+            # authentication
             email = user_form.cleaned_data.get('email')
             password = user_form.cleaned_data.get('password1')
 
@@ -244,7 +274,7 @@ def signup(request):
                 username=email,
                 password=password
             )
-            #if user is authenticated log them in and redirect
+            # if user is authenticated log them in and redirect
             if authenticated:
                 login(request, authenticated)
                 return redirect('/home')
