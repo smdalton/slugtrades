@@ -815,3 +815,25 @@ margin-left: 10px;
   margin-bottom: 15px;
   color: #333;
 }
+
+.signup-img-wrapper {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.signup-img-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 40px;
+}
+
+.signup-img-container {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;  
+}
