@@ -716,19 +716,19 @@ input[type=submit]:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 64px 40px;
+  padding: 40px;
   /* background: linear-gradient(to bottom right, #fff581, #8DCCBA); */
-  background-image: url("../../static/images/hero_background.jpg");
+  background-image: url("../../static/images/signup_background.jpg");
   background-size: cover;
 }
 
 .signup-form-body {
-  padding: 30px;
+  padding: 20px;
   border: 1px solid #e6e6e6;
   border-radius: 5px;
   width: 100%;
   max-width: 500px;
-  background: #fff;
+  background-color: rgb(255,255,255,0.97);
 }
 
 .signup-form-inputs-wrapper {
@@ -765,6 +765,7 @@ margin-left: 10px;
 #id_bio {
   border: 1px solid #d6d6d6;
   border-radius: 5px;
+  height: 100px;
 }
 
 .signup-form-button-wrapper {
@@ -772,9 +773,12 @@ margin-left: 10px;
   justify-content: center;
 }
 
+#signup-submit {
+  margin: 0;
+}
+
 #id_profile_picture {
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 
 #id_on_off_campus {
@@ -784,10 +788,6 @@ margin-left: 10px;
   font-size: 15px;
   border: 1px solid #d6d6d6;
   color: #757575;
-}
-
-.bobby {
-  background: red;
 }
 
 .signup-form-title {
@@ -800,4 +800,18 @@ margin-left: 10px;
 .signup-form-subtitle {
   text-align: center;
   margin-bottom: 15px;
+}
+
+.signup-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  padding: 10px 0;
+  color: #333;
+}
+
+.signup-subtitle {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
 }
