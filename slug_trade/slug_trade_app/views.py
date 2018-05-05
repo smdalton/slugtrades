@@ -129,8 +129,8 @@ def edit_profile(request):
             user_profile_form = UserProfileForm(instance=user_profile)
             profile_picture_form = ProfilePictureForm()
             return render(request, 'slug_trade_app/edit_profile.html', {
-                'user_form': user_form, 
-                'user_profile_form': user_profile_form, 
+                'user_form': user_form,
+                'user_profile_form': user_profile_form,
                 'profile_picture_form': profile_picture_form,
                 'user': request.user
                 })
@@ -233,7 +233,7 @@ def signup(request):
                 profile_picture = request.FILES['profile_picture'],
                 bio = created_profile.bio,
                 on_off_campus = created_profile.on_off_campus
-            )   
+            )
             profile.save()
 
             #authentication
@@ -247,7 +247,7 @@ def signup(request):
             #if user is authenticated log them in and redirect
             if authenticated:
                 login(request, authenticated)
-                return redirect('/home')
+                return redirect('/products')
             else:
                 print("not authenticated")
                 return redirect('/home')
