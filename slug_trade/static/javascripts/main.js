@@ -20,6 +20,12 @@ $(document).ready(function() {
       }
   });
 
+  //on login page make login wrapper height of viewpoint
+  if (location.pathname.substring(1) == "login/") {
+    var height = $(window).height() - 86;
+    $('.login-wrapper').css('height',height)
+  }
+
 //displays a preview of profile picture in edit_profile page
   $(function() {
     $('#id_file').change(function() {

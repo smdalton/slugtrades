@@ -212,6 +212,10 @@ def add_closet_item(request):
 
 def signup(request):
 
+    if request.user.is_authenticated():
+        return redirect('/products')
+
+
     if request.method == 'POST':
 
         user_form = UserForm(request.POST)

@@ -144,6 +144,6 @@ class SignupUserProfileForm(forms.ModelForm):
         self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
         self.fields['profile_picture'].widget.attrs.update({'required': True})
         self.fields['bio'].widget.attrs.update({'required': True})
-        self.fields['bio'].widget.attrs.update({'placeholder': 'Write a little about yourself'})
+        self.fields['bio'].widget.attrs.update({'placeholder': 'Write a little about yourself to build trust in your community...'})
         self.fields['bio'].widget.attrs.update({'class': 'form-input'})
         self.fields['on_off_campus'].widget.attrs.update({'required': True})
