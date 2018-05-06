@@ -18,16 +18,16 @@
             <h2 class="add-closet-title">Add a new or used item to your closet</h2>
         </div>
 
-        <div class="add-closet-name">
-            <h3 class="add-closet-nospace">What is your item? </h3>
-            <span placeholder="name"><!--Sorry I know nbsp is for noobs-->&nbsp;&nbsp; {{ form.name }}</span>
-            <h3>How much do you want for it? </h3>
-            <span style="border-radius:50px">$ {{form.price}}</span>
-            <h3>What category does it belong in?</h3>
+        <div class="add-closet-item-fields">
+            <h3 class="add-closet-item-text">Item Name</h3>
+            <span placeholder="name" ><!--Sorry I know nbsp is for noobs-->&nbsp;&nbsp; {{ form.name }}</span>
+            <h3 class="add-closet-item-text">Price </h3>
+            <span>$ {{form.price}}</span>
+            <h3 class="add-closet-item-text">Category</h3>
             <span> &nbsp;&nbsp; {{form.category}}</span>
-            <h3>What condition is it in?</h3>
+            <h3 class="add-closet-item-text">Condition</h3>
             <span> &nbsp;&nbsp; {{form.condition}}</span>
-            <h3>Gives us a brief description of your item</h3>
+            <h3 class="add-closet-item-text">Description</h3>
             <span>  {{form.description}}</span>
 
         </div>

@@ -37,7 +37,8 @@ class ClosetItem(forms.ModelForm):
             'price',
             'category',
             'description',
-            'condition'
+            'condition',
+            'trade_options'
         )
     def __init__(self, *args, **kwargs):
         super(ClosetItem, self).__init__(*args, **kwargs)
