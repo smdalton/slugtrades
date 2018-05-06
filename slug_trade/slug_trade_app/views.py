@@ -263,7 +263,7 @@ def signup(request):
                 profile_picture = request.FILES['profile_picture'],
                 bio = created_profile.bio,
                 on_off_campus = created_profile.on_off_campus
-            )   
+            )
             profile.save()
 
             # authentication
@@ -277,7 +277,7 @@ def signup(request):
             # if user is authenticated log them in and redirect
             if authenticated:
                 login(request, authenticated)
-                return redirect('/home')
+                return redirect('/products')
             else:
                 print("not authenticated")
                 return redirect('/home')
