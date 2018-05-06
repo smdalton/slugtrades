@@ -11,11 +11,6 @@ class UserProfileForm(forms.ModelForm):
             'bio',
             'on_off_campus'
         )
-        widgets = {
-            'bio' : forms.TextInput(attrs={'class':'bobby'})
-        }
-
-
 
 class UserModelForm(forms.ModelForm):
     class Meta():
@@ -149,4 +144,6 @@ class SignupUserProfileForm(forms.ModelForm):
         self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
         self.fields['profile_picture'].widget.attrs.update({'required': True})
         self.fields['bio'].widget.attrs.update({'required': True})
+        self.fields['bio'].widget.attrs.update({'placeholder': 'Write a little about yourself'})
+        self.fields['bio'].widget.attrs.update({'class': 'form-input'})
         self.fields['on_off_campus'].widget.attrs.update({'required': True})

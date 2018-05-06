@@ -14,8 +14,8 @@
 
     <div class="signup-form-wrapper">
       <div class="signup-form-body">
-        <div class="signup-form-title">Sign Up</div>
-        <div class="signup-form-subtitle">You're on your way to a new world of trade.</div>
+        <div class="signup-title">Sign Up</div>
+        <div class="signup-subtitle">Time to find some great new stuff, let's get you trading.</div>
         <form method="post" enctype="multipart/form-data" >
 
           <div class="signup-form-inputs-wrapper">
@@ -33,20 +33,28 @@
 
             <div class="signup-form-inputs-first-last">
               {{ user_form.password1 }}
-              {{ user_form.password1.errors }}
               {{ user_form.password2 }}
-              {{ user_form.password2.errors }}
+            </div>
+            {{ user_form.password1.errors }}
+            {{ user_form.password2.errors }}
+
+            <div class="signup-img-wrapper">
+              <div class="signup-img-body" style="">
+                <div class="signup-img-container">
+                  <img id="signup_img" src="https://www.innotechcollege.com/wp-content/uploads/2016/09/Profile-sky-ovnis.jpg" height="100">
+                </div>
+              </div>
+
+              {{ profile_form.profile_picture }}
             </div>
 
-            <img id="signup_img" src="">
-
-            {{ profile_form.profile_picture }}
             {{ profile_form.bio }}
+            {{ profile_form.bio.errors }}
             {{ profile_form.on_off_campus }}
           </div>
 
           <div class="signup-form-button-wrapper">
-            <input type="submit" name="" value="Sign Up">
+            <input id="signup-submit" type="submit" name="" value="Sign Up">
           </div>
 
         </form>
@@ -57,6 +65,4 @@
 
 {% endblock %}
 
-{% block footer_block %}
-  {% include "slug_trade_app/header-footer/footer.html" %}
-{% endblock %}
+{% block footer_block %}{% endblock %}
