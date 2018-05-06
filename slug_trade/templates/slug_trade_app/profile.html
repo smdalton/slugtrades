@@ -55,6 +55,33 @@
   {% endif %}
 
 </div>
+{% if item_added %}
+  <h3 id="wishlist_scroll_anchor">Wishlist</h3>
+{% else %}
+  <h3>Wishlist</h3>
+{% endif %}
+{% if empty_wishlist %}
+  <p>{{user.first_name}}'s wishlist is empty</p>
+{% else %}
+  <ul>
+    {% for item in wishlist %}
+      <li id="wishlist_{{item.id}}">
+        {{item.wishlist_item_description}}
+        {% if show_add_button %}
+          <button class="delete_from_wishlist" value="{{item.id}}" >X</button>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if show_add_button %}
+<form enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+  <input type="text" id="wishlist_item_description" name="description" placeholder="Add Wishlist Item">
+  <input type="submit" name="add" value="Add">
+<form>
+{% endif %}
+
 {% endblock %}
 
 {% block footer_block %}
