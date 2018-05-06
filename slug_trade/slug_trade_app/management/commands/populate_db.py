@@ -67,6 +67,7 @@ class Command(BaseCommand):
         user.is_staff = True
         user.first_name = 'admin'
         user.last_name = 'istrator'
+        user.email = 'admin@slugtrade.com'
         user.save()
 
         profile = models.UserProfile(user=user)
@@ -97,12 +98,13 @@ class Command(BaseCommand):
         location = 'on'
 
         username = name.replace(' ', '')
-        user = User.objects.create_user(username=username.lower(), password='pass1234')
+        email = (username + '@somewhere.com').lower()
+        user = User.objects.create_user(username=email, password='pass1234')
         user.is_superuser = False
         user.is_staff = False
         user.first_name = name.split(' ')[0]
         user.last_name = name.split(' ')[1]
-        user.email = (username + '@somewhere.com').lower()
+        user.email = email
         user.save()
 
         profile = models.UserProfile(user=user)
@@ -132,12 +134,13 @@ class Command(BaseCommand):
 
         for name, bio, location, counter in profile_data:
             username = name.replace(' ', '')
-            user = User.objects.create_user(username=username.lower(), password='pass1234')
+            email = (username + '@somewhere.com').lower()
+            user = User.objects.create_user(username=email, password='pass1234')
             user.is_superuser = False
             user.is_staff = False
             user.first_name = name.split(' ')[0]
             user.last_name = name.split(' ')[1]
-            user.email = (username + '@somewhere.com').lower()
+            user.email = email
             user.save()
 
             profile = models.UserProfile(user=user)
