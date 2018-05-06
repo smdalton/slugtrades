@@ -7,18 +7,11 @@ $(document).ready(function() {
       $('.links-box-wrapper').css('display','none');
   });
 
-
-  //toggles image on products page
-  var isVisible = false;
-  $("#toggle-button").click(function(){
-      if (!isVisible) {
-        $(".pop-img").css("display", "block");
-        isVisible = true;
-      } else {
-        $(".pop-img").css("display", "none");
-        isVisible = false;
-      }
-  });
+  //inject placeholder text into login forms
+  if (location.pathname.substring(1) == "login/") {
+    $('#id_username').attr('placeholder', 'Email Address');
+    $('#id_password').attr('placeholder', 'Password');
+  }
 
   //on login page make login wrapper height of viewpoint
   if (location.pathname.substring(1) == "login/") {
