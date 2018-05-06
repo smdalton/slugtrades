@@ -41,9 +41,9 @@ class ClosetItem(forms.ModelForm):
         )
     def __init__(self, *args, **kwargs):
         super(ClosetItem, self).__init__(*args, **kwargs)
-        self.fields['price'].widget.attrs.update({'value': 0})
+        self.fields['price'].widget.attrs.update({'value': 0, 'placeholder': 'How much?'})
         self.fields['description'].widget.attrs.update({'required': True})
-        self.fields['name'].widget.attrs.update({'required': True})
+        self.fields['name'].widget.attrs.update({'required': True,  'placeholder': 'Name'})
 
 class ClosetItemPhotos(forms.Form):
     image1 = forms.FileField(required=True)
