@@ -20,11 +20,41 @@ fake = Faker()
 
 class Command(BaseCommand):
     help = 'This is a customized command accessible from manage.py'
-
+    """
+    bikes, books, cars?, dvd/bluray/,cell phones, clothes,
+    collectibles, computers, electronics, household, jewelry,
+    music instruments, tickets, tools, toys, video gaming
+    """
     debug = True
     fake.seed(4321)
     random.seed(4321)
     num_users = 12
+
+    # map each item filename to category for item creation script
+    categories = {
+         'bike.jpg': 'BI',
+         'book.jpeg': 'BO',
+         'broom.jpeg': 'H',
+         'camera.jpeg': 'E',
+         'debug.jpeg': 'O',
+         'dresser.jpeg': 'F',
+         'drill.jpeg': 'TO',
+         'fridge.JPG': 'A',
+         'hat.jpeg': 'C',
+         'jacket.jpeg': 'C',
+         'kettlebell.jpeg': 'OU',
+         'keyboard.jpeg': 'E',
+         'lamp.jpeg': 'F',
+         'pen.jpeg': 'OF',
+         'planter.jpeg': 'OU',
+         'pot.jpeg': 'H',
+         'ps4.jpeg': 'G',
+         'shoes.jpeg': 'C',
+         'stools.jpeg': 'F',
+         'table.jpg': 'F',
+         'treadmill.jpeg': 'FI',
+         'vitamins.jpeg': 'FI'
+    }
 
     debug_profile_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/')
     debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
@@ -159,10 +189,10 @@ class Command(BaseCommand):
         pictures_list = [item for item in file_list]
 
         TRADE_OPTIONS = (
-            ('0','Cash Only'),
-            ('1','Cash with items on top'),
-            ('2','Trade only'),
-            ('3','Free')
+            ('0', 'Cash Only'),
+            ('1', 'Cash with items on top'),
+            ('2', 'Trade only'),
+            ('3', 'Free')
         )
         # create a random debug item for each image
         for picture in pictures_list:
@@ -171,7 +201,7 @@ class Command(BaseCommand):
             item = models.Item(user=user,
                                name=picture_name,
                                price=random.random()*100,
-                               category='C',
+                               category=self.categories[picture],
                                description=fake.text(),
                                trade_options=random.choice(['0','2','3']))
             item.save()
