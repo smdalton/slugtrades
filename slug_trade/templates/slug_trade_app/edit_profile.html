@@ -7,50 +7,51 @@
 
 {% block body_block %}
   <div class="edit-profile-wrapper">
-    <div class="edit-profile-well">
+    <div class="edit-profile-body">
       <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
-        <h3>Profile Picture</h3>
+        <div class="edit-profile-title">Edit Profile</div>
         <div class="profile-picture-wrapper">
           {% if user.userprofile.profile_picture %}
             <img id="img" src="{{user.userprofile.profile_picture.url}}"><br>
+            <div class="edit-profile-image-upload">
+              {{ profile_picture_form.file }}
+            </div>
           {% else %}
             <img id="img" src=""><br>
+            <div class="edit-profile-image-upload">
+              {{ profile_picture_form.file }}
+            </div>
           {% endif %}
         </div>
-        <div class="flex-center">
-          {{ profile_picture_form.file }}
-        </div>
+
         <div class="basic-info-wrapper">
-          <h3>Basic Information</h3>
           <div class="basic-info-content-wrapper">
-            <div>
-              <div class="basic-info-name">First Name</div><br>
+            <div class="name-input-wrapper" id="input-left">
+              <h3>First Name</h3>
               {{ user_form.first_name }}
             </div>
-            <div>
-              <div class="basic-info-name">Last Name</div><br>
+            <div class="name-input-wrapper" id="input-right">
+              <h3>Last Name</h3>
               {{ user_form.last_name }}
             </div>
           </div>
         </div>
         <div class="bio-wrapper">
-          <h3>Your Public Bio</h3>
-          <div class="bio-content-wrapper text-center">
-            <div>
+          <h3>Bio</h3>
+          <div class="bio-content-wrapper">
               {{ user_profile_form.bio }}
-            </div>
           </div>
         </div>
         <div class="location-wrapper">
-          <h3>Living Location</h3>
+          <h3>Where do you live?</h3>
           <div class="location-content-wrapper">
             {{ user_profile_form.on_off_campus }}
           </div>
         </div>
         <div class="submit-wrapper">
           <div class="submit-wrapper-content">
-            <input type="submit" name="" value="Save">
+            <input id="edit-profile-button" type="submit" name="" value="Update Profile">
           </div>
         </div>
       </form>
