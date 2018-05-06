@@ -1,21 +1,37 @@
 {% extends "slug_trade_app/base.html" %}
 
 {% block nav_block %}
-    {% include "slug_trade_app/header-footer/navigation.html" %}
+    {% include "slug_trade_app/header-footer/navigation-basic.html" %}
 {% endblock %}
 
 {% block body_block %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  <label>Email</label><br>
-  {{form.username}}<br><br>
-  <label>Password</label><br>
-  {{form.password}}<br><br>
-  <button type="submit">Login</button>
-</form>
+
+<div class="login-wrapper">
+  <div class="login-body">
+
+    <div class="login-title">Login</div>
+    <div class="login-subtitle">Welcome back, let's find something you need.</div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="login-inputs-conatiner">
+        {{form.username}}
+        {{form.username.errors}}
+        {{form.password}}
+        {{form.password.errors}}
+      </div>
+
+      <div class="login-submit-wrapper">
+        <button type="submit">Login</button>
+      </div>
+
+      <div class="already-member-wrapper">
+        Haven't signed up? &nbsp; <a href="{% url 'slug_trade_app:signup' %}">Click Here</a>
+      </div>
+
+    </form>
+  </div>
+</div>
 {% endblock %}
 
-{% block footer_block %}
-  {% include "slug_trade_app/header-footer/footer.html" %}
-{% endblock %}
+{% block footer_block %}{% endblock %}
