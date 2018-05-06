@@ -199,7 +199,7 @@ body {
 
 .categories-body {
   padding: 40px;
-  background-color: rgb(255,255,255,0.97);
+  background-color: rgba(255,255,255,0.97);
   border-radius: 5px;
   color: #333;
   width: 700px;
@@ -728,7 +728,7 @@ input[type=submit]:hover {
   border-radius: 5px;
   width: 100%;
   max-width: 500px;
-  background-color: rgb(255,255,255,0.97);
+  background-color: rgba(255,255,255,0.97);
 }
 
 .signup-form-inputs-wrapper {
@@ -766,6 +766,8 @@ margin-left: 10px;
   border: 1px solid #d6d6d6;
   border-radius: 5px;
   height: 100px;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .signup-form-button-wrapper {
@@ -835,5 +837,5 @@ margin-left: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;  
+  width: 100px;
 }
