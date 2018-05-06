@@ -13,7 +13,10 @@
         <div class="edit-profile-title">Edit Profile</div>
         <div class="profile-picture-wrapper">
           {% if user.userprofile.profile_picture %}
-            <img id="img" src="{{user.userprofile.profile_picture.url}}"><br>
+            <div class="profile-image-wrapper" style="">
+              <img id="img" src="{{user.userprofile.profile_picture.url}}">
+            </div>
+
             <div class="edit-profile-image-upload">
               {{ profile_picture_form.file }}
             </div>
