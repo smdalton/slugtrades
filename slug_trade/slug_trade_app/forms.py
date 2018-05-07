@@ -42,10 +42,18 @@ class ClosetItem(forms.ModelForm):
         )
     def __init__(self, *args, **kwargs):
         super(ClosetItem, self).__init__(*args, **kwargs)
-        self.fields['price'].widget.attrs.update({'value': 0, 'placeholder': 'How much?'})
-        self.fields['description'].widget.attrs.update({'required': True})
-        self.fields['name'].widget.attrs.update({'required': True,  'placeholder': 'Name'})
-        self.fields['trade_options'].widget.attrs.update({'required': True})
+        self.fields['price'].widget.attrs.update({'value': 0,
+                                                  'placeholder': 'How much?',
+                                                  'class': 'add-closet-wrapper-input'})
+
+        self.fields['description'].widget.attrs.update({'required': True,
+                                                        'class': 'add-closet-wrapper-input'})
+        self.fields['category'].widget.attrs.update({'class': 'add-closet-wrapper-input'})
+        self.fields['condition'].widget.attrs.update({'class': 'add-closet-wrapper-input'})
+
+        self.fields['name'].widget.attrs.update({'required': True,  'placeholder': 'Name', 'class': 'add-closet-wrapper-input'})
+
+        self.fields['trade_options'].widget.attrs.update({'required': True, 'class': 'add-closet-wrapper-input'})
 
 class ClosetItemPhotos(forms.Form):
     image1 = forms.FileField(required=True)
@@ -55,11 +63,13 @@ class ClosetItemPhotos(forms.Form):
     image5 = forms.FileField(required=False)
     def __init__(self, *args, **kwargs):
         super(ClosetItemPhotos, self).__init__(*args, **kwargs)
-        self.fields['image1'].widget.attrs.update({'required': True, 'accept': 'image/*'})
-        self.fields['image2'].widget.attrs.update({'accept': 'image/*'})
-        self.fields['image3'].widget.attrs.update({'accept': 'image/*'})
-        self.fields['image4'].widget.attrs.update({'accept': 'image/*'})
-        self.fields['image5'].widget.attrs.update({'accept': 'image/*'})
+        self.fields['image1'].widget.attrs.update({'required': True, 'accept': 'image/*',
+                                                   'class': 'add-closet-wrapper-input'})
+        self.fields['image2'].widget.attrs.update({'accept': 'image/*',
+                                                   'class': 'add-closet-wrapper-input'})
+        self.fields['image3'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
+        self.fields['image4'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
+        self.fields['image5'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
 
 class UserForm(UserCreationForm):
 
