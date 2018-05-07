@@ -51,6 +51,13 @@ $(document).ready(function() {
     });
   });
 
+  // ---- These are functions that handle the hiding/showing of images
+    // get it to show the next one
+ $(function(){
+   $('#')
+
+ })
+
   // ---- all of these functions clear images out of the file selectors inside add_closet_item ----
   $(function() {
     $('#clear_image1').click(function() {
@@ -73,12 +80,15 @@ $(document).ready(function() {
   $(function() {
     $('#clear_image4').click(function() {
       $("#id_image4").val("");
+      $("#id_image4").hide();
+
     });
   });
 
   $(function() {
     $('#clear_image5').click(function() {
       $("#id_image5").val("");
+      $("#id_image5").hide();
     });
   });
   // -- endblock -----
