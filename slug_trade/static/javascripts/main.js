@@ -54,9 +54,39 @@ $(document).ready(function() {
   // ---- These are functions that handle the hiding/showing of images
     // get it to show the next one
  $(function(){
-   $('#')
-
+   $('#show_2').click(function(e){
+       e.preventDefault();
+     $('#picture_2').show()
+       $('#show_2').hide()
+   })
  })
+
+ $(function(){
+   $('#show_3').click(function(e){
+       e.preventDefault();
+     $('#picture_3').show()
+     $('#show_3').hide()
+   })
+ })
+
+ $(function(){
+   $('#show_4').click(function(e){
+       e.preventDefault();
+     $('#picture_4').show()
+     $('#show_4').hide()
+   })
+ })
+
+ $(function(){
+   $('#show_5').click(function(e){
+       e.preventDefault();
+     $('#picture_5').show()
+     $('#show_4').hide()
+   })
+ })
+
+
+
 
   // ---- all of these functions clear images out of the file selectors inside add_closet_item ----
   $(function() {
@@ -66,14 +96,19 @@ $(document).ready(function() {
   });
 
   $(function() {
-    $('#clear_image2').click(function() {
+    $('#clear_image1').click(function() {
       $("#id_image2").val("");
+      $("#id_image2").val("");
+      $("#id_image2").hide();
+      $('#show_2').show();
     });
   });
 
   $(function() {
     $('#clear_image3').click(function() {
       $("#id_image3").val("");
+      $("#id_image3").hide();
+      $('#show_3').show();
     });
   });
 
@@ -81,7 +116,7 @@ $(document).ready(function() {
     $('#clear_image4').click(function() {
       $("#id_image4").val("");
       $("#id_image4").hide();
-
+      $('#show_4').show();
     });
   });
 
@@ -89,6 +124,8 @@ $(document).ready(function() {
     $('#clear_image5').click(function() {
       $("#id_image5").val("");
       $("#id_image5").hide();
+      //This needs to show the plus sign above it which is plus sign for show_5
+      $('#show_5').show()
     });
   });
   // -- endblock -----
