@@ -933,34 +933,37 @@ margin-left: 10px;
 /******** Add Closet Item *********/
 
 .add-closet-wrapper {
+  text: #333333;
   display: flex;
   align-items: center;
   flex-direction: column;
-
-
-.add-closet-title{
+}
+.add-closet-title {
   margin-bottom: 0px;
   border-bottom: solid #d6d6d6 1px;
 }
 
-
-.add-closet-item-fields{
+.add-closet-item-fields {
   margin: 3px;
 }
 
+
+
 .add-closet-item-text{
- color: #333333;
-  padding: 25px 25px 25px 25px;
+  color: #333333;
+  margin: 0px 0px 5px 0px;
+  padding: 50px 0px 0px 0px;
 }
 
 .add-closet-photos-wrapper{
-
+padding-top:100px;
 
 }
 
 .add-closet-photos-entries{
 
 }
+
 
 .add-closet-details-wrapper{
 

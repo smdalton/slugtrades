@@ -45,6 +45,7 @@ class ClosetItem(forms.ModelForm):
         self.fields['price'].widget.attrs.update({'value': 0, 'placeholder': 'How much?'})
         self.fields['description'].widget.attrs.update({'required': True})
         self.fields['name'].widget.attrs.update({'required': True,  'placeholder': 'Name'})
+        self.fields['trade_options'].widget.attrs.update({'required': True})
 
 class ClosetItemPhotos(forms.Form):
     image1 = forms.FileField(required=True)
