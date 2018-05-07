@@ -14,11 +14,11 @@
         <h4>Please enter a name for the item</h4>
         {% endif %}
 
-        <div >
+
+
+        <div class="add-closet-item-fields"><div >
             <h2 class="add-closet-title">Add a new or used item to your closet</h2>
         </div>
-
-        <div class="add-closet-item-fields">
 
             <h3>Select Trade or Sale</h3>
             <span>&nbsp;&nbsp;{{form.trade_options}}</span>
@@ -26,48 +26,43 @@
             <span placeholder="name" ><!--Sorry I know nbsp is for noobs-->&nbsp;&nbsp; {{ form.name }}</span>
             <h3 class="add-closet-item-text">Price </h3>
             <span>$ {{form.price}}</span>
-            <h3 class="add-closet-item-text">Category</h3>
-            <span> &nbsp;&nbsp; {{form.category}}</span>
-            <h3 class="add-closet-item-text">Condition</h3>
+            <h3 class="add-closet-item-text ">Category</h3>
+            <span class="add-closet-wrapper-input "> &nbsp;&nbsp; {{form.category}}</span>
+            <h3 class="add-closet-item-text ">Condition</h3>
             <span> &nbsp;&nbsp; {{form.condition}}</span>
             <h3 class="add-closet-item-text">Description</h3>
             <span>  {{form.description}}</span>
 
-        </div>
-
-        <div class="add-closet"></div>
-
-        <hr>
-
         <div class="add-closet-photos-wrapper">
-            <label>Image 1</label>
+            <label>+</label>
             {{ photos.image1 }}
             <button type="button" id="clear_image1">Reset</button>
-            <br><br>
+            <br><hr>
 
-            <label>Image 2</label>
+            <label>+</label>
             {{ photos.image2 }}
             <button type="button" id="clear_image2">Reset</button>
-            <br><br>
+            <br><hr>
 
-            <label>Image 3</label>
+            <label>+</label>
             {{ photos.image3 }}
             <button type="button" id="clear_image3">Reset</button>
-            <br><br>
+            <br><hr>
 
-            <label>Image 4</label>
+            <label>+</label>
             {{ photos.image4 }}
             <button type="button" id="clear_image4">Reset</button>
-            <br><br>
+            <br><hr>
 
-            <label>Image 5</label>
+            <label>+</label>
             {{ photos.image5 }}
             <button type="button" id="clear_image5">Reset</button>
-            <br><br>
+            <br><hr>
 
             <input type="submit" name="" value="Save">
         </div>
     </div>
+     </div>
     </form>
 
 <hr>

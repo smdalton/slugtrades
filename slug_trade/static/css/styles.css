@@ -940,7 +940,7 @@ margin-left: 10px;
 }
 .add-closet-title {
   margin-bottom: 0px;
-  border-bottom: solid #d6d6d6 1px;
+
 }
 
 .add-closet-item-fields {
@@ -956,8 +956,24 @@ margin-left: 10px;
 }
 
 .add-closet-photos-wrapper{
-padding-top:100px;
+padding-top: 25px;
 
+}
+
+.add-closet-wrapper input{
+   border: 1px solid #d6d6d6;
+   border-radius: 5px;
+   padding: 10px;
+   font-size: 20px;
+   background-color: white;
+}
+
+.add-closet-input{
+   border: 1px solid #d6d6d6;
+   border-radius: 5px;
+   padding: 10px;
+   font-size: 20px;
+   background-color: white;
 }
 
 .add-closet-photos-entries{
