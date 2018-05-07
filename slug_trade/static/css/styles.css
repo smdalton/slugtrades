@@ -968,6 +968,10 @@ padding-top: 25px;
    margin: 20px 0;
 }
 
+.add-closet-remove-photo{
+  color: red;
+}
+
 .add-closet-wrapper h3 {
   ont-family: 'Archivo Black', sans-serif;
    color: #333333;
