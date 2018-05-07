@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 
+{% block title_block %}{% endblock %}
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -8,8 +10,6 @@
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
     <link href="https://fonts.googleapis.com/css?family=questrial" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
-
-    <title>Home</title>
   </head>
 
   {% block nav_block %}{% endblock %}
