@@ -703,6 +703,143 @@ input[type=submit]:hover {
   line-height: 24px;
 }
 
+/*edit profile*/
+.edit-profile-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-profile-body {
+  padding: 30px;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 75px;
+}
+
+.edit-profile-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 600;
+  color: #333;
+  font-size: 40px;
+  margin: 20px 0;
+}
+
+.profile-picture-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+.profile-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 240px;
+  height: auto;
+}
+
+.profile-picture-wrapper img {
+  height: 240px;
+}
+
+.edit-profile-wrapper input[type=file] {
+  padding-top: 15px;
+}
+
+.edit-profile-image-upload {
+  margin-left: 100px;
+}
+
+.basic-info-content-wrapper {
+  display: flex;
+  padding: 20px 0;
+}
+
+.basic-info-wrapper input[type=text] {
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 20px;
+  background-color: white;
+}
+
+.basic-info-name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 15px;
+  color: #474747;
+}
+
+.bio-wrapper textarea {
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #d6d6d6;
+  width: 100%;
+  height: 150px;
+  box-sizing: border-box;
+  padding: 20px;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.location-wrapper {
+  padding: 20px 0;
+}
+
+.location-content-wrapper {
+  padding-top: 30;
+  padding-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.location-wrapper select {
+  padding-left: 10px;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  font-size: 16px;
+  margin: 5px 0;
+  width: 200px;
+  height: 50px;
+}
+
+.submit-wrapper-content {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-profile-wrapper h3 {
+  font-family: 'Archivo Black', sans-serif;
+  color: #474747;
+}
+
+#id_on_off_campus {
+    width: 100%;
+}
+
+.name-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#input-left {
+  margin-right: 10px;
+}
+
+#input-right {
+  margin-left: 10px;
+}
+
+#edit-profile-button {
+  width: 100%;
+}
+
+/*edit profile*/
+
 /*buffer*/
 .buffer {
   height: 200px;

@@ -6,22 +6,60 @@
 {% endblock %}
 
 {% block body_block %}
+  <div class="edit-profile-wrapper">
+    <div class="edit-profile-body">
+      <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <div class="edit-profile-title">Edit Profile</div>
+        <div class="profile-picture-wrapper">
+          {% if user.userprofile.profile_picture %}
+            <div class="profile-image-wrapper" style="">
+              <img id="img" src="{{user.userprofile.profile_picture.url}}">
+            </div>
 
-    <h2>Edit Profile</h2>
-    <form enctype="multipart/form-data" method="post" >
-      {% csrf_token %}
-      {{ user_form.as_p }}
-      {% if user.userprofile.profile_picture %}
-        <img id="img" src="{{user.userprofile.profile_picture.url}}" width="240"><br>
-      {% else %}
-        <img id="img" src="" width="240"><br>
-      {% endif %}
-      {{ profile_picture_form }}
-      {{ user_profile_form.as_p }}
+            <div class="edit-profile-image-upload">
+              {{ profile_picture_form.file }}
+            </div>
+          {% else %}
+            <img id="img" src=""><br>
+            <div class="edit-profile-image-upload">
+              {{ profile_picture_form.file }}
+            </div>
+          {% endif %}
+        </div>
 
-      <input type="submit" name="" value="Save">
-    </form>
-
+        <div class="basic-info-wrapper">
+          <div class="basic-info-content-wrapper">
+            <div class="name-input-wrapper" id="input-left">
+              <h3>First Name</h3>
+              {{ user_form.first_name }}
+            </div>
+            <div class="name-input-wrapper" id="input-right">
+              <h3>Last Name</h3>
+              {{ user_form.last_name }}
+            </div>
+          </div>
+        </div>
+        <div class="bio-wrapper">
+          <h3>Bio</h3>
+          <div class="bio-content-wrapper">
+              {{ user_profile_form.bio }}
+          </div>
+        </div>
+        <div class="location-wrapper">
+          <h3>Where do you live?</h3>
+          <div class="location-content-wrapper">
+            {{ user_profile_form.on_off_campus }}
+          </div>
+        </div>
+        <div class="submit-wrapper">
+          <div class="submit-wrapper-content">
+            <input id="edit-profile-button" type="submit" name="" value="Update Profile">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}
 
 {% block footer_block %}
