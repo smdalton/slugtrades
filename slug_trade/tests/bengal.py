@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+import os
+import platform
 
 def check_exists(expected):
     if not expected:
@@ -18,12 +20,21 @@ def find_element_by_id(browser, elem_id):
 
 """Drives each test."""
 def run_test(func):
-    browser = webdriver.Chrome()
+    dirname = os.path.dirname(__file__)
+
+    if platform.system() == 'Darwin':
+        path = dirname + '/drivers/mac/chromedriver'
+    elif platform.system() == 'Linux':
+        path = dirname + '/drivers/linux/chromedriver'
+
+    browser = webdriver.Chrome(path)
     browser.get('localhost:8000')
+
     try:
         func(browser)
         print(func.__name__ +  ": PASS")
     except AssertionError as err:
         print(str(err))
         print(func.__name__ +  ": FAIL")
+
     browser.close()
