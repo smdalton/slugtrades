@@ -6,8 +6,8 @@
 
 {% block body_block %}
 
-    <form enctype="multipart/form-data" method="post">
-<div class="add-closet-wrapper">
+<form enctype="multipart/form-data" method="post">
+    <div class="add-closet-wrapper">
         {% csrf_token %}
 
         {% if blank_name %}
@@ -15,15 +15,15 @@
         {% endif %}
 
 
-
-        <div class="add-closet-item-fields"><div >
-            <h2 class="add-closet-title">Add a new or used item to your closet</h2>
-        </div>
+        <div class="add-closet-item-fields">
+            <div>
+                <h2 class="add-closet-title">Add a new or used item to your closet</h2>
+            </div>
 
             <h3>Select Trade or Sale</h3>
             <span>&nbsp;&nbsp;{{form.trade_options}}</span>
             <h3 class="add-closet-item-text">Item Name</h3>
-            <span placeholder="name" ><!--Sorry I know nbsp is for noobs-->&nbsp;&nbsp; {{ form.name }}</span>
+            <span placeholder="name"><!--Sorry I know nbsp is for noobs-->&nbsp;&nbsp; {{ form.name }}</span>
             <h3 class="add-closet-item-text">Price </h3>
             <span>$ {{form.price}}</span>
             <h3 class="add-closet-item-text ">Category</h3>
@@ -33,37 +33,50 @@
             <h3 class="add-closet-item-text">Description</h3>
             <span>  {{form.description}}</span>
 
-        <div class="add-closet-photos-wrapper">
-            <label>+</label>
-            {{ photos.image1 }}
-            <button type="button" id="clear_image1">Reset</button>
-            <br><hr>
+            <div class="add-closet-photos-wrapper">
+                <div>
+                    <label id="show_next_2">+</label>
+                    {{ photos.image1 }}
+                    <button type="button" id="clear_image1"><h4>X</h4></button>
+                 <hr>
+                </div>
 
-            <label>+</label>
-            {{ photos.image2 }}
-            <button type="button" id="clear_image2">Reset</button>
-            <br><hr>
+                <div>
+                    <label id="show_3">+</label>
+                    {{ photos.image2 }}
+                    <button type="button" id="clear_image2">X</button>
+                 <hr>
+                </div>
 
-            <label>+</label>
-            {{ photos.image3 }}
-            <button type="button" id="clear_image3">Reset</button>
-            <br><hr>
 
-            <label>+</label>
-            {{ photos.image4 }}
-            <button type="button" id="clear_image4">Reset</button>
-            <br><hr>
+                <div>
+                    <label id="show_4">+</label>
+                    {{ photos.image3 }}
+                    <button type="button" id="clear_image3">X</button>
+                 <hr>
+                </div>
 
-            <label>+</label>
-            {{ photos.image5 }}
-            <button type="button" id="clear_image5">Reset</button>
-            <br><hr>
 
-            <input type="submit" name="" value="Save">
+                <div>
+                    <label id="show_5">+</label>
+                    {{ photos.image4 }}
+                    <button type="button" id="clear_image4">X</button>
+                 <hr>
+                </div>
+
+
+                <div>
+                    <label>-</label>
+                    {{ photos.image5 }}
+                    <button type="button" id="clear_image5">X</button>
+                    <hr>
+                </div>
+
+                <input type="submit" name="" value="Save">
+            </div>
         </div>
     </div>
-     </div>
-    </form>
+</form>
 
 <hr>
 

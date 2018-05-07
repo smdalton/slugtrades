@@ -43,15 +43,15 @@ class ClosetItem(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ClosetItem, self).__init__(*args, **kwargs)
         self.fields['price'].widget.attrs.update({'value': 0,
-                                                  'placeholder': 'How much?',
-                                                  'class': 'add-closet-wrapper-input'})
-
+                                                  'class': 'add-closet-wrapper-input'
+                                                  })
         self.fields['description'].widget.attrs.update({'required': True,
-                                                        'class': 'add-closet-wrapper-input'})
+                                                        'class': 'add-closet-wrapper-input'
+                                                        })
         self.fields['category'].widget.attrs.update({'class': 'add-closet-wrapper-input'})
         self.fields['condition'].widget.attrs.update({'class': 'add-closet-wrapper-input'})
 
-        self.fields['name'].widget.attrs.update({'required': True,  'placeholder': 'Name', 'class': 'add-closet-wrapper-input'})
+        self.fields['name'].widget.attrs.update({'required': True, 'class': 'add-closet-wrapper-input'})
 
         self.fields['trade_options'].widget.attrs.update({'required': True, 'class': 'add-closet-wrapper-input'})
 
