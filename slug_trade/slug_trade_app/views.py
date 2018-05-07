@@ -124,7 +124,7 @@ def public_profile_inspect(request, user_id):
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
     return render(request, 'slug_trade_app/profile.html', {
-                      'user': user_to_view,
+                      'user_to_view': user_to_view,
                       'public': True,
                       'item_data': items_and_images,
                       'wishlist': wishlist,
@@ -162,7 +162,7 @@ def profile(request):
         items_and_images = zip(items,images)
 
         return render(request, 'slug_trade_app/profile.html', {
-                    'user': request.user,
+                    'user_to_view': request.user,
                     'public': False,
                     'item_data': items_and_images,
                     'wishlist': wishlist,
