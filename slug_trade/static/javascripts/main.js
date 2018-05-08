@@ -51,12 +51,28 @@ $(document).ready(function() {
     });
   });
 
+  $(document).on('change', '#id_trade_options', function(e) {
+
+    var dropChoice = this.options[e.target.selectedIndex].text;
+
+    if(dropChoice == 'Cash Only') {
+      $('.add-item-price').css('display','flex');
+      $('#add-item-left').css('margin-right','10px');
+    } else {
+      $('.add-item-price').css('display','none');
+      $('#add-item-left').css('margin-right','0');
+    }
+
+
+
+});
+
   // ---- These are functions that handle the hiding/showing of images
     // get it to show the next one
  $(function(){
    $('#show_2').click(function(e){
        e.preventDefault();
-     $('#picture_2').show()
+     $('#picture_2').css('display','flex');
        $('#show_2').hide()
    })
  })
@@ -64,7 +80,7 @@ $(document).ready(function() {
  $(function(){
    $('#show_3').click(function(e){
        e.preventDefault();
-     $('#picture_3').show()
+     $('#picture_3').css('display','flex');
      $('#show_3').hide()
    })
  })
@@ -72,7 +88,7 @@ $(document).ready(function() {
  $(function(){
    $('#show_4').click(function(e){
        e.preventDefault();
-     $('#picture_4').show()
+     $('#picture_4').css('display','flex');
      $('#show_4').hide()
    })
  })
@@ -80,7 +96,7 @@ $(document).ready(function() {
  $(function(){
    $('#show_5').click(function(e){
        e.preventDefault();
-     $('#picture_5').show()
+     $('#picture_5').css('display','flex');
      $('#show_5').hide()
    })
  })

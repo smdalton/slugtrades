@@ -932,81 +932,108 @@ margin-left: 10px;
 
 /******** Add Closet Item *********/
 
-.add-closet-wrapper {
-  text: #333333;
+.add-item-wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
-}
-.add-closet-title {
-  margin-bottom: 0px;
-
+  padding: 80px 40px;
 }
 
-.add-closet-item-fields {
-  margin: 3px;
+.add-item-body {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
 }
 
-
-
-.add-closet-item-text{
-  color: #333333;
-  margin: 0px 0px 5px 0px;
-  padding: 50px 0px 0px 0px;
+.add-item-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 40px;
+  color: #333;
+  margin-bottom: 30px;
 }
 
+.add-item-subtitle {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+#id_name {
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #d6d6d6;
+  font-size: 17px;
+  color: #333;
+}
+
+.add-item-input-outer-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+}
+
+.add-item-input-inner-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#id_price {
+  padding: 15px;
+  font-size: 17px;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #d6d6d6;
+}
+
+#id_trade_options, #id_category, #id_condition {
+  padding: 20px;
+  font-size: 17px;
+  color: #333;
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+  height: 55px;
+  background: #fff;
+}
+
+#add-item-right {
+  margin-left: 20px;
+}
+
+.add-item-single-input {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+#id_description {
+  border: 1px solid #d6d6d6;
+  border-radius: 5px;
+}
+
+/* Item Photos */
 .add-closet-photos-wrapper{
-padding-top: 25px;
-
+  padding-top: 25px;
 }
 
-.add-closet-wrapper h2{
-  font-family: ‘Archivo Black’, sans-serif;
-   font-weight: 600;
+.add-item-picture-wrapper {
+  border-bottom: 1px solid #d6d6d6;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-   font-size: 40px;
-   margin: 20px 0;
+.add-item-price {
+  display: none;
 }
 
 .add-closet-remove-photo{
   color: red;
 }
 
-.add-closet-wrapper h3 {
-  ont-family: 'Archivo Black', sans-serif;
-   color: #333333;
-}
-
-.add-closet-wrapper-input{
-   border: 1px solid #d6d6d6;
-   border-radius: 5px;
-   padding: 10px;
-   font-size: 20px;
-   background-color: white;
-}
-
-.add-closet-input{
-   border: 1px solid #d6d6d6;
-   border-radius: 5px;
-   padding: 10px;
-   font-size: 20px;
-   background-color: white;
-}
-
-.add-closet-photos-entries{
-
-}
-
-
-.add-closet-details-wrapper{
-
-
-}
-
-.add-closet-details-left{
-
-}
-
-.add-closet-details-description{
-
+#picture_2, #picture_3, #picture_4, #picture_5 {
+  display: none;
 }

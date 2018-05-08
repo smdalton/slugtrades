@@ -7,77 +7,95 @@
 {% block body_block %}
 
 <form enctype="multipart/form-data" method="post">
-    <div class="add-closet-wrapper">
-        {% csrf_token %}
+    {% csrf_token %}
+
+    <div class="add-item-wrapper">
+      <div class="add-item-body">
 
         {% if blank_name %}
-        <h4>Please enter a name for the item</h4>
+          <h4>Please enter a name for the item</h4>
         {% endif %}
 
 
-        <div class="add-closet-item-fields">
-            <div>
-                <h2 class="add-closet-title">Add a new or used item to your closet</h2>
+
+          <div class="add-item-title">Add closet item</div>
+
+          <div class="add-item-single-input">
+          <div class="add-item-subtitle">Item Name</div>
+            {{ form.name }}
+          </div>
+
+          <div class="add-item-input-outer-wrapper">
+            <div class="add-item-input-inner-wrapper">
+              <div class="add-item-subtitle">Trade Type</div>
+              {{form.trade_options}}
             </div>
 
-            <h3>Select Trade or Sale</h3>
-            <span>&nbsp;&nbsp;{{form.trade_options}}</span>
-            <h3 class="add-closet-item-text">Item Name</h3>
-            <span placeholder="name"><!--Sorry I know nbsp is for noobs-->&nbsp;&nbsp; {{ form.name }}</span>
-            <h3 class="add-closet-item-text">Price </h3>
-            <span>$ {{form.price}}</span>
-            <h3 class="add-closet-item-text ">Category</h3>
-            <span> &nbsp;&nbsp; {{form.category}}</span>
-            <h3 class="add-closet-item-text ">Condition</h3>
-            <span> &nbsp;&nbsp; {{form.condition}}</span>
-            <h3 class="add-closet-item-text">Description</h3>
-            <span>  {{form.description}}</span>
-
-            <div class="add-closet-photos-wrapper">
-
-                <div id="picture1">
-                    {{ photos.image1 }}
-                    <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image1">X</h4>
-                    <hr>
-                </div>
-
-                <div id="picture_2" style="display:none">
-                    {{ photos.image2 }}
-                    <h4 class="add-closet-remove-photo"
-                        style="display: inline"
-                        id="clear_image2">X</h4>
-                    <hr>
-                </div>
-
-
-                <div id="picture_3" style="display:none">
-                    {{ photos.image3 }}
-                    <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image3">X</h4>
-                    <hr>
-                </div>
-
-
-                <div id="picture_4" style="display:none">
-                    {{ photos.image4 }}
-                    <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image4">X</h4>
-                    <hr>
-                </div>
-
-
-                <div id="picture_5" style="display:none">
-                    {{ photos.image5 }}
-                    <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image5">X</h4>
-                    <hr>
-
-                </div>
-                <h2 id="show_2" style="display:inline; text-decoration: none">+</h2>
-                <h2 id="show_3" style="display:inline; text-decoration: none">+</h2>
-                <h2 id="show_4" style="display:inline; text-decoration: none">+</h2>
-                <h2 id="show_5" style="display:inline; text-decoration: none">+</h2>
-                <br>
-                <br>
-                <input type="submit" name="" value="Save">
+            <div class="add-item-input-inner-wrapper add-item-price" id="add-item-right">
+              <div class="add-item-subtitle">Price</div>
+              {{form.price}}
             </div>
+          </div>
+
+          <div class="add-item-input-outer-wrapper">
+            <div class="add-item-input-inner-wrapper">
+              <div class="add-item-subtitle">Category</div>
+              {{form.category}}
+            </div>
+
+            <div class="add-item-input-inner-wrapper" id="add-item-right">
+              <div class="add-item-subtitle">Condition</div>
+              {{form.condition}}
+            </div>
+          </div>
+
+          <div class="add-item-single-input">
+            <div class="add-item-subtitle">Description</div>
+            {{form.description}}
+          </div>
+
+
+          <div class="add-closet-photos-wrapper">
+
+            <div class="add-item-subtitle">Item Images</div>
+
+              <div class="add-item-picture-wrapper" id="picture1">
+                  {{ photos.image1 }}
+                  <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image1">X</h4>
+              </div>
+
+              <div class="add-item-picture-wrapper" id="picture_2">
+                  {{ photos.image2 }}
+                  <h4 class="add-closet-remove-photo" id="clear_image2">X</h4>
+              </div>
+
+
+              <div class="add-item-picture-wrapper" id="picture_3">
+                  {{ photos.image3 }}
+                  <h4 type="button" class="add-closet-remove-photo" id="clear_image3">X</h4>
+              </div>
+
+
+              <div class="add-item-picture-wrapper" id="picture_4">
+                  {{ photos.image4 }}
+                  <h4 type="button" class="add-closet-remove-photo" id="clear_image4">X</h4>
+              </div>
+
+
+              <div class="add-item-picture-wrapper" id="picture_5">
+                  {{ photos.image5 }}
+                  <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image5">X</h4>
+              </div>
+
+              <h2 id="show_2" style="display:inline; text-decoration: none">+</h2>
+              <h2 id="show_3" style="display:inline; text-decoration: none">+</h2>
+              <h2 id="show_4" style="display:inline; text-decoration: none">+</h2>
+              <h2 id="show_5" style="display:inline; text-decoration: none">+</h2>
+              <br>
+              <br>
+              <input type="submit" name="" value="Save">
+            </div>
+
         </div>
     </div>
 </form>
