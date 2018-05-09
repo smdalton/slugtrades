@@ -93,7 +93,7 @@ def public_profile_inspect(request, user_id):
     if not User.objects.filter(id=user_id).exists():
         return HttpResponse('<h1>No user exists for your query <a href="/">Go home</a></h1>')
 
-    if(int(user_id) == int(request.user.id)):
+    if request.user.is_authenticated() and int(user_id) == int(request.user.id):
         return redirect('/profile')
 
     # get the user model object
@@ -110,10 +110,14 @@ def public_profile_inspect(request, user_id):
     items_and_images = zip(items, images)
     print("Items and images: ", items_and_images)
 
+    wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
+
     return render(request, 'slug_trade_app/profile.html', {
                       'user': user_to_view,
                       'public': True,
-                      'item_data': items_and_images
+                      'item_data': items_and_images,
+                      'wishlist': wishlist,
+                      'show_add_button': False
                   })
 
 
