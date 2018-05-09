@@ -8,20 +8,20 @@
 <title>Products</title>
 
 {% block body_block %}
-<h1>{{user.first_name}}'s Profile</h1>
+<h1>{{user_to_view.first_name}}'s Profile</h1>
 <p>Welcome back!</p>
 
-{% if user.userprofile.profile_picture %}
+{% if user_to_view.userprofile.profile_picture %}
 <h4>Current Photo:</h4>
 <p>
 <!--URL is: {{ user.userprofile.profile_picture.url }}-->
-</p><img src="{{user.userprofile.profile_picture.url}}" width="240">
+</p><img src="{{user_to_view.userprofile.profile_picture.url}}" width="240">
 {% endif %}
 
-<p>It looks like you live {{user.userprofile.on_off_campus}} campus</p>
+<p>It looks like you live {{user_to_view.userprofile.on_off_campus}} campus</p>
 
 <h4>This is your public bio:</h4>
-<p>{{user.userprofile.bio}}</p><br><br>
+<p>{{user_to_view.userprofile.bio}}</p><br><br>
 
 
 {% if not public %}
@@ -61,7 +61,7 @@
   <h3>Wishlist</h3>
 {% endif %}
 {% if empty_wishlist %}
-  <p>{{user.first_name}}'s wishlist is empty</p>
+  <p>{{user_to_view.first_name}}'s wishlist is empty</p>
 {% else %}
   <ul>
     {% for item in wishlist %}
