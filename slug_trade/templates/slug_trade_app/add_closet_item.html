@@ -1,47 +1,109 @@
 {% extends "slug_trade_app/base.html" %}
 
 {% block nav_block %}
-    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% include "slug_trade_app/header-footer/navigation.html" %}
 {% endblock %}
 
 {% block body_block %}
 
-<h2>Add Closet Item</h2>
-<form enctype="multipart/form-data" method="post" >
+<form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
 
-	{% csrf_token %}
+    <div class="add-item-wrapper">
+      <div class="add-item-body">
 
-	{% if blank_name %}
-		<h4>Please enter a name for the item</h4>
-	{% endif %}
+        {% if blank_name %}
+          <h4>Please enter a name for the item</h4>
+        {% endif %}
 
-	{{ form.as_p }}
 
-	<label>Image 1</label>
-	{{ photos.image1 }}
-	<button type="button" id="clear_image1">Reset</button><br><br>
 
-	<label>Image 2</label>
-	{{ photos.image2 }}
-	<button type="button" id="clear_image2">Reset</button><br><br>
+          <div class="add-item-title">Add closet item</div>
 
-	<label>Image 3</label>
-	{{ photos.image3 }}
-	<button type="button" id="clear_image3">Reset</button><br><br>
+          <div class="add-item-single-input">
+          <div class="add-item-subtitle">Item Name</div>
+            {{ form.name }}
+          </div>
 
-	<label>Image 4</label>
-	{{ photos.image4 }}
-	<button type="button" id="clear_image4">Reset</button><br><br>
+          <div class="add-item-input-outer-wrapper">
+            <div class="add-item-input-inner-wrapper">
+              <div class="add-item-subtitle">Trade Type</div>
+              {{form.trade_options}}
+            </div>
 
-	<label>Image 5</label>
-	{{ photos.image5 }}
-	<button type="button" id="clear_image5">Reset</button><br><br>
+            <div class="add-item-input-inner-wrapper add-item-price" id="add-item-right">
+              <div class="add-item-subtitle">Price</div>
+              {{form.price}}
+            </div>
+          </div>
 
-	<input type="submit" name="" value="Save">
+          <div class="add-item-input-outer-wrapper">
+            <div class="add-item-input-inner-wrapper">
+              <div class="add-item-subtitle">Category</div>
+              {{form.category}}
+            </div>
+
+            <div class="add-item-input-inner-wrapper" id="add-item-right">
+              <div class="add-item-subtitle">Condition</div>
+              {{form.condition}}
+            </div>
+          </div>
+
+          <div class="add-item-single-input">
+            <div class="add-item-subtitle">Description</div>
+            {{form.description}}
+          </div>
+
+
+          <div class="add-closet-photos-wrapper">
+
+            <div class="add-item-subtitle">Item Images</div>
+
+              <div class="add-item-picture-wrapper" id="picture1">
+                  {{ photos.image1 }}
+                  <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image1">X</h4>
+              </div>
+
+              <div class="add-item-picture-wrapper" id="picture_2">
+                  {{ photos.image2 }}
+                  <h4 class="add-closet-remove-photo" id="clear_image2">X</h4>
+              </div>
+
+
+              <div class="add-item-picture-wrapper" id="picture_3">
+                  {{ photos.image3 }}
+                  <h4 type="button" class="add-closet-remove-photo" id="clear_image3">X</h4>
+              </div>
+
+
+              <div class="add-item-picture-wrapper" id="picture_4">
+                  {{ photos.image4 }}
+                  <h4 type="button" class="add-closet-remove-photo" id="clear_image4">X</h4>
+              </div>
+
+
+              <div class="add-item-picture-wrapper" id="picture_5">
+                  {{ photos.image5 }}
+                  <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image5">X</h4>
+              </div>
+
+              <h2 id="show_2" style="display:inline; text-decoration: none">+</h2>
+              <h2 id="show_3" style="display:inline; text-decoration: none">+</h2>
+              <h2 id="show_4" style="display:inline; text-decoration: none">+</h2>
+              <h2 id="show_5" style="display:inline; text-decoration: none">+</h2>
+              <br>
+              <br>
+              <input type="submit" name="" value="Save">
+            </div>
+
+        </div>
+    </div>
 </form>
+
+<hr>
 
 {% endblock %}
 
 {% block footer_block %}
-  {% include "slug_trade_app/header-footer/footer.html" %}
+{% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}
