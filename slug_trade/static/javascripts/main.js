@@ -11,12 +11,11 @@ $(document).ready(function() {
   if (location.pathname.substring(1) == "login/") {
     $('#id_username').attr('placeholder', 'Email Address');
     $('#id_password').attr('placeholder', 'Password');
-  }
-
-  //on login page make login wrapper height of viewpoint
-  if (location.pathname.substring(1) == "login/") {
     var height = $(window).height() - 86;
     $('.login-wrapper').css('height',height)
+    $(window).load(function () {
+      $('#id_username').focus();
+    });
   }
 
 //displays a preview of profile picture in edit_profile page
