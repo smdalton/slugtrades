@@ -1,5 +1,14 @@
-$(document).ready(function() {
+var editProfileFormTouched = function(first_name, last_name, bio, on_off_campus, profile_picture) {
+  return (
+    ($('#id_first_name').val() != first_name) ||
+    ($('#id_last_name').val() != last_name) ||
+    ($('#id_bio').val() != bio) ||
+    ($('#id_on_off_campus').val() != on_off_campus) ||
+    ($('#id_profile_picture').val() != profile_picture)
+  )
+}
 
+$(document).ready(function() {
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');
@@ -8,6 +17,7 @@ $(document).ready(function() {
   });
 
   //inject placeholder text into login forms
+  //on login page make login wrapper height of viewpoint
   if (location.pathname.substring(1) == "login/") {
     $('#id_username').attr('placeholder', 'Email Address');
     $('#id_password').attr('placeholder', 'Password');
@@ -17,6 +27,27 @@ $(document).ready(function() {
       $('#id_username').focus();
     });
   }
+
+  if (location.pathname.substring(1) == "edit_profile/") {
+    let first_name = $('#id_first_name').val();
+    let last_name = $('#id_last_name').val();
+    let bio = $('#id_bio').val();
+    let on_off_campus = $('#id_on_off_campus').val();
+    let profile_picture = $('#id_profile_picture').val();
+    $(window).on("beforeunload", function() {
+      if(editProfileFormTouched(first_name, last_name, bio, on_off_campus, profile_picture)) {
+        return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
+      }
+    });
+    //turn off the beforeunload event upon form submission
+    $(document).ready(function() {
+      $("#edit_profile_form").on("submit", function(e) {
+        $(window).off("beforeunload");
+        return true;
+      });
+    });
+  }
+
 
 //displays a preview of profile picture in edit_profile page
   $(function() {
