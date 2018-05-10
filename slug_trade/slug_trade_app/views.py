@@ -93,6 +93,9 @@ def public_profile_inspect(request, user_id):
     if not User.objects.filter(id=user_id).exists():
         return HttpResponse('<h1>No user exists for your query <a href="/">Go home</a></h1>')
 
+    if request.user.is_authenticated() and int(user_id) == int(request.user.id):
+        return redirect('/profile')
+
     # get the user model object
     user_to_view = User.objects.get(id=user_id)
 
@@ -107,30 +110,14 @@ def public_profile_inspect(request, user_id):
     items_and_images = zip(items, images)
     print("Items and images: ", items_and_images)
 
-    item_added = False
-
-    if request.method == 'POST':
-        # if the wishlist item already exists in the wishlist, do not add it again
-        try:
-            existing_item = Wishlist.objects.get(user=user_to_view, wishlist_item_description=request.POST['description'])
-        except Wishlist.DoesNotExist:
-            item = Wishlist(
-                    user = user_to_view,
-                    wishlist_item_description = request.POST['description']
-                )
-            item.save()
-            item_added = True
-
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
     return render(request, 'slug_trade_app/profile.html', {
-                      'user': user_to_view,
+                      'user_to_view': user_to_view,
                       'public': True,
                       'item_data': items_and_images,
                       'wishlist': wishlist,
-                      'show_add_button': int(user_id) == int(request.user.id),
-                      'empty_wishlist': len(wishlist) == 0,
-                      'item_added': item_added
+                      'show_add_button': False
                   })
 
 
@@ -141,8 +128,6 @@ def profile(request):
         is logged in, it will redirect to a sign-up/broken page
     """
     if request.user.is_authenticated():
-        item_added = False
-
         if request.method == 'POST':
             # if the wishlist item already exists in the wishlist, do not add it again
             try:
@@ -153,21 +138,19 @@ def profile(request):
                         wishlist_item_description = request.POST['description']
                     )
                 item.save()
-                item_added = True
+                return redirect('/profile?item_added=True')
 
         wishlist = Wishlist.objects.filter(user=request.user)
-
         items= Item.objects.filter(user__id=request.user.id)
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
-
         return render(request, 'slug_trade_app/profile.html', {
-                    'user': request.user,
+                    'user_to_view': request.user,
                     'public': False,
                     'item_data': items_and_images,
                     'wishlist': wishlist,
                     'show_add_button': True,
-                    'item_added': item_added
+                    'item_added': request.GET.get('item_added', False)
                 })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title_block %}
-<title>{{user.first_name|title}}'s Profile</title>
+<title>{{user_to_view.first_name|title}}'s Profile</title>
 {% endblock %}
 
 {% block nav_block %}
@@ -16,8 +16,8 @@
     <div class="profile-info-wrapper">
 
       <div class="profile-info-image-wrapper">
-        {% if user.userprofile.profile_picture %}
-          <img src="{{user.userprofile.profile_picture.url}}" height="200">
+        {% if user_to_view.userprofile.profile_picture %}
+          <img src="{{user_to_view.userprofile.profile_picture.url}}" height="200">
         {% endif %}
       </div>
 
@@ -25,8 +25,8 @@
         <div class="profile-info-name-wrapper">
           <div class="profile-info-title">Name</div>
           <div class="profile-info-name">
-            {{user.first_name|title}}
-            {{user.last_name|title}}
+            {{user_to_view.first_name|title}}
+            {{user_to_view.last_name|title}}
           </div>
         </div>
 
@@ -34,7 +34,7 @@
           <div class="profile-info-location-title-wrapper">
             <div class="profile-info-title">Location</div>
             <div class="profile-info-location">
-              {{user.userprofile.on_off_campus|title}}&nbsp;campus
+              {{user_to_view.userprofile.on_off_campus|title}}&nbsp;campus
             </div>
           </div>
         </div>
@@ -43,7 +43,7 @@
           <div class="profile-info-bio-title-wrapper">
             <div class="profile-info-title">Bio</div>
             <div class="profile-info-bio">
-              {{user.userprofile.bio}}
+              {{user_to_view.userprofile.bio}}
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
       <div class="wishlist-wrapper">
         <h2>Wishlist</h2>
         <div class="wishlist-title-description">
-          Items {{ user.first_name }} is interested in trading for.
+          Items {{ user_to_view.first_name }} is interested in trading for.
         </div>
         <div class="wishlist-input-wrapper">
 
@@ -79,7 +79,7 @@
 
     <div class="wishlist-list-wrapper">
       {% if empty_wishlist %}
-        {{user.first_name}}'s wishlist is empty
+        {{user_to_view.first_name}}'s wishlist is empty
       {% else %}
 
           {% for item in wishlist %}
