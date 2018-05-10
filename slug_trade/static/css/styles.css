@@ -1076,11 +1076,16 @@ margin-left: 10px;
   justify-content: flex-start;
   background-size: cover;
   background-image: url(../../static/images/hero_background.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .profile-body{
   width: 100%;
   max-width: 700px;
+  max-height: 500px;
+  overflow: scroll;
   background: #fff;
   padding: 100px 50px;
 }
