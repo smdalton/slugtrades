@@ -61,7 +61,11 @@
     {% if show_add_button %}
       <form enctype="multipart/form-data" method="post">
       <div class="wishlist-wrapper">
-        <h2>Wishlist</h2>
+        {% if item_added %}
+          <h2 id="wishlist_scroll_anchor">Wishlist</h2>
+        {% else %}
+          <h2>Wishlist</h2>
+        {% endif %}
         <div class="wishlist-title-description">
           Items {{ user_to_view.first_name }} is interested in trading for.
         </div>
