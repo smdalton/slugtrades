@@ -133,7 +133,7 @@ body {
   max-width: 300px;
   background: #fff;
   z-index: 9999999;
-  position: fixed;
+  position: absolute;
   top: 85px;
 }
 
