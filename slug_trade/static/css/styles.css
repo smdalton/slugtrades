@@ -1073,21 +1073,24 @@ margin-left: 10px;
 .profile-wrapper{
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   background-size: cover;
   background-image: url(../../static/images/hero_background.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  padding-top: 75px;
+  padding-bottom: 75px;
 }
 
 .profile-body{
   width: 100%;
   max-width: 700px;
-  max-height: 500px;
+  max-height: 700px;
   overflow: scroll;
   background: #fff;
   padding: 100px 50px;
+  border-radius: 20px;
 }
 
 .profile-info-wrapper{
