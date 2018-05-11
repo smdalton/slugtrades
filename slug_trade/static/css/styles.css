@@ -1167,7 +1167,18 @@ margin-left: 10px;
 }
 
 .add-item-picture-wrapper {
+  position: relative;
+  display: inline-block;
+}
 
+.add-item-picture-wrapper .close:before {
+  content: '✕';
+}
+.add-item-picture-wrapper .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }
 
 .add-closet-photos-inner-wrapper img {
