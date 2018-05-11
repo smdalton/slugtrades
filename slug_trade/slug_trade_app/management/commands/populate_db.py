@@ -208,6 +208,7 @@ class Command(BaseCommand):
                                category=self.categories[picture],
                                description=fake.text(),
                                trade_options=random.choice(['0','2','3']))
+            item.bid_counter = random.choice(range(100))
             item.save()
 
             # get the item image from its name
