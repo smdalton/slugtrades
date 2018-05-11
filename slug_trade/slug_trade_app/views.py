@@ -77,9 +77,30 @@ def show_users(request):
             print(item.userprofile)
     return render(request, 'slug_trade_app/users.html', {'users': users})
 
-def item_details(request, item_id):
 
+def item_details(request, item_id):
+    """
+    primary purpose is to show user more about a specific item, and allow them to bid on it
+    :param request: http request
+    :param item_id: regexed number from url string that is item to inspect's item-id
+    :return: a template with detailed information on the item with item_id, and the ability
+    to continue further in the transaction process of trading
+    """
     return HttpResponse(f"Item clicked with id={item_id}")
+
+
+def transaction(request, item_id):
+    """
+    Primary purpose is to place an offer from the current user
+    consisting of one or more items from their inventory ONTO
+    another item that is owned by a different user
+    :param request: req. obj
+    :param item_id: describes the item that is currently being offered/bid on
+    :return: redirects user to an arbitrary page after they complete the offer, sends
+    the completed offer to an as-of-yet undetermined endpoint to process the offer.
+    """
+    return HttpResponse(f"Inititating transaction on item id={item_id}")
+
 
 def public_profile_inspect(request, user_id):
 
