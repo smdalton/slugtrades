@@ -168,6 +168,7 @@ class Command(BaseCommand):
 
         # create the debug item
         item = models.Item(user=user, name='test', price='5.99', category='C', description='placeholder')
+        item.bid_counter = random.choice(range(100))
         item.save()
 
         # get the debug image to use as the item image
