@@ -77,6 +77,9 @@ def show_users(request):
             print(item.userprofile)
     return render(request, 'slug_trade_app/users.html', {'users': users})
 
+def item_details(request, item_id):
+
+    return HttpResponse(f"Item clicked with id={item_id}")
 
 def public_profile_inspect(request, user_id):
 
