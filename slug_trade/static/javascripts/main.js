@@ -98,83 +98,82 @@ $(document).ready(function() {
 });
 
   // ---- These are functions that handle the hiding/showing of images
-    // get it to show the next one
- $(function(){
-   $('#show_2').click(function(e){
-       e.preventDefault();
-     $('#picture_2').css('display','flex');
-       $('#show_2').hide()
-   })
- })
-
- $(function(){
-   $('#show_3').click(function(e){
-       e.preventDefault();
-     $('#picture_3').css('display','flex');
-     $('#show_3').hide()
-   })
- })
-
- $(function(){
-   $('#show_4').click(function(e){
-       e.preventDefault();
-     $('#picture_4').css('display','flex');
-     $('#show_4').hide()
-   })
- })
-
- $(function(){
-   $('#show_5').click(function(e){
-       e.preventDefault();
-     $('#picture_5').css('display','flex');
-     $('#show_5').hide()
-   })
- })
-
-
-
-
-  // ---- all of these functions clear images out of the file selectors inside add_closet_item ----
   $(function() {
-    $('#clear_image1').click(function() {
-      $("#id_image1").val("");
-
+    $('#id_image1').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img1').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image2').click(function() {
-      $("#id_image2").val("");
-      $("#picture_2").hide();
-      $('#show_2').show();
+    $('#id_image2').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img2').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image3').click(function() {
-      $("#id_image3").val("");
-      $("#picture_3").hide();
-      $('#show_3').show();
+    $('#id_image3').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img3').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image4').click(function() {
-      $("#id_image4").val("");
-      $("#picture_4").hide();
-      $('#show_4').show();
+    $('#id_image4').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img4').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image5').click(function() {
-      $("#id_image5").val("");
-      $("#picture_5").hide();
-      //This needs to show the plus sign above it which is plus sign for show_5
-      $('#show_5').show()
+    $('#id_image5').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img5').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
-  // -- endblock -----
+
+
   //this function deletes an item from the wishlist on the profile
   $(function() {
     $('.delete_from_wishlist').click(function() {
