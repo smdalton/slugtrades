@@ -1078,7 +1078,7 @@ margin-left: 10px;
 
 .add-item-body {
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
 }
@@ -1158,8 +1158,7 @@ margin-left: 10px;
 .add-closet-photos-inner-wrapper {
   padding-top: 20px;
   display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
+  flex-direction: row;
 }
 
 .add-closet-photos-inner-wrapper:after{
@@ -1167,8 +1166,14 @@ margin-left: 10px;
 }
 
 .add-item-picture-wrapper {
-  position: relative;
+  margin:0 5px;
+}
+
+.add-item-picture-inner-wrapper {
+  height: 130px;
+  width: 130px;
   display: inline-block;
+  position: relative;
 }
 
 .add-item-picture-wrapper .close:before {
@@ -1181,9 +1186,17 @@ margin-left: 10px;
   cursor: pointer;
 }
 
-.add-closet-photos-inner-wrapper img {
+.add-item-picture-inner-wrapper img {
+  max-height: 100%;
+  max-width: 85%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: auto;
-  display: block;
 }
 
 .add-closet-photos-inner-wrapper input[type=file] {
@@ -1191,13 +1204,17 @@ margin-left: 10px;
 }
 
 .add-closet-item-img {
-  width: 90px;
+  max-width: 90px;
+  max-height: 90px;
+}
+
+#add_picture {
+  cursor: pointer;
 }
 
 .add-closet-item-choose-photo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  margin: auto;
   text-decoration: none;
   border-radius: 5px;
   font-weight: 900;
@@ -1207,11 +1224,19 @@ margin-left: 10px;
   height: 40px;
   width: 110px;
   border: 1px solid #333;
+  position: relative;
+  top: 115px;
 }
 
 .add-closet-item-choose-photo:hover{
   background: #333;
   color: #fff;
+}
+
+#add-closet-add-photo {
+  position: relative;
+  top: 105px;
+  text-align: center;
 }
 
 .add-item-price {

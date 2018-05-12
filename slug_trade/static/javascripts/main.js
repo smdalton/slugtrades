@@ -6,7 +6,42 @@ var editProfileFormTouched = function(first_name, last_name, bio, on_off_campus,
     ($('#id_on_off_campus').val() != on_off_campus) ||
     ($('#id_profile_picture').val() != profile_picture)
   )
+};
+
+var countHiddenPhotos = function() {
+  var num_photos = 5;
+  var id = '#picture';
+  var count = 0;
+  for(var i=1; i<=num_photos; i++) {
+    var current_id = id+i;
+    if($(current_id).css('display') == 'none') {
+      count++;
+    }
+  }
+  return count;
+};
+
+var canAddPhoto = function() {
+  var num_photos = 5;
+  var id = '#picture';
+  console.log('here');
+  for(var i=num_photos; i>=1; i--) {
+    var current_id = id+i;
+    if($(current_id).css('display') == 'block') {
+      console.log($('#image'+i).val());
+      return $('#image'+i).val() != '';
+    }
+  }
 }
+
+var showAddPhotoButton = function() {
+  console.log(canAddPhoto());
+  if(countHiddenPhotos() > 0) {
+    $('#add_picture').css('display', 'block');
+  }
+};
+
+var add_closet_item_image = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
 
 $(document).ready(function() {
   // show drop links on hover
@@ -173,6 +208,69 @@ $(document).ready(function() {
     });
   });
 
+  $(function() {
+    $('#close_img1').click(function() {
+      $('#add_closet_img1').attr('src', add_closet_item_image);
+      $('#id_image1').val('');
+      if(countHiddenPhotos() < 4) {
+        $('#picture1').css('display', 'none');
+        showAddPhotoButton();
+      }
+    });
+  });
+
+  $(function() {
+    $('#close_img2').click(function() {
+      $('#add_closet_img2').attr('src', add_closet_item_image);
+      $('#id_image2').val('');
+      $('#picture2').css('display', 'none');
+      showAddPhotoButton();
+    });
+  });
+
+  $(function() {
+    $('#close_img3').click(function() {
+      $('#add_closet_img3').attr('src', add_closet_item_image);
+      $('#id_image3').val('');
+      $('#picture3').css('display', 'none');
+      showAddPhotoButton();
+    });
+  });
+
+  $(function() {
+    $('#close_img4').click(function() {
+      $('#add_closet_img4').attr('src', add_closet_item_image);
+      $('#id_image4').val('');
+      $('#picture4').css('display', 'none');
+      showAddPhotoButton();
+    });
+  });
+
+  $(function() {
+    $('#close_img5').click(function() {
+      $('#add_closet_img5').attr('src', add_closet_item_image);
+      $('#id_image5').val('');
+      $('#picture5').css('display', 'none');
+      showAddPhotoButton();
+    });
+  });
+
+  $(function() {
+    $('#add_photo_img').click(function() {
+      var id = '#picture';
+      var num_photos = 5;
+      for(var i=1; i<=num_photos; i++) {
+        var current_id = id+i;
+        if($(current_id).css('display') == 'none') {
+          $(current_id).css('display', 'block');
+          break;
+        }
+      }
+      if(countHiddenPhotos() == 0) {
+        $('#add_picture').css('display', 'none');
+      }
+    });
+  });
 
   //this function deletes an item from the wishlist on the profile
   $(function() {
