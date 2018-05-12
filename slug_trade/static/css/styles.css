@@ -1229,13 +1229,13 @@ margin-left: 10px;
   color: #F2CE60;
 }
 
-.closet-item-wrapper{
+.closet-item-wrapper {
   display: grid;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
   grid-gap: 15px;
   width: 100%;
   margin-top: 50px;
-
+}
 /******** Add Closet Item *********/
 
 .add-item-wrapper {
