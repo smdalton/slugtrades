@@ -1067,6 +1067,175 @@ margin-left: 10px;
   text-decoration: underline;
 }
 
+
+/******** Profile *********/
+
+.profile-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 75px;
+  padding-bottom: 75px;
+  background-color: #f2f2f2;
+}
+
+.profile-body{
+  width: 100%;
+  max-width: 700px;
+  background: #fff;
+  padding: 100px 50px;
+  border-radius: 20px;
+}
+
+.profile-info-wrapper{
+  padding: 10px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.profile-info-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 200px;
+  overflow: hidden;
+  width: 200px;
+  height: 200px;
+}
+
+.profile-info-image-wrapper img {
+  border-radius: 200px;
+}
+
+.profile-info-content-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin-left: 40px;
+}
+
+.profile-info-name-wrapper, .profile-info-location-wrapper, .profile-info-bio-wrapper{
+  margin-bottom: 10px;
+
+}
+
+.profile-info-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 24px;
+  color: #333;
+
+}
+
+.profile-info-name, .profile-info-location, .profile-info-bio {
+  font-size: 19px;
+  padding-bottom: 14px;
+  color: #5d5d5d;
+}
+
+.profile-edit-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 900;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  height: 35px;
+  width: 110px;
+  border: 1px solid #333;
+}
+
+.profile-edit-link:hover {
+  background: #333;
+  color: #fff;
+
+}
+
+.wishlist-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+}
+
+.wishlist-wrapper h2 {
+  margin: 0;
+}
+
+.wishlist-title-description {
+  font-size: 17px;
+  color: #5d5d5d;
+  margin-bottom: 20px;
+}
+
+.wishlist-input-wrapper {
+  display: flex;
+}
+
+.wishlist-input {
+  width: 100%;
+  font-size: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #d6d6d6;
+}
+
+#wishlist-button {
+  margin-top: 0;
+}
+
+.wishlist-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.wishlist-item-wrapper {
+  display: flex;
+  padding: 20px 10px;
+  border-bottom: 1px solid #d6d6d6;
+  font-size: 19px;
+  color: #333;
+  justify-content: space-between;
+}
+
+#delete-x {
+  color: tomato;
+  background: white;
+  border: none;
+  font-size: 15px;
+}
+
+.profile-closet-title-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 80px;
+  justify-content: space-between;
+}
+
+.profile-closet-title-wrapper h2 {
+  margin: 0;
+}
+
+.profile-add-item-link {
+  font-weight: 900;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+}
+
+.profile-add-item-link:hover {
+  color: #F2CE60;
+}
+
+.closet-item-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  grid-gap: 15px;
+  width: 100%;
+  margin-top: 50px;
+}
 /******** Add Closet Item *********/
 
 .add-item-wrapper {
