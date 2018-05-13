@@ -1212,6 +1212,14 @@ margin-left: 10px;
   cursor: pointer;
 }
 
+#add_picture:hover {
+  opacity: 0.6;
+}
+
+#add-closet-submit {
+  width: 100%;
+}
+
 .add-closet-item-choose-photo {
   display: block;
   margin: auto;

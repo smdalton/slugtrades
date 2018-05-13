@@ -22,28 +22,70 @@ var countHiddenPhotos = function() {
 };
 
 var canAddPhoto = function() {
-  var num_photos = 5;
-  var id = '#picture';
-  console.log('here');
-  for(var i=num_photos; i>=1; i--) {
-    var current_id = id+i;
-    if($(current_id).css('display') == 'block') {
-      console.log($('#image'+i).val());
-      return $('#image'+i).val() != '';
+  if(countHiddenPhotos() == 5) {
+    return true;
+  }
+  for(var i=closet_photos.length-1; i>=0; i--) {
+    var current_id = closet_photos[i];
+    if($('#' + current_id).css('display') == 'block') {
+      var image = $('#' + closet_files[i]).val();
+      return image != '';
     }
   }
 }
 
 var showAddPhotoButton = function() {
-  console.log(canAddPhoto());
   if(countHiddenPhotos() > 0) {
     $('#add_picture').css('display', 'block');
   }
 };
 
+  function swap(id1, id2) {
+    obj1 = document.getElementById(id1);
+    obj2 = document.getElementById(id2);
+    // create marker element and insert it where obj1 is
+    var temp = document.createElement("div");
+    obj1.parentNode.insertBefore(temp, obj1);
+
+    // move obj1 to right before obj2
+    obj2.parentNode.insertBefore(obj1, obj2);
+
+    // move obj2 to right before where obj1 used to be
+    temp.parentNode.insertBefore(obj2, temp);
+
+    // remove temporary marker node
+    temp.parentNode.removeChild(temp);
+
+    temp = id1;
+    var index1 = closet_photos.indexOf(id1);
+    var index2 = closet_photos.indexOf(id2)
+    closet_photos[index1] = id2;
+    closet_photos[index2] = id1;
+
+    temp = closet_files[index1];
+    closet_files[index1] = closet_files[index2];
+    closet_files[index2] = temp;
+}
+
+var shuffle = function() {
+  for(var i=0; i<closet_files.length-1; i++) {
+    curr_id = closet_files[i];
+    next_id = closet_files[i+1];
+    if($('#'+curr_id).val() == '' && $('#'+next_id).val() != '') {
+      var photo1 = closet_photos[closet_files.indexOf(curr_id)];
+      var photo2 = closet_photos[closet_files.indexOf(next_id)];
+      swap(photo1, photo2);
+    }
+  }
+}
+
 var add_closet_item_image = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
+var closet_photos = undefined;
 
 $(document).ready(function() {
+  closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
+  closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
+
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');
@@ -135,6 +177,7 @@ $(document).ready(function() {
   // ---- These are functions that handle the hiding/showing of images
   $(function() {
     $('#id_image1').change(function() {
+      console.log('1 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -150,6 +193,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image2').change(function() {
+      console.log('2 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -165,6 +209,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image3').change(function() {
+      console.log('3 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -180,6 +225,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image4').change(function() {
+      console.log('4 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -195,6 +241,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image5').change(function() {
+      console.log('5 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -210,17 +257,17 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img1').click(function() {
+      console.log('1 closed!');
       $('#add_closet_img1').attr('src', add_closet_item_image);
       $('#id_image1').val('');
-      if(countHiddenPhotos() < 4) {
-        $('#picture1').css('display', 'none');
-        showAddPhotoButton();
-      }
+      $('#picture1').css('display', 'none');
+      showAddPhotoButton();
     });
   });
 
   $(function() {
     $('#close_img2').click(function() {
+      console.log('2 closed!');
       $('#add_closet_img2').attr('src', add_closet_item_image);
       $('#id_image2').val('');
       $('#picture2').css('display', 'none');
@@ -230,6 +277,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img3').click(function() {
+      console.log('3 closed!');
       $('#add_closet_img3').attr('src', add_closet_item_image);
       $('#id_image3').val('');
       $('#picture3').css('display', 'none');
@@ -239,6 +287,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img4').click(function() {
+      console.log('4 closed!');
       $('#add_closet_img4').attr('src', add_closet_item_image);
       $('#id_image4').val('');
       $('#picture4').css('display', 'none');
@@ -248,6 +297,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img5').click(function() {
+      console.log('5 closed!');
       $('#add_closet_img5').attr('src', add_closet_item_image);
       $('#id_image5').val('');
       $('#picture5').css('display', 'none');
@@ -257,17 +307,22 @@ $(document).ready(function() {
 
   $(function() {
     $('#add_photo_img').click(function() {
-      var id = '#picture';
-      var num_photos = 5;
-      for(var i=1; i<=num_photos; i++) {
-        var current_id = id+i;
-        if($(current_id).css('display') == 'none') {
-          $(current_id).css('display', 'block');
-          break;
+      if(canAddPhoto()) {
+        var id = '#picture';
+        var num_photos = 5;
+        for(var i=1; i<=num_photos; i++) {
+          var current_id = id+i;
+          if($(current_id).css('display') == 'none') {
+            $(current_id).css('display', 'block');
+            break;
+          }
         }
-      }
-      if(countHiddenPhotos() == 0) {
-        $('#add_picture').css('display', 'none');
+        if(countHiddenPhotos() == 0) {
+          $('#add_picture').css('display', 'none');
+        }
+        shuffle();
+      } else {
+        alert('You must choose a photo first.');
       }
     });
   });
