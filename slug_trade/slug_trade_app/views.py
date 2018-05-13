@@ -93,7 +93,7 @@ def transaction(request, item_id):
     """
     Primary purpose is to place an offer from the current user
     consisting of one or more items from their inventory ONTO
-    another item that is owned by a different user
+    another item (described by item_id) that is owned by a different user
     :param request: req. obj
     :param item_id: describes the item that is currently being offered/bid on
     :return: redirects user to an arbitrary page after they complete the offer, sends
@@ -105,7 +105,6 @@ def transaction(request, item_id):
 def public_profile_inspect(request, user_id):
 
     """
-
         :param request: http request obj
         :param user_id: database key for specific user to load details about
         REQUIREMENTS: user_id exists in the database and it corresponds correctly
