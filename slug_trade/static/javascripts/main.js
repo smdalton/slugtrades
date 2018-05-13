@@ -8,6 +8,12 @@ var editProfileFormTouched = function(first_name, last_name, bio, on_off_campus,
   )
 };
 
+// add closet items helper functions and variables
+
+var add_closet_item_image = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
+var closet_photos = undefined;
+var closet_files = undefined;
+
 var countHiddenPhotos = function() {
   var num_photos = 5;
   var id = '#picture';
@@ -53,33 +59,36 @@ var showAddPhotoButton = function() {
   }
 };
 
-  function swap(id1, id2) {
-    obj1 = document.getElementById(id1);
-    obj2 = document.getElementById(id2);
-    // create marker element and insert it where obj1 is
-    var temp = document.createElement("div");
-    obj1.parentNode.insertBefore(temp, obj1);
-
-    // move obj1 to right before obj2
-    obj2.parentNode.insertBefore(obj1, obj2);
-
-    // move obj2 to right before where obj1 used to be
-    temp.parentNode.insertBefore(obj2, temp);
-
-    // remove temporary marker node
-    temp.parentNode.removeChild(temp);
-
-    temp = id1;
-    var index1 = closet_photos.indexOf(id1);
-    var index2 = closet_photos.indexOf(id2)
-    closet_photos[index1] = id2;
-    closet_photos[index2] = id1;
-
-    temp = closet_files[index1];
-    closet_files[index1] = closet_files[index2];
-    closet_files[index2] = temp;
+var swapArrayElements = function(arr, index1, index2) {
+  var temp = arr[index1];
+  arr[index1] = arr[index2];
+  arr[index2] = temp;
 }
 
+var swapDivElements = function(id1, id2) {
+  obj1 = document.getElementById(id1);
+  obj2 = document.getElementById(id2);
+  // create marker element and insert it where obj1 is
+  var temp = document.createElement("div");
+  obj1.parentNode.insertBefore(temp, obj1);
+
+  // move obj1 to right before obj2
+  obj2.parentNode.insertBefore(obj1, obj2);
+
+  // move obj2 to right before where obj1 used to be
+  temp.parentNode.insertBefore(obj2, temp);
+
+  // remove temporary marker node
+  temp.parentNode.removeChild(temp);
+
+  var index1 = closet_photos.indexOf(id1);
+  var index2 = closet_photos.indexOf(id2)
+  swapArrayElements(closet_photos, index1, index2);
+  swapArrayElements(closet_files, index1, index2);
+}
+
+// function moves any unselected photos to the back of the container, so that
+// the user is always entering photos at the back of the list
 var shuffle = function() {
   for(var i=0; i<closet_files.length-1; i++) {
     curr_id = closet_files[i];
@@ -87,18 +96,12 @@ var shuffle = function() {
     if($('#'+curr_id).val() == '' && $('#'+next_id).val() != '') {
       var photo1 = closet_photos[closet_files.indexOf(curr_id)];
       var photo2 = closet_photos[closet_files.indexOf(next_id)];
-      swap(photo1, photo2);
+      swapDivElements(photo1, photo2);
     }
   }
 }
 
-var add_closet_item_image = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
-var closet_photos = undefined;
-
 $(document).ready(function() {
-  closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
-  closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
-
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');
@@ -187,7 +190,12 @@ $(document).ready(function() {
 
 });
 
-  // ---- These are functions that handle the hiding/showing of images
+  // --- ADD CLOSET ITEM EVENTS --------------------------------------------------------------------------
+
+  // ---- These functions show photo previews in add closet itm
+  closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
+  closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
+
   $(function() {
     $('#id_image1').change(function() {
       console.log('1 changed!');
@@ -268,6 +276,8 @@ $(document).ready(function() {
     });
   });
 
+  //---- These functions handle the logic when you click an x on the photos
+
   $(function() {
     $('#close_img1').click(function() {
       console.log('1 closed!');
@@ -318,6 +328,8 @@ $(document).ready(function() {
     });
   });
 
+  // ---- This function handles the logic when you click add photo
+
   $(function() {
     $('#add_photo_img').click(function() {
       if(canAddPhoto()) {
@@ -340,6 +352,7 @@ $(document).ready(function() {
     });
   });
 
+  // -- Validation for add closet item form
   $(function() {
     $('#add-closet-submit').click(function() {
       if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
@@ -348,7 +361,10 @@ $(document).ready(function() {
     });
   });
 
+// ------------------ END OF ADD ADD CLOSET ITEM FUNCTIONS --------------------
   //this function deletes an item from the wishlist on the profile
+
+  // ---------------- WISHLIST FUNCTIONS ------------------------------------
   $(function() {
     $('.delete_from_wishlist').click(function() {
       let id = $(this).val();
@@ -369,6 +385,8 @@ $(document).ready(function() {
     $('#wishlist_item_description').focus();
   }
 });
+
+// --------------- END OF WISHLIST FUNCTIONS ------------------------
 
 //Smooth scrolling on steps
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
