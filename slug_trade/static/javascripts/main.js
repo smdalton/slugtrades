@@ -21,6 +21,19 @@ var countHiddenPhotos = function() {
   return count;
 };
 
+var countSelectedPhotos = function() {
+  var num_photos = 5;
+  var id = '#id_image';
+  var count = 0;
+  for(var i=1; i<=num_photos; i++) {
+    var current_id = id+i;
+    if($(current_id).val() != '') {
+      count++;
+    }
+  }
+  return count;
+};
+
 var canAddPhoto = function() {
   if(countHiddenPhotos() == 5) {
     return true;
@@ -323,6 +336,14 @@ $(document).ready(function() {
         shuffle();
       } else {
         alert('You must choose a photo first.');
+      }
+    });
+  });
+
+  $(function() {
+    $('#add-closet-submit').click(function() {
+      if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
+        alert('You must add a photo!');
       }
     });
   });
