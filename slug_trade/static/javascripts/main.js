@@ -198,7 +198,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image1').change(function() {
-      console.log('1 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -214,7 +213,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image2').change(function() {
-      console.log('2 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -230,7 +228,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image3').change(function() {
-      console.log('3 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -246,7 +243,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image4').change(function() {
-      console.log('4 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -262,7 +258,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#id_image5').change(function() {
-      console.log('5 changed!');
       var input = this;
       var url = $(this).val();
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -280,7 +275,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img1').click(function() {
-      console.log('1 closed!');
       $('#add_closet_img1').attr('src', add_closet_item_image);
       $('#id_image1').val('');
       $('#picture1').css('display', 'none');
@@ -290,7 +284,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img2').click(function() {
-      console.log('2 closed!');
       $('#add_closet_img2').attr('src', add_closet_item_image);
       $('#id_image2').val('');
       $('#picture2').css('display', 'none');
@@ -300,7 +293,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img3').click(function() {
-      console.log('3 closed!');
       $('#add_closet_img3').attr('src', add_closet_item_image);
       $('#id_image3').val('');
       $('#picture3').css('display', 'none');
@@ -310,7 +302,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img4').click(function() {
-      console.log('4 closed!');
       $('#add_closet_img4').attr('src', add_closet_item_image);
       $('#id_image4').val('');
       $('#picture4').css('display', 'none');
@@ -320,7 +311,6 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img5').click(function() {
-      console.log('5 closed!');
       $('#add_closet_img5').attr('src', add_closet_item_image);
       $('#id_image5').val('');
       $('#picture5').css('display', 'none');
@@ -331,7 +321,7 @@ $(document).ready(function() {
   // ---- This function handles the logic when you click add photo
 
   $(function() {
-    $('#add_photo_img').click(function() {
+    $('#add_picture').click(function() {
       if(canAddPhoto()) {
         var id = '#picture';
         var num_photos = 5;
