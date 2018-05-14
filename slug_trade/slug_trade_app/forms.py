@@ -63,7 +63,7 @@ class ClosetItemPhotos(forms.Form):
     image5 = forms.FileField(required=False)
     def __init__(self, *args, **kwargs):
         super(ClosetItemPhotos, self).__init__(*args, **kwargs)
-        self.fields['image1'].widget.attrs.update({'required': True, 'accept': 'image/*',
+        self.fields['image1'].widget.attrs.update({'accept': 'image/*',
                                                    'class': 'add-closet-wrapper-input'})
         self.fields['image2'].widget.attrs.update({'accept': 'image/*',
                                                    'class': 'add-closet-wrapper-input'})

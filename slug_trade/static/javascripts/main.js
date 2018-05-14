@@ -195,7 +195,11 @@ $(document).ready(function() {
   // ---- These functions show photo previews in add closet itm
   closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
   closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
-
+  $('#id_image1').attr('novalidate', 'novalidate');
+  $('#id_image2').attr('novalidate', 'novalidate');
+  $('#id_image3').attr('novalidate', 'novalidate');
+  $('#id_image4').attr('novalidate', 'novalidate');
+  $('#id_image5').attr('novalidate', 'novalidate');
   $(function() {
     $('#id_image1').change(function() {
       var input = this;
@@ -323,6 +327,7 @@ $(document).ready(function() {
   $(function() {
     $('#add_picture').click(function() {
       if(canAddPhoto()) {
+        shuffle();
         var id = '#picture';
         var num_photos = 5;
         for(var i=1; i<=num_photos; i++) {
@@ -335,7 +340,6 @@ $(document).ready(function() {
         if(countHiddenPhotos() == 0) {
           $('#add_picture').css('display', 'none');
         }
-        shuffle();
       } else {
         alert('You must choose a photo first.');
       }
@@ -344,9 +348,10 @@ $(document).ready(function() {
 
   // -- Validation for add closet item form
   $(function() {
-    $('#add-closet-submit').click(function() {
+    $('#add-closet-submit').click(function(event) {
       if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
         alert('You must add a photo!');
+        event.preventDefault();
       }
     });
   });
