@@ -195,11 +195,7 @@ $(document).ready(function() {
   // ---- These functions show photo previews in add closet itm
   closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
   closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
-  $('#id_image1').attr('novalidate', 'novalidate');
-  $('#id_image2').attr('novalidate', 'novalidate');
-  $('#id_image3').attr('novalidate', 'novalidate');
-  $('#id_image4').attr('novalidate', 'novalidate');
-  $('#id_image5').attr('novalidate', 'novalidate');
+
   $(function() {
     $('#id_image1').change(function() {
       var input = this;
@@ -283,6 +279,7 @@ $(document).ready(function() {
       $('#id_image1').val('');
       $('#picture1').css('display', 'none');
       showAddPhotoButton();
+      shuffle();
     });
   });
 
@@ -292,6 +289,7 @@ $(document).ready(function() {
       $('#id_image2').val('');
       $('#picture2').css('display', 'none');
       showAddPhotoButton();
+      shuffle();
     });
   });
 
@@ -301,6 +299,7 @@ $(document).ready(function() {
       $('#id_image3').val('');
       $('#picture3').css('display', 'none');
       showAddPhotoButton();
+      shuffle();
     });
   });
 
@@ -310,6 +309,7 @@ $(document).ready(function() {
       $('#id_image4').val('');
       $('#picture4').css('display', 'none');
       showAddPhotoButton();
+      shuffle();
     });
   });
 
@@ -319,6 +319,7 @@ $(document).ready(function() {
       $('#id_image5').val('');
       $('#picture5').css('display', 'none');
       showAddPhotoButton();
+      shuffle();
     });
   });
 
