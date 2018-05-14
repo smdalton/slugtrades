@@ -1174,3 +1174,21 @@ margin-left: 10px;
 #picture_2, #picture_3, #picture_4, #picture_5 {
   display: none;
 }
+
+
+/* Item Details Page */
+
+.item-details-container {
+ display: flex;
+  justify-content: center;
+  align-content: center;
+
+}
+
+.item-details-wrapper {
+  width: 500px;
+}
+
+.item-details-inner-wrapper{
+
+}

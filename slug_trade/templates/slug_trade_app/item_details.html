@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
 
-</body>
-</html>
+<title>Item Details</title>
+
+{% block body_block %}
+<div class="item-details-container">
+    <div class="item-details-wrapper">
+        <h2>Onwer: {{inspect_item.user}}</h2>
+        <h2>Item Name: {{inspect_item.name}}</h2>
+        <h2>Price: {{inspect_item.price}}</h2>
+        <h2>Category: {{inspect_item.category}}</h2>
+        <h2>Trade options:{{inspect_item.trade_options}}</h2>
+        <h2>Views: {{inspect_item.bid_counter}}</h2>
+        <h2>Description: {{inspect_item.description}}</h2>
+    </div>
+</div>
+{% endblock %}

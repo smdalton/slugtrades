@@ -86,6 +86,11 @@ def item_details(request, item_id):
     :return: a template with detailed information on the item with item_id, and the ability
     to continue further in the transaction process of trading
     """
+    #Get the item with specified item id to load it's details
+
+    #render the details into a useful dictionary object
+
+
     return HttpResponse(f"Item clicked with id={item_id}")
 
 
@@ -99,7 +104,20 @@ def transaction(request, item_id):
     :return: redirects user to an arbitrary page after they complete the offer, sends
     the completed offer to an as-of-yet undetermined endpoint to process the offer.
     """
-    return HttpResponse(f"Inititating transaction on item id={item_id}")
+    # load the item assosciated with item_id
+    bid_item = models.Item.objects.get(id=item_id)
+    # filter out all images that have a foreign key to the item we just found
+    item_images = models.ItemImage.objects.get(item=item_id).get_image_list()
+    # load the currently logged in users items
+
+    print(item_images)
+    # assembled the users items into a useful dictionary object
+
+    # send that dictionary object to the template for rendering
+
+    return render(request, 'slug_trade_app/item_details.html', {'inspect_item': bid_item,
+                                                                'item_photos': item_images
+                                                                })
 
 
 def public_profile_inspect(request, user_id):
