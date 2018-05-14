@@ -329,13 +329,11 @@ $(document).ready(function() {
     $('#add_picture').click(function() {
       if(canAddPhoto()) {
         shuffle();
-        var id = '#picture';
-        var num_photos = 5;
-        for(var i=1; i<=num_photos; i++) {
-          var current_id = id+i;
+        for(var i=0; i<closet_photos.length; i++) {
+          var current_id = '#'+closet_photos[i];
           if($(current_id).css('display') == 'none') {
             $(current_id).css('display', 'block');
-            $('#id_image'+i).trigger('click');
+            $('#'+closet_files[i]).trigger('click');
             break;
           }
         }
