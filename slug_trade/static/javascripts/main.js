@@ -334,6 +334,7 @@ $(document).ready(function() {
           var current_id = id+i;
           if($(current_id).css('display') == 'none') {
             $(current_id).css('display', 'block');
+            $('#id_image'+i).trigger('click');
             break;
           }
         }
