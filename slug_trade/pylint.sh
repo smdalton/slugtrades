@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" == "" ]; then
-    echo "usage: pylint <file>"
+    echo "usage: pylint <path/to/file>"
     exit 1
 fi
 
