@@ -266,6 +266,67 @@ def add_closet_item(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
+def edit_closet_item(request):
+    if request.method == 'POST':
+        item_images_instance = ItemImage.objects.get(id=request.POST.get('id', None))
+        item_instance = item_images_instance.item
+
+        form = ClosetItem(request.POST, instance=item_instance)
+        photos = ClosetItemPhotos(request.POST, request.FILES, instance=item_images_instance)
+
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.user = request.user
+            if item.price < 0:
+                item.price = 0
+            form.save()
+
+            if photos.is_valid():
+                pics = []
+                files = request.FILES
+
+                if files.get('image1', False): pics.append(files['image1'])
+                if files.get('image2', False): pics.append(files['image2'])
+                if files.get('image3', False): pics.append(files['image3'])
+                if files.get('image4', False): pics.append(files['image4'])
+                if files.get('image5', False): pics.append(files['image5'])
+
+                update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+                if len(pics) == 1:
+                    update.image1 = pics[0]
+                elif len(pics) == 2:
+                    update.image1 = pics[0]
+                    update.image2 = pics[1]
+                elif len(pics) == 3:
+                    update.image1 = pics[0]
+                    update.image2 = pics[1]
+                    update.image3 = pics[2]
+                elif len(pics) == 4:
+                    update.image1 = pics[0]
+                    update.image2 = pics[1]
+                    update.image3 = pics[2]
+                    update.image4 = pics[4]
+                elif len(pics) == 5:
+                    update.image1 = pics[0]
+                    update.image2 = pics[1]
+                    update.image3 = pics[2]
+                    update.image4 = pics[4]
+                    update.image5 = pics[5]
+
+                update.save()
+
+        return redirect('/profile')
+
+    else:
+        if request.user.is_authenticated():
+            item = Item.objects.get(id=request.GET.get('id', None))
+            item_images = ItemImage.objects.get(item=item)
+            form = ClosetItem(instance=item)
+            photos = ClosetItemPhotos(instance=item_images)
+            return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id})
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
 
 def signup(request):
 
