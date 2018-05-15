@@ -59,41 +59,64 @@
 
             <div class="add-item-subtitle">Item Images</div>
 
-              <div class="add-item-picture-wrapper" id="picture1">
-                  {{ photos.image1 }}
-                  <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image1">X</h4>
+              <div class="add-closet-photos-inner-wrapper">
+                <div class="add-item-picture-wrapper" id="picture1" style="display: none;">
+                  <div class="add-item-picture-inner-wrapper">
+                    <img id="add_closet_img1" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                    {{ photos.image1 }}
+                    <span id="close_img1" class="close"></span>
+                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image1').click();">Choose Photo</button>
+                  </div>
+                </div>
+
+                <div class="add-item-picture-wrapper" id="picture2" style="display: none;">
+                  <div class="add-item-picture-inner-wrapper">
+                    <img id="add_closet_img2" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                    {{ photos.image2 }}
+                    <span id="close_img2" class="close"></span>
+                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image2').click();">Choose Photo</button>
+                  </div>
+                </div>
+
+                <div class="add-item-picture-wrapper" id="picture3" style="display: none;">
+                  <div class="add-item-picture-inner-wrapper">
+                    <img id="add_closet_img3" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                    {{ photos.image3 }}
+                    <span id="close_img3" class="close"></span>
+                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image3').click();">Choose Photo</button>
+                  </div>
+                </div>
+
+                <div class="add-item-picture-wrapper" id="picture4" style="display: none;">
+                  <div class="add-item-picture-inner-wrapper">
+                    <img id="add_closet_img4" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                    {{ photos.image4 }}
+                    <span id="close_img4" class="close"></span>
+                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image4').click();">Choose Photo</button>
+                  </div>
+                </div>
+
+                <div class="add-item-picture-wrapper" id="picture5" style="display: none;">
+                  <div class="add-item-picture-inner-wrapper">
+                    <img id="add_closet_img5" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                    {{ photos.image5 }}
+                    <span id="close_img5" class="close"></span>
+                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image5').click();">Choose Photo</button>
+                  </div>
+                </div>
+
+                <div class="add-item-picture-wrapper" id="add_picture" style="display: block">
+                  <div class="add-item-picture-inner-wrapper">
+                    <img id="add_photo_img" class="add-closet-item-img" src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Add-icon.png"><br>
+                    <h4 id="add-closet-add-photo">Add Photo</h4>
+                  </div>
+                </div>
               </div>
-
-              <div class="add-item-picture-wrapper" id="picture_2">
-                  {{ photos.image2 }}
-                  <h4 class="add-closet-remove-photo" id="clear_image2">X</h4>
-              </div>
-
-
-              <div class="add-item-picture-wrapper" id="picture_3">
-                  {{ photos.image3 }}
-                  <h4 type="button" class="add-closet-remove-photo" id="clear_image3">X</h4>
-              </div>
-
-
-              <div class="add-item-picture-wrapper" id="picture_4">
-                  {{ photos.image4 }}
-                  <h4 type="button" class="add-closet-remove-photo" id="clear_image4">X</h4>
-              </div>
-
-
-              <div class="add-item-picture-wrapper" id="picture_5">
-                  {{ photos.image5 }}
-                  <h4 type="button" class="add-closet-remove-photo" style="display: inline" id="clear_image5">X</h4>
-              </div>
-
-              <h2 id="show_2" style="display:inline; text-decoration: none">+</h2>
-              <h2 id="show_3" style="display:inline; text-decoration: none">+</h2>
-              <h2 id="show_4" style="display:inline; text-decoration: none">+</h2>
-              <h2 id="show_5" style="display:inline; text-decoration: none">+</h2>
               <br>
               <br>
-              <input type="submit" name="" value="Save">
+              <br>
+              <br>
+              <input id="add-closet-submit" type="submit" name="" value="Add Item">
             </div>
 
         </div>

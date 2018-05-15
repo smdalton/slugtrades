@@ -196,10 +196,46 @@ def edit_profile(request):
 def add_closet_item(request):
     if request.method == 'POST':
         form = ClosetItem(request.POST)
-        photos = ClosetItemPhotos(request.POST, request.FILES)
+
+        pics = []
+        files = request.FILES
+
+        if files.get('image1', False): pics.append(files['image1'])
+        if files.get('image2', False): pics.append(files['image2'])
+        if files.get('image3', False): pics.append(files['image3'])
+        if files.get('image4', False): pics.append(files['image4'])
+        if files.get('image5', False): pics.append(files['image5'])
+
+        image1 = pics.pop(0)
+
+        if len(pics) >= 1:
+            image2 = pics.pop(0);
+        else:
+            image2 = None
+        if len(pics) >= 1:
+            image3 = pics.pop(0);
+        else:
+            image3 = None
+        if len(pics) >= 1:
+            image4 = pics.pop(0);
+        else:
+            image4 = None
+        if len(pics) >= 1:
+            image5 = pics.pop(0);
+        else:
+            image5 = None
+
+        photos_data = {
+            'image1': image1,
+            'image2': image2,
+            'image3': image3,
+            'image4': image4,
+            'image5': image5
+        }
+
+        photos = ClosetItemPhotos(request.POST, photos_data)
 
         if form.is_valid():
-            print('form is valid')
             item = form.save(commit=False)
             item.user = request.user
             if item.price < 0:
@@ -207,53 +243,14 @@ def add_closet_item(request):
             form.save()
 
             if photos.is_valid():
-                print('photos. is valid!')
-
-                pics = []
-                files = request.FILES
-
-                if files.get('image1', False): pics.append(files['image1'])
-                if files.get('image2', False): pics.append(files['image2'])
-                if files.get('image3', False): pics.append(files['image3'])
-                if files.get('image4', False): pics.append(files['image4'])
-                if files.get('image5', False): pics.append(files['image5'])
-
-                if len(pics) == 1:
-                    insert = ItemImage(
-                        item=item,
-                        image1=pics[0]
-                    )
-                elif len(pics) == 2:
-                    insert = ItemImage(
-                        item=item,
-                        image1=pics[0],
-                        image2=pics[1]
-                    )
-                elif len(pics) == 3:
-                    insert = ItemImage(
-                        item=item,
-                        image1=pics[0],
-                        image2=pics[1],
-                        image3=pics[2]
-                    )
-                elif len(pics) == 4:
-                    insert = ItemImage(
-                        item=item,
-                        image1=pics[0],
-                        image2=pics[1],
-                        image3=pics[2],
-                        image4=pics[3]
-                    )
-                elif len(pics) == 5:
-                    insert = ItemImage(
-                        item=item,
-                        image1=pics[0],
-                        image2=pics[1],
-                        image3=pics[2],
-                        image4=pics[3],
-                        image5=pics[4]
-                    )
-
+                insert = ItemImage(
+                    item = item,
+                    image1 = image1,
+                    image2 = image2,
+                    image3 = image3,
+                    image4 = image4,
+                    image5 = image5
+                )
                 insert.save()
 
         return redirect('/profile')
