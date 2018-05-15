@@ -236,7 +236,6 @@ def add_closet_item(request):
         photos = ClosetItemPhotos(request.POST, photos_data)
 
         if form.is_valid():
-            print('form is valid!')
             item = form.save(commit=False)
             item.user = request.user
             if item.price < 0:
@@ -244,7 +243,6 @@ def add_closet_item(request):
             form.save()
 
             if photos.is_valid():
-                print('photos is valid!')
                 insert = ItemImage(
                     item = item,
                     image1 = image1,
