@@ -20,6 +20,11 @@ class UserModelForm(forms.ModelForm):
             'last_name'
         )
 
+class TransactionForm(forms.Form):
+    selections = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+    )
+
 
 class ProfilePictureForm(forms.Form):
     file = forms.FileField()

@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 
 from .models import UserProfile
-from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
+from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm, TransactionForm
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
 from slug_trade_app.models import UserProfile
@@ -67,7 +67,7 @@ def products(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
-# debug route
+
 def show_users(request):
     users = User.objects.all()
 
@@ -107,10 +107,7 @@ def item_details(request, item_id):
                                                                 })
 
 
-
-
-
-def transaction(request, item_id):
+def transaction(request, item_id=None): # set default value for item id so it doesn't crash
     """
     Primary purpose is to place an offer from the current user
     consisting of one or more items from their inventory ONTO
@@ -122,16 +119,23 @@ def transaction(request, item_id):
     """
 
     # handle a form submission:
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated():
         print("it's a post!")
+        # handle post
+        form = TransactionForm(request.POST)
+        return HttpResponse('test')
 
-
-    # get all of the items from the users inventory and compose name, image into a dictionary
-
-
-    return render(request, 'slug_trade_app/transaction_page.html',{
-
-    })
+    else:
+    # TODO: Uncomment below for final version, commented because logging in is repetitive
+    # if  request.user.is_authenticated() and request.method == 'GET':
+        if request.method == 'GET':
+            item_list = Item.objects.filter(user__id=request.user.id)
+            sale_item = Item.objects.get(id=item_id)
+            return render(request, 'slug_trade_app/transaction_page.html',
+                          {
+                              'user_item_list': item_list,
+                              'sale_item': sale_item
+                          })
 
 
 def public_profile_inspect(request, user_id):
