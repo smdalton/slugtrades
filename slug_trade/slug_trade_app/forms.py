@@ -67,10 +67,8 @@ class ClosetItemPhotos(forms.ModelForm):
         )
     def __init__(self, *args, **kwargs):
         super(ClosetItemPhotos, self).__init__(*args, **kwargs)
-        self.fields['image1'].widget.attrs.update({'required': True, 'accept': 'image/*',
-                                                   'class': 'add-closet-wrapper-input'})
-        self.fields['image2'].widget.attrs.update({'accept': 'image/*',
-                                                   'class': 'add-closet-wrapper-input'})
+        self.fields['image1'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
+        self.fields['image2'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image3'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image4'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image5'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
