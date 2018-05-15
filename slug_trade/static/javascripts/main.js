@@ -1,10 +1,10 @@
-var editProfileFormTouched = function(first_name, last_name, bio, on_off_campus, profile_picture) {
+var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, profilePicture) {
   return (
-    ($('#id_first_name').val() != first_name) ||
-    ($('#id_last_name').val() != last_name) ||
+    ($('#id_first_name').val() != firstName) ||
+    ($('#id_last_name').val() != lastName) ||
     ($('#id_bio').val() != bio) ||
-    ($('#id_on_off_campus').val() != on_off_campus) ||
-    ($('#id_profile_picture').val() != profile_picture)
+    ($('#id_on_off_campus').val() != onOffCampus) ||
+    ($('#id_profile_picture').val() != profilePicture)
   )
 };
 
@@ -122,13 +122,13 @@ $(document).ready(function() {
   }
 
   if (location.pathname.substring(1) == "edit_profile/") {
-    let first_name = $('#id_first_name').val();
-    let last_name = $('#id_last_name').val();
+    let firstName = $('#id_first_name').val();
+    let lastName = $('#id_last_name').val();
     let bio = $('#id_bio').val();
-    let on_off_campus = $('#id_on_off_campus').val();
-    let profile_picture = $('#id_profile_picture').val();
+    let onOffCampus = $('#id_on_off_campus').val();
+    let profilePicture = $('#id_profile_picture').val();
     $(window).on("beforeunload", function() {
-      if(editProfileFormTouched(first_name, last_name, bio, on_off_campus, profile_picture)) {
+      if(editProfileFormTouched(firstName, lastName, bio, onOffCampus, profilePicture)) {
         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
       }
     });
