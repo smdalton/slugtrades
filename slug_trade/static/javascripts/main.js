@@ -10,17 +10,17 @@ var editProfileFormTouched = function(first_name, last_name, bio, on_off_campus,
 
 // add closet items helper functions and variables
 
-var add_closet_item_image = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
-var closet_photos = undefined;
-var closet_files = undefined;
+var addClosetItemDefaultImage = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
+var closetPhotos = undefined;
+var closetFiles = undefined;
 
 var countHiddenPhotos = function() {
   var num_photos = 5;
   var id = '#picture';
   var count = 0;
   for(var i=1; i<=num_photos; i++) {
-    var current_id = id+i;
-    if($(current_id).css('display') == 'none') {
+    var currentId = id+i;
+    if($(currentId).css('display') == 'none') {
       count++;
     }
   }
@@ -32,8 +32,8 @@ var countSelectedPhotos = function() {
   var id = '#id_image';
   var count = 0;
   for(var i=1; i<=num_photos; i++) {
-    var current_id = id+i;
-    if($(current_id).val() != '') {
+    var currentId = id+i;
+    if($(currentId).val() != '') {
       count++;
     }
   }
@@ -44,10 +44,10 @@ var canAddPhoto = function() {
   if(countHiddenPhotos() == 5) {
     return true;
   }
-  for(var i=closet_photos.length-1; i>=0; i--) {
-    var current_id = closet_photos[i];
-    if($('#' + current_id).css('display') == 'block') {
-      var image = $('#' + closet_files[i]).val();
+  for(var i=closetPhotos.length-1; i>=0; i--) {
+    var currentId = closetPhotos[i];
+    if($('#' + currentId).css('display') == 'block') {
+      var image = $('#' + closetFiles[i]).val();
       return image != '';
     }
   }
@@ -81,21 +81,21 @@ var swapDivElements = function(id1, id2) {
   // remove temporary marker node
   temp.parentNode.removeChild(temp);
 
-  var index1 = closet_photos.indexOf(id1);
-  var index2 = closet_photos.indexOf(id2)
-  swapArrayElements(closet_photos, index1, index2);
-  swapArrayElements(closet_files, index1, index2);
+  var index1 = closetPhotos.indexOf(id1);
+  var index2 = closetPhotos.indexOf(id2)
+  swapArrayElements(closetPhotos, index1, index2);
+  swapArrayElements(closetFiles, index1, index2);
 }
 
 // function moves any unselected photos to the back of the container, so that
 // the user is always entering photos at the back of the list
 var shuffle = function() {
-  for(var i=0; i<closet_files.length-1; i++) {
-    curr_id = closet_files[i];
-    next_id = closet_files[i+1];
+  for(var i=0; i<closetFiles.length-1; i++) {
+    curr_id = closetFiles[i];
+    next_id = closetFiles[i+1];
     if($('#'+curr_id).val() == '' && $('#'+next_id).val() != '') {
-      var photo1 = closet_photos[closet_files.indexOf(curr_id)];
-      var photo2 = closet_photos[closet_files.indexOf(next_id)];
+      var photo1 = closetPhotos[closetFiles.indexOf(curr_id)];
+      var photo2 = closetPhotos[closetFiles.indexOf(next_id)];
       swapDivElements(photo1, photo2);
     }
   }
@@ -193,8 +193,8 @@ $(document).ready(function() {
   // --- ADD CLOSET ITEM EVENTS --------------------------------------------------------------------------
 
   // ---- These functions show photo previews in add closet itm
-  closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
-  closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
+  closetPhotos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
+  closetFiles = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
 
   $(function() {
     $('#id_image1').change(function() {
@@ -275,7 +275,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img1').click(function() {
-      $('#add_closet_img1').attr('src', add_closet_item_image);
+      $('#add_closet_img1').attr('src', addClosetItemDefaultImage);
       $('#id_image1').val('');
       $('#picture1').css('display', 'none');
       showAddPhotoButton();
@@ -285,7 +285,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img2').click(function() {
-      $('#add_closet_img2').attr('src', add_closet_item_image);
+      $('#add_closet_img2').attr('src', addClosetItemDefaultImage);
       $('#id_image2').val('');
       $('#picture2').css('display', 'none');
       showAddPhotoButton();
@@ -295,7 +295,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img3').click(function() {
-      $('#add_closet_img3').attr('src', add_closet_item_image);
+      $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
       $('#id_image3').val('');
       $('#picture3').css('display', 'none');
       showAddPhotoButton();
@@ -305,7 +305,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img4').click(function() {
-      $('#add_closet_img4').attr('src', add_closet_item_image);
+      $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
       $('#id_image4').val('');
       $('#picture4').css('display', 'none');
       showAddPhotoButton();
@@ -315,7 +315,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img5').click(function() {
-      $('#add_closet_img5').attr('src', add_closet_item_image);
+      $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
       $('#id_image5').val('');
       $('#picture5').css('display', 'none');
       showAddPhotoButton();
@@ -329,11 +329,11 @@ $(document).ready(function() {
     $('#add_picture').click(function() {
       if(canAddPhoto()) {
         shuffle();
-        for(var i=0; i<closet_photos.length; i++) {
-          var current_id = '#'+closet_photos[i];
-          if($(current_id).css('display') == 'none') {
-            $(current_id).css('display', 'block');
-            $('#'+closet_files[i]).trigger('click');
+        for(var i=0; i<closetPhotos.length; i++) {
+          var currentId = '#'+closetPhotos[i];
+          if($(currentId).css('display') == 'none') {
+            $(currentId).css('display', 'block');
+            $('#'+closetFiles[i]).trigger('click');
             break;
           }
         }
