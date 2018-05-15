@@ -1180,13 +1180,41 @@ margin-left: 10px;
 
 .item-details-container {
  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
+}
+
+.item-details-photo{
+   margin: auto;
+}
+.item-details-wrapper {
+   margin: auto;
+  display:flex;
+  flex-direction: column;
+}
+
+.item-details-text{
+  margin: auto;
+  margin-top: 15px;
+}
+
+item-details-image-row-wrapper{
+  display:flex;
+  flex-direction:column;
+  margin: 15px;
 
 }
 
-.item-details-wrapper {
-  width: 500px;
+.item-details-image-row-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.item-details-image-row-image{
+  width:100px;
+  margin: auto;
+
 }
 
 .item-details-inner-wrapper{

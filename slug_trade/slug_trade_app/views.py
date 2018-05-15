@@ -90,20 +90,6 @@ def item_details(request, item_id):
 
     #render the details into a useful dictionary object
 
-
-    return HttpResponse(f"Item clicked with id={item_id}")
-
-
-def transaction(request, item_id):
-    """
-    Primary purpose is to place an offer from the current user
-    consisting of one or more items from their inventory ONTO
-    another item (described by item_id) that is owned by a different user
-    :param request: req. obj
-    :param item_id: describes the item that is currently being offered/bid on
-    :return: redirects user to an arbitrary page after they complete the offer, sends
-    the completed offer to an as-of-yet undetermined endpoint to process the offer.
-    """
     # load the item assosciated with item_id
     bid_item = models.Item.objects.get(id=item_id)
     # filter out all images that have a foreign key to the item we just found
@@ -116,8 +102,36 @@ def transaction(request, item_id):
     # send that dictionary object to the template for rendering
 
     return render(request, 'slug_trade_app/item_details.html', {'inspect_item': bid_item,
-                                                                'item_photos': item_images
+                                                                'item_photos': item_images,
+                                                                'item_id': item_id
                                                                 })
+
+
+
+
+
+def transaction(request, item_id):
+    """
+    Primary purpose is to place an offer from the current user
+    consisting of one or more items from their inventory ONTO
+    another item (described by item_id) that is owned by a different user
+    :param request: req. obj
+    :param item_id: describes the item that is currently being offered/bid on
+    :return: redirects user to an arbitrary page after they complete the offer, sends
+    the completed offer to an as-of-yet undetermined endpoint to process the offer.
+    """
+
+    # handle a form submission:
+    if request.method == 'POST':
+        print("it's a post!")
+
+
+    # get all of the items from the users inventory and compose name, image into a dictionary
+
+
+    return render(request, 'slug_trade_app/transaction_page.html',{
+
+    })
 
 
 def public_profile_inspect(request, user_id):

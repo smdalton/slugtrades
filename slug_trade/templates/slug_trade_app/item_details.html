@@ -1,18 +1,31 @@
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
 
-<title>Item Details</title>
+<title>Item Details for {{inspect_item.name}}</title>
 
 {% block body_block %}
 <div class="item-details-container">
-    <div class="item-details-wrapper">
-        <h2>Onwer: {{inspect_item.user}}</h2>
-        <h2>Item Name: {{inspect_item.name}}</h2>
-        <h2>Price: {{inspect_item.price}}</h2>
-        <h2>Category: {{inspect_item.category}}</h2>
-        <h2>Trade options:{{inspect_item.trade_options}}</h2>
-        <h2>Views: {{inspect_item.bid_counter}}</h2>
-        <h2>Description: {{inspect_item.description}}</h2>
+    <div class="item-details-photo">
+        <!--Load the first item-->
+        <img src="{{item_photos.0}}" alt="">
     </div>
+    <div class="item-details-image-row-wrapper">
+        <div class=" item-details-image-row-container">
+            <span class="item-details-image-row-image">these will eventually be clickable</span>
+            {% for item_photo in item_photos%}
+            <img class="item-details-image-row-image" src="{{item_photos.0}}" alt="">
+            {% endfor %}
+        </div>
+    </div>
+    <div class="item-details-wrapper">
+        <h2 class="item-details-text">Onwer: {{inspect_item.user}}</h2>
+        <h2 class="item-details-text">Item Name: {{inspect_item.name}}</h2>
+        <h2 class="item-details-text">Price: {{inspect_item.price}}</h2>
+        <h2 class="item-details-text">Category: {{inspect_item.category}}</h2>
+        <h2 class="item-details-text">Trade options:{{inspect_item.trade_options}}</h2>
+        <h2 class="item-details-text">Views: {{inspect_item.bid_counter}}</h2>
+        <h2 class="item-details-text">Description: {{inspect_item.description}}</h2>
+    </div>
+    <a href="/transaction/{{item_id}}">Snag This item!</a>
 </div>
 {% endblock %}
