@@ -1,7 +1,6 @@
 import bengal
 
 def test_title(browser):
-    elem = browser.title
-    bengal.check_equal(elem, "Home")
+    bengal.find_element_by_class_name(browser, "nav-logo")
 
 bengal.run_test(test_title)
