@@ -17,12 +17,19 @@
 
             <div class="item-review-wrapper">
                 <div class="item-review-image-wrapper">
-                    <img src="{% static 'images/bike.jpg' %}" width="200" alt="">
+                    <img src="{{ sale_item_image }}" width="200" alt="">
                 </div>
                 <div class="item-review-info-wrapper">
-                    <div class="item-review-title review-title"><span>Item &nbsp;</span>Road Bike</div>
-                    <div class="item-review-owner review-title"><span>Owner &nbsp;</span>John Smith</div>
-                    <div class="item-review-price review-title"><span>Price &nbsp;</span>$100</div>
+                    <div class="item-review-title review-title"><span>Item &nbsp;</span>{{sale_item.name.title}}</div>
+                    <div class="item-review-owner review-title"><span>Owner &nbsp;</span><a href="/profile/{{sale_item.user.id}}">{{sale_item.user.first_name}} {{sale_item.user.last_name}}</a></div>
+
+                    {% if transaction_type == "cash" %}
+                        <div class="item-review-price review-title"><span>Price &nbsp;</span>${{sale_item.price}}</div>
+                    {% elif transaction_type == "trade" %}
+                        <div class="item-review-price review-title"><span>Trade &nbsp;</span>Make an offer</div>
+                    {% else %}
+                        <div class="item-review-price review-title">Free</div>
+                    {% endif %}
                     <!--<div class="item-review-price review-title"><span>Trade</span></div>-->
                 </div>
             </div>
@@ -32,13 +39,12 @@
 
 
 <p>
-    Item to inspect <br>
-    {{sale_item}}
+    Transaction Type <br>
+    {{transaction_type}}
+
+    {{sale_item.name}}
 </p>
-<p>
-    Your Items list <br>
-    {{user_item_list}}
-</p>
+
 
 {% endblock %}
 

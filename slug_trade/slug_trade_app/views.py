@@ -78,7 +78,7 @@ def show_users(request):
     return render(request, 'slug_trade_app/users.html', {'users': users})
 
 
-def item_details(request, item_id):
+def item_details(request, item_id=None):
     """
     primary purpose is to show user more about a specific item, and allow them to bid on it
     :param request: http request
@@ -89,6 +89,9 @@ def item_details(request, item_id):
     #Get the item with specified item id to load it's details
 
     #render the details into a useful dictionary object
+
+    if not item_id:
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
     # load the item assosciated with item_id
     bid_item = models.Item.objects.get(id=item_id)
@@ -101,11 +104,30 @@ def item_details(request, item_id):
 
     # send that dictionary object to the template for rendering
 
+    #remove spaces from trade type and makes lowercase for url. ex - Cash Only -> cash_only
+    trade_type_name = bid_item.get_trade_options_display()
+    trade_type_name = trade_type_name.replace(" ", "_").lower()
+
     return render(request, 'slug_trade_app/item_details.html', {'inspect_item': bid_item,
                                                                 'item_photos': item_images,
-                                                                'item_id': item_id
+                                                                'item_id': item_id,
+                                                                'trade_type': trade_type_name,
                                                                 })
 
+def cash_transaction(request, item_id=None):
+    sale_item = Item.objects.get(id=item_id)
+    sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+    return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'cash',
+                                                               'sale_item': sale_item,
+                                                               'sale_item_image': sale_item_image,
+                                                               })
+
+def trade_transaction(request, item_id=None):
+    item_list = Item.objects.filter(user__id=request.user.id)
+    return render(request, 'slug_trade_app/transaction.html', {'transaction_type':'trade'})
+
+def free_transaction(request, item_id=None):
+    return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free'})
 
 def transaction(request, item_id=None): # set default value for item id so it doesn't crash
     """
@@ -117,6 +139,9 @@ def transaction(request, item_id=None): # set default value for item id so it do
     :return: redirects user to an arbitrary page after they complete the offer, sends
     the completed offer to an as-of-yet undetermined endpoint to process the offer.
     """
+
+    if not item_id:
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
     # handle a form submission:
     if request.method == 'POST' and request.user.is_authenticated():
@@ -131,7 +156,7 @@ def transaction(request, item_id=None): # set default value for item id so it do
         if request.method == 'GET':
             item_list = Item.objects.filter(user__id=request.user.id)
             sale_item = Item.objects.get(id=item_id)
-            return render(request, 'slug_trade_app/transaction_page.html',
+            return render(request, 'slug_trade_app/transaction.html',
                           {
                               'user_item_list': item_list,
                               'sale_item': sale_item

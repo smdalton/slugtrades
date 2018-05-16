@@ -110,7 +110,7 @@ body {
 .nav-link:hover, .links-box-link:hover {
   cursor: pointer;
   color: #F2CE60;
-  border-bottom: 1px solid #333:
+  border-bottom: 1px solid #333;
 }
 
 .nav-logo {
@@ -790,7 +790,7 @@ input[type=submit]:hover {
 }
 
 .location-content-wrapper {
-  padding-top: 30;
+  padding-top: 30px;
   padding-bottom: 30px;
   display: flex;
   justify-content: center;
@@ -1219,4 +1219,62 @@ item-details-image-row-wrapper{
 
 .item-details-inner-wrapper{
 
+}
+
+
+/****************** Transaction *******************/
+
+.transaction-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+}
+
+.trasaction-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+}
+
+.item-review-header-title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 40px;
+  padding-bottom: 50px;
+}
+
+.item-review-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.review-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.item-review-info-wrapper {
+  padding: 10px 20px;
+  margin-left: 20px;
+}
+
+.item-review-title span, .item-review-owner span, .item-review-price span {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 22px;
+  padding: 5px 0;
+  width: 175px;
+}
+
+.item-review-owner a {
+  text-decoration: none;
+  color: #333;
+}
+
+.item-review-owner a:hover {
+  color: #F2CE60;
 }

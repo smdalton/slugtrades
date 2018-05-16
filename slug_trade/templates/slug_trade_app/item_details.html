@@ -26,6 +26,11 @@
         <h2 class="item-details-text">Views: {{inspect_item.bid_counter}}</h2>
         <h2 class="item-details-text">Description: {{inspect_item.description}}</h2>
     </div>
-    <a href="/transaction/{{item_id}}">Snag This item!</a>
+
+    <!--{% if item. %}}-->
+    <!--<a href="/transaction/trade/{{item_id}}">Snag This item!</a>-->
+    <!--{% endif%}-->
+
+    <a href="/transaction/{{trade_type}}/{{item_id}}">Snag This item!</a>
 </div>
 {% endblock %}
