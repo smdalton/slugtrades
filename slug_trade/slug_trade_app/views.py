@@ -150,7 +150,8 @@ def profile(request):
                     'item_data': items_and_images,
                     'wishlist': wishlist,
                     'show_add_button': True,
-                    'item_added': request.GET.get('item_added', False)
+                    'item_added': request.GET.get('item_added', False),
+                    'my_profile': True
                 })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
@@ -412,10 +413,13 @@ def edit_closet_item(request):
     else:
         if request.user.is_authenticated():
             item = Item.objects.get(id=request.GET.get('id', None))
-            item_images = ItemImage.objects.get(item=item)
-            form = ClosetItem(instance=item)
-            photos = ClosetItemPhotos(instance=item_images)
-            return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images})
+            if request.user == item.user:
+                item_images = ItemImage.objects.get(item=item)
+                form = ClosetItem(instance=item)
+                photos = ClosetItemPhotos(instance=item_images)
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images})
+            else:
+                return HttpResponse("You can't edit someone else's items.")
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
