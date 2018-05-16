@@ -32,8 +32,6 @@ def products(request):
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
 
-    print(categories)
-
     if request.method == 'POST':
         if request.POST['category'] == 'All':
             items_list = ItemImage.objects.all()
