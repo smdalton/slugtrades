@@ -1,10 +1,10 @@
-var editProfileFormTouched = function(first_name, last_name, bio, on_off_campus, profile_picture) {
+var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, profilePicture) {
   return (
-    ($('#id_first_name').val() != first_name) ||
-    ($('#id_last_name').val() != last_name) ||
+    ($('#id_first_name').val() != firstName) ||
+    ($('#id_last_name').val() != lastName) ||
     ($('#id_bio').val() != bio) ||
-    ($('#id_on_off_campus').val() != on_off_campus) ||
-    ($('#id_profile_picture').val() != profile_picture)
+    ($('#id_on_off_campus').val() != onOffCampus) ||
+    ($('#id_profile_picture').val() != profilePicture)
   )
 };
 
@@ -14,18 +14,18 @@ var clickItem = function(id) {
 
 // add closet items helper functions and variables
 
-var add_closet_item_image = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
-var closet_photos = undefined;
-var closet_files = undefined;
-var closet_temps = undefined;
+var addClosetItemDefaultImage = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
+var closetPhotos = undefined;
+var closetFiles = undefined;
+var closetTemps = undefined;
 
 var countHiddenPhotos = function() {
   var num_photos = 5;
   var id = '#picture';
   var count = 0;
   for(var i=1; i<=num_photos; i++) {
-    var current_id = id+i;
-    if($(current_id).css('display') == 'none') {
+    var currentId = id+i;
+    if($(currentId).css('display') == 'none') {
       count++;
     }
   }
@@ -37,8 +37,8 @@ var countSelectedPhotos = function() {
   var id = '#temp-image';
   var count = 0;
   for(var i=1; i<=num_photos; i++) {
-    var current_id = id+i;
-    if($(current_id).val() != '') {
+    var currentId = id+i;
+    if($(currentId).val() != '') {
       count++;
     }
   }
@@ -49,10 +49,10 @@ var canAddPhoto = function() {
   if(countHiddenPhotos() == 5) {
     return true;
   }
-  for(var i=closet_photos.length-1; i>=0; i--) {
-    var current_id = closet_photos[i];
-    if($('#' + current_id).css('display') == 'block') {
-      var image = $('#' + closet_temps[i]).val();
+  for(var i=closetPhotos.length-1; i>=0; i--) {
+    var currentId = closetPhotos[i];
+    if($('#' + currentId).css('display') == 'block') {
+      var image = $('#' + closetTemps[i]).val();
       return image != '';
     }
   }
@@ -86,22 +86,22 @@ var swapDivElements = function(id1, id2) {
   // remove temporary marker node
   temp.parentNode.removeChild(temp);
 
-  var index1 = closet_photos.indexOf(id1);
-  var index2 = closet_photos.indexOf(id2)
-  swapArrayElements(closet_photos, index1, index2);
-  swapArrayElements(closet_files, index1, index2);
-  swapArrayElements(closet_temps, index1, index2);
+  var index1 = closetPhotos.indexOf(id1);
+  var index2 = closetPhotos.indexOf(id2)
+  swapArrayElements(closetPhotos, index1, index2);
+  swapArrayElements(closetFiles, index1, index2);
+  swapArrayElements(closetTemps, index1, index2);
 }
 
 // function moves any unselected photos to the back of the container, so that
 // the user is always entering photos at the back of the list
 var shuffle = function() {
-  for(var i=0; i<closet_files.length-1; i++) {
-    curr_id = closet_temps[i];
-    next_id = closet_temps[i+1];
-    if($('#'+curr_id).val() == '' && $('#'+next_id).val() != '') {
-      var photo1 = closet_photos[closet_temps.indexOf(curr_id)];
-      var photo2 = closet_photos[closet_temps.indexOf(next_id)];
+  for(var i=0; i<closetFiles.length-1; i++) {
+    currId = closetTemps[i];
+    nextId = closetTemps[i+1];
+    if($('#'+currId).val() == '' && $('#'+nextId).val() != '') {
+      var photo1 = closetPhotos[closetTemps.indexOf(currId)];
+      var photo2 = closetPhotos[closetTemps.indexOf(nextId)];
       swapDivElements(photo1, photo2);
     }
   }
@@ -128,13 +128,13 @@ $(document).ready(function() {
   }
 
   if (location.pathname.substring(1) == "edit_profile/") {
-    let first_name = $('#id_first_name').val();
-    let last_name = $('#id_last_name').val();
+    let firstName = $('#id_first_name').val();
+    let lastName = $('#id_last_name').val();
     let bio = $('#id_bio').val();
-    let on_off_campus = $('#id_on_off_campus').val();
-    let profile_picture = $('#id_profile_picture').val();
+    let onOffCampus = $('#id_on_off_campus').val();
+    let profilePicture = $('#id_profile_picture').val();
     $(window).on("beforeunload", function() {
-      if(editProfileFormTouched(first_name, last_name, bio, on_off_campus, profile_picture)) {
+      if(editProfileFormTouched(firstName, lastName, bio, onOffCampus, profilePicture)) {
         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
       }
     });
@@ -199,9 +199,9 @@ $(document).ready(function() {
   // --- ADD CLOSET ITEM EVENTS --------------------------------------------------------------------------
 
   // ---- These functions show photo previews in add closet itm
-  closet_photos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
-  closet_files = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
-  closet_temps = ['temp-image1', 'temp-image2', 'temp-image3', 'temp-image4', 'temp-image5']
+  closetPhotos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
+  closetFiles = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
+  closetTemps = ['temp-image1', 'temp-image2', 'temp-image3', 'temp-image4', 'temp-image5']
 
   $(function() {
     $('#id_image1').change(function() {
@@ -287,7 +287,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img1').click(function() {
-      $('#add_closet_img1').attr('src', add_closet_item_image);
+      $('#add_closet_img1').attr('src', addClosetItemDefaultImage);
       $('#id_image1').val('');
       $('#temp-image1').val('');
       $('#picture1').css('display', 'none');
@@ -298,7 +298,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img2').click(function() {
-      $('#add_closet_img2').attr('src', add_closet_item_image);
+      $('#add_closet_img2').attr('src', addClosetItemDefaultImage);
       $('#id_image2').val('');
       $('#temp-image2').val('');
       $('#picture2').css('display', 'none');
@@ -309,7 +309,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img3').click(function() {
-      $('#add_closet_img3').attr('src', add_closet_item_image);
+      $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
       $('#id_image3').val('');
       $('#temp-image3').val('');
       $('#picture3').css('display', 'none');
@@ -320,7 +320,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img4').click(function() {
-      $('#add_closet_img4').attr('src', add_closet_item_image);
+      $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
       $('#id_image4').val('');
       $('#temp-image4').val('');
       $('#picture4').css('display', 'none');
@@ -331,7 +331,7 @@ $(document).ready(function() {
 
   $(function() {
     $('#close_img5').click(function() {
-      $('#add_closet_img5').attr('src', add_closet_item_image);
+      $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
       $('#id_image5').val('');
       $('#temp-image5').val('');
       $('#picture5').css('display', 'none');
@@ -346,11 +346,11 @@ $(document).ready(function() {
     $('#add_picture').click(function() {
       if(canAddPhoto()) {
         shuffle();
-        for(var i=0; i<closet_photos.length; i++) {
-          var current_id = '#'+closet_photos[i];
-          if($(current_id).css('display') == 'none') {
-            $(current_id).css('display', 'block');
-            $('#'+closet_files[i]).trigger('click');
+        for(var i=0; i<closetPhotos.length; i++) {
+          var currentId = '#'+closetPhotos[i];
+          if($(currentId).css('display') == 'none') {
+            $(currentId).css('display', 'block');
+            $('#'+closetFiles[i]).trigger('click');
             break;
           }
         }
