@@ -87,6 +87,10 @@ class Item(models.Model):
     def __str__(self):
         return f"name: {self.name} price:{self.price} category:{self.category}"
 
+    def all_items_by_owner(self):
+        result = []
+
+
 
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
