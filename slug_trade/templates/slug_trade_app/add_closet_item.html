@@ -16,10 +16,11 @@
           <h4>Please enter a name for the item</h4>
         {% endif %}
 
-
-
-          <div class="add-item-title">Add Closet Item</div>
-
+          {% if edit %}
+            <div class="add-item-title">Edit Item</div>
+          {% else %}
+            <div class="add-item-title">Add Item</div>
+          {% endif %}
           <div class="add-item-single-input">
           <div class="add-item-subtitle">Item Name</div>
             {{ form.name }}
@@ -58,66 +59,233 @@
           <div class="add-closet-photos-wrapper">
 
             <div class="add-item-subtitle">Item Images</div>
-
               <div class="add-closet-photos-inner-wrapper">
-                <div class="add-item-picture-wrapper" id="picture1" style="display: none;">
-                  <div class="add-item-picture-inner-wrapper">
-                    <img id="add_closet_img1" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
-                    {{ photos.image1 }}
-                    <span id="close_img1" class="close"></span>
-                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image1').click();">Choose Photo</button>
-                  </div>
-                </div>
+                {% if edit %}
+                  {% if images.image1 %}
+                    <div class="add-item-picture-wrapper" id="picture1">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img1" class="add-closet-item-img" src="{{ images.image1.url }}"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image1 }}
+                          <input type="text" id="temp-image1" name="temp-image1" value="{{ images.image1 }}">
+                        </div>
+                        <span id="close_img1" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image1').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="add-item-picture-wrapper" id="picture1" style="display: none;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img1" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image1 }}
+                          <input type="text" id="temp-image1" name="temp-image1" value="{{ images.image1 }}">
+                        </div>
+                        <span id="close_img1" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image1').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% endif %}
 
-                <div class="add-item-picture-wrapper" id="picture2" style="display: none;">
-                  <div class="add-item-picture-inner-wrapper">
-                    <img id="add_closet_img2" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
-                    {{ photos.image2 }}
-                    <span id="close_img2" class="close"></span>
-                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image2').click();">Choose Photo</button>
-                  </div>
-                </div>
+                  {% if images.image2 %}
+                    <div class="add-item-picture-wrapper" id="picture2">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img2" class="add-closet-item-img" src="{{ images.image2.url }}"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image2 }}
+                          <input type="text" id="temp-image2" name="temp-image2" value="{{ images.image2 }}">
+                        </div>
+                        <span id="close_img2" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image2').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="add-item-picture-wrapper" id="picture2" style="display: none;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img2" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image2 }}
+                          <input type="text" id="temp-image2" name="temp-image2" value="{{ images.image2 }}">
+                        </div>
+                        <span id="close_img2" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image2').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% endif %}
 
-                <div class="add-item-picture-wrapper" id="picture3" style="display: none;">
-                  <div class="add-item-picture-inner-wrapper">
-                    <img id="add_closet_img3" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
-                    {{ photos.image3 }}
-                    <span id="close_img3" class="close"></span>
-                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image3').click();">Choose Photo</button>
-                  </div>
-                </div>
+                  {% if images.image3 %}
+                    <div class="add-item-picture-wrapper" id="picture3">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img3" class="add-closet-item-img" src="{{ images.image3.url }}"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image3 }}
+                          <input type="text" id="temp-image3" name="temp-image3" value="{{ images.image3 }}">
+                        </div>
+                        <span id="close_img3" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image3').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="add-item-picture-wrapper" id="picture3" style="display: none;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img3" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image3 }}
+                          <input type="text" id="temp-image3" name="temp-image3" value="{{ images.image3 }}">
+                        </div>
+                        <span id="close_img3" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image3').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% endif %}
 
-                <div class="add-item-picture-wrapper" id="picture4" style="display: none;">
-                  <div class="add-item-picture-inner-wrapper">
-                    <img id="add_closet_img4" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
-                    {{ photos.image4 }}
-                    <span id="close_img4" class="close"></span>
-                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image4').click();">Choose Photo</button>
-                  </div>
-                </div>
+                  {% if images.image4 %}
+                    <div class="add-item-picture-wrapper" id="picture4">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img4" class="add-closet-item-img" src="{{ images.image4.url }}"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image4 }}
+                          <input type="text" id="temp-image4" name="temp-image4" value="{{ images.image4 }}">
+                        </div>
+                        <span id="close_img4" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image4').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="add-item-picture-wrapper" id="picture4" style="display: none;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img4" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image4 }}
+                          <input type="text" id="temp-image4" name="temp-image4" value="{{ images.image4 }}">
+                        </div>
+                        <span id="close_img4" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image4').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% endif %}
 
-                <div class="add-item-picture-wrapper" id="picture5" style="display: none;">
-                  <div class="add-item-picture-inner-wrapper">
-                    <img id="add_closet_img5" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
-                    {{ photos.image5 }}
-                    <span id="close_img5" class="close"></span>
-                    <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image5').click();">Choose Photo</button>
-                  </div>
-                </div>
+                  {% if images.image5 %}
+                    <div class="add-item-picture-wrapper" id="picture5">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img5" class="add-closet-item-img" src="{{ images.image5.url }}"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image5 }}
+                          <input type="text" id="temp-image5" name="temp-image5" value="{{ images.image5 }}">
+                        </div>
+                        <span id="close_img5" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image5').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="add-item-picture-wrapper" id="picture5" style="display: none;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_closet_img5" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                        <div class="closet-image-field">
+                          {{ photos.image5 }}
+                          <input type="text" id="temp-image5" name="temp-image5" value="{{ images.image5 }}">
+                        </div>
+                        <span id="close_img5" class="close"></span>
+                        <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image5').click();">Choose Photo</button>
+                      </div>
+                    </div>
+                  {% endif %}
 
-                <div class="add-item-picture-wrapper" id="add_picture" style="display: block">
-                  <div class="add-item-picture-inner-wrapper">
-                    <img id="add_photo_img" class="add-closet-item-img" src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Add-icon.png"><br>
-                    <h4 id="add-closet-add-photo">Add Photo</h4>
+                  {% if images.image1 and images.image2 and images.image3 and images.image4 and images.image5 %}
+                    <div class="add-item-picture-wrapper" id="add_picture" style="display: none;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_photo_img" class="add-closet-item-img" src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Add-icon.png"><br>
+                        <h4 id="add-closet-add-photo">Add Photo</h4>
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="add-item-picture-wrapper" id="add_picture" style="display: block;">
+                      <div class="add-item-picture-inner-wrapper">
+                        <img id="add_photo_img" class="add-closet-item-img" src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Add-icon.png"><br>
+                        <h4 id="add-closet-add-photo">Add Photo</h4>
+                      </div>
+                    </div>
+                  {% endif %}
+
+                {% else %}
+                  <div class="add-item-picture-wrapper" id="picture1" style="display: none;">
+                    <div class="add-item-picture-inner-wrapper">
+                      <img id="add_closet_img1" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                      <div class="closet-image-field">
+                        {{ photos.image1 }}
+                        <input type="text" id="temp-image1" name="temp-image1">
+                      </div>
+                      <span id="close_img1" class="close"></span>
+                      <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image1').click();">Choose Photo</button>
+                    </div>
                   </div>
-                </div>
+
+                  <div class="add-item-picture-wrapper" id="picture2" style="display: none;">
+                    <div class="add-item-picture-inner-wrapper">
+                      <img id="add_closet_img2" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                      <div class="closet-image-field">
+                        {{ photos.image2 }}
+                        <input type="text" id="temp-image2" name="temp-image2">
+                      </div>
+                      <span id="close_img2" class="close"></span>
+                      <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image2').click();">Choose Photo</button>
+                    </div>
+                  </div>
+
+                  <div class="add-item-picture-wrapper" id="picture3" style="display: none;">
+                    <div class="add-item-picture-inner-wrapper">
+                      <img id="add_closet_img3" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                      <div class="closet-image-field">
+                        {{ photos.image3 }}
+                        <input type="text" id="temp-image3" name="temp-image3">
+                      </div>
+                      <span id="close_img3" class="close"></span>
+                      <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image3').click();">Choose Photo</button>
+                    </div>
+                  </div>
+
+                  <div class="add-item-picture-wrapper" id="picture4" style="display: none;">
+                    <div class="add-item-picture-inner-wrapper">
+                      <img id="add_closet_img4" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                      <div class="closet-image-field">
+                        {{ photos.image4 }}
+                        <input type="text" id="temp-image4" name="temp-image4">
+                      </div>
+                      <span id="close_img4" class="close"></span>
+                      <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image4').click();">Choose Photo</button>
+                    </div>
+                  </div>
+
+                  <div class="add-item-picture-wrapper" id="picture5" style="display: none;">
+                    <div class="add-item-picture-inner-wrapper">
+                      <img id="add_closet_img5" class="add-closet-item-img" src="https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg"><br>
+                      <div class="closet-image-field">
+                        {{ photos.image5 }}
+                        <input type="text" id="temp-image5" name="temp-image5">
+                      </div>
+                      <span id="close_img5" class="close"></span>
+                      <button type="button" class="add-closet-item-choose-photo" onclick="document.getElementById('id_image5').click();">Choose Photo</button>
+                    </div>
+                  </div>
+
+                  <div class="add-item-picture-wrapper" id="add_picture" style="display: block">
+                    <div class="add-item-picture-inner-wrapper">
+                      <img id="add_photo_img" class="add-closet-item-img" src="http://icons.iconarchive.com/icons/iconsmind/outline/512/Add-icon.png"><br>
+                      <h4 id="add-closet-add-photo">Add Photo</h4>
+                    </div>
+                  </div>
+                {% endif %}
               </div>
               <br>
               <br>
               <br>
               <br>
               <input type="text" name="id" style="display: none" value="{{ id }}">
-              <input id="add-closet-submit" type="submit" name="" value="Add Item">
+              {% if edit %}
+                <input id="add-closet-submit" type="submit" name="" value="Save">
+              {% else %}
+                <input id="add-closet-submit" type="submit" name="" value="Add Item">
+              {% endif %}
             </div>
 
         </div>

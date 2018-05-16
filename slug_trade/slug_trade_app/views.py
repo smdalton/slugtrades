@@ -263,13 +263,46 @@ def add_closet_item(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
+def compare_and_swap_next(images, actions, image1, image2):
+    if actions[image1] == 'delete':
+        if actions[image2] != 'delete':
+            actions[image1] = actions[image2]
+            images[image1] = images[image2]
+            images[image2] = None
+            actions[image2] = 'delete'
+            return True
+    return False
+
+def shift_down(images, actions):
+
+    compare_and_swap_next(images, actions, 'image4', 'image5')
+
+    swapped = compare_and_swap_next(images, actions, 'image3', 'image4')
+    if swapped:
+        compare_and_swap_next(images, actions, 'image4', 'image5')
+
+    swapped = compare_and_swap_next(images, actions, 'image2', 'image3')
+    if swapped:
+        swapped = compare_and_swap_next(images, actions, 'image3', 'image4')
+        if swapped:
+            compare_and_swap_next(images, actions, 'image4', 'image5')
+
+    swapped = compare_and_swap_next(images, actions, 'image1', 'image2')
+    if swapped:
+        swapped = compare_and_swap_next(images, actions, 'image2', 'image3')
+        if swapped:
+            swapped = compare_and_swap_next(images, actions, 'image3', 'image4')
+            if swapped:
+                compare_and_swap_next(images, actions, 'image4', 'image5')
+
+
+
 def edit_closet_item(request):
     if request.method == 'POST':
         item_images_instance = ItemImage.objects.get(id=request.POST.get('id', None))
         item_instance = item_images_instance.item
 
         form = ClosetItem(request.POST, instance=item_instance)
-
         if form.is_valid():
             item = form.save(commit=False)
             item.user = request.user
@@ -277,35 +310,57 @@ def edit_closet_item(request):
                 item.price = 0
             form.save()
 
-            pics = []
             files = request.FILES
+            temps = request.POST
 
-            if files.get('image1', False): pics.append(files['image1'])
-            if files.get('image2', False): pics.append(files['image2'])
-            if files.get('image3', False): pics.append(files['image3'])
-            if files.get('image4', False): pics.append(files['image4'])
-            if files.get('image5', False): pics.append(files['image5'])
+            image1 = files.get('image1', '')
+            image2 = files.get('image2', '')
+            image3 = files.get('image3', '')
+            image4 = files.get('image4', '')
+            image5 = files.get('image5', '')
 
-            image1 = pics.pop(0)
+            temp1 = temps.get('temp-image1', '')
+            temp2 = temps.get('temp-image2', '')
+            temp3 = temps.get('temp-image3', '')
+            temp4 = temps.get('temp-image4', '')
+            temp5 = temps.get('temp-image5', '')
 
-            if len(pics) >= 1:
-                image2 = pics.pop(0);
+            if image1:
+                image1_action = 'update'
+            elif not image1 and not temp1:
+                image1_action = 'delete'
             else:
-                image2 = None
-            if len(pics) >= 1:
-                image3 = pics.pop(0);
-            else:
-                image3 = None
-            if len(pics) >= 1:
-                image4 = pics.pop(0);
-            else:
-                image4 = None
-            if len(pics) >= 1:
-                image5 = pics.pop(0);
-            else:
-                image5 = None
+                image1_action = 'none'
 
-            photos_data = {
+            if image2:
+                image2_action = 'update'
+            elif not image2 and not temp2:
+                image2_action = 'delete'
+            else:
+                image2_action = 'none'
+
+            if image3:
+                image3_action = 'update'
+            elif(not image3 and not temp3):
+                image3_action = 'delete'
+            else:
+                image3_action = 'none'
+
+            if image4:
+                image4_action = 'update'
+            elif(not image4 and not temp4):
+                image4_action = 'delete'
+            else:
+                image4_action = 'none'
+
+            if image5:
+                image5_action = 'update'
+            elif not image5 and not temp5:
+                image5_action = 'delete'
+            else:
+                image5_action = 'none'
+
+            images = {
                 'image1': image1,
                 'image2': image2,
                 'image3': image3,
@@ -313,16 +368,44 @@ def edit_closet_item(request):
                 'image5': image5
             }
 
-            photos = ClosetItemPhotos(request.POST, photos_data, instance=item_images_instance)
+            actions = {
+                'image1': image1_action,
+                'image2': image2_action,
+                'image3': image3_action,
+                'image4': image4_action,
+                'image5': image5_action
+            }
 
-            if photos.is_valid():
-                update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
-                update.image1 = image1
-                update.image2 = image2
-                update.image3 = image3
-                update.image4 = image4
-                update.image5 = image5
-                update.save()
+            shift_down(images, actions)
+
+            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+            if actions['image1'] == 'update':
+                update.image1 = images['image1']
+            elif actions['image1'] == 'delete':
+                update.image1 = None
+
+            if actions['image2'] == 'update':
+                update.image2 = images['image2']
+            elif actions['image2'] == 'delete':
+                update.image2 = None
+
+            if actions['image3'] == 'update':
+                update.image3 = images['image3']
+            elif actions['image3'] == 'delete':
+                update.image3 = None
+
+            if actions['image4'] == 'update':
+                update.image4 = images['image4']
+            elif actions['image4'] == 'delete':
+                update.image4 = None
+
+            if actions['image5'] == 'update':
+                update.image5 = images['image5']
+            elif actions['image5'] == 'delete':
+                update.image5 = None
+
+            update.save()
 
         return redirect('/profile')
 
@@ -332,7 +415,7 @@ def edit_closet_item(request):
             item_images = ItemImage.objects.get(item=item)
             form = ClosetItem(instance=item)
             photos = ClosetItemPhotos(instance=item_images)
-            return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id})
+            return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images})
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
