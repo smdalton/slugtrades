@@ -7,7 +7,7 @@ from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
-from slug_trade_app.models import UserProfile
+from slug_trade_app.models import UserProfile, ITEM_CATEGORIES
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -24,13 +24,16 @@ def index(request):
 
 
 def products(request):
+
     categories = [
-        { 'name': 'All', 'value': 'All' },
-        { 'name': 'Electronics', 'value': 'E' },
-        { 'name': 'Household goods', 'value': 'H' },
-        { 'name': 'Clothing', 'value': 'C' },
-        { 'name': 'Other', 'value': 'O' }
+        { 'name': 'All', 'value': 'All' }
     ]
+
+    for value, name in ITEM_CATEGORIES:
+        categories.append({ 'name': name, 'value': value})
+
+    print(categories)
+
     if request.method == 'POST':
         if request.POST['category'] == 'All':
             items_list = ItemImage.objects.all()
