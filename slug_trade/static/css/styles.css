@@ -312,9 +312,10 @@ input[type=submit]:hover {
 
 .items-horizontal-wrapper {
   padding: 40px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-gap: 20px;
+  width: 100%;
 }
 
 .items-horizontal-body {

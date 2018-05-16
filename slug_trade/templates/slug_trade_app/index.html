@@ -50,9 +50,45 @@
       <div class="items-preview-body top-padding-100">
         <div class="items-preview-title">Recent Items</div>
         <div class="items-preview-subtitle">Looking for something you haven't seen yet? Check out our latest items.</div>
+        {% if items_and_images %}
         <div class="items-horizontal-wrapper">
+        {% for item, images in items_and_images %}
 
           <div class="item-wrapper">
+              <div class="item-image-wrapper">
+                <img src="{{images.0}}" width="300" alt="">
+              </div>
+
+              <div class="item-seller-wrapper">
+                <div class="seller-title">Category: &nbsp;</div>
+                <div class="seller-name">{{item.get_category_display|title}}</div>
+              </div>
+
+              <div class="item-title">{{item.name|title}}</div>
+              <div class="item-price-wrapper">
+                {% if item.get_trade_options_display == "Cash with items on top" %}
+                  <div class="item-type-title">Trade Only</div>
+                {% else%}
+                  <div class="item-type-price">{{item.get_trade_options_display}}</div>
+                {% endif %}
+
+                {% if item.get_trade_options_display == "Cash Only" %}
+                  <div class="item-type-price">${{item.price}}</div>
+                {% elif item.get_trade_options_display == "Trade Only" %}
+                  <div class="item-type-price">Make an Offer</div>
+                {% elif item.get_trade_options_display == "Cash with items on top" %}
+                  <div class="item-type-price">Make an Offer</div>
+                {% else %}
+                  <div class="item-type-price">Free</div>
+                {% endif %}
+              </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+          <!-- <div class="item-wrapper">
             <div class="item-image-wrapper">
               <img src="{% static 'images/ps4.jpg' %}" width="300" alt="">
             </div>
@@ -111,10 +147,10 @@
               <div class="item-type-title">Free</div>
               <div class="item-type-price"></div>
             </div>
-          </div>
+          </div> -->
 
-        </div>
-      </div>
+        <!-- </div>
+      </div> -->
 
       <div class="go-to-category-wrapper">
         <a href="{% url 'slug_trade_app:products' %}"><div class="go-to-category-button">View Category</div></a>

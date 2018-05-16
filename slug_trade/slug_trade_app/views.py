@@ -17,10 +17,13 @@ debug = False
 
 
 def index(request):
-    test = "This was passed from the backend!"
+    items = Item.objects.all()[:4]
+    images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    items_and_images = zip(items,images)
+
     if debug:
         print("in index view")
-    return render(request, 'slug_trade_app/index.html',{'test':test})
+    return render(request, 'slug_trade_app/index.html',{'items_and_images':items_and_images})
 
 
 def products(request):
