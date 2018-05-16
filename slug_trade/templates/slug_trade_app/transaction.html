@@ -1,0 +1,47 @@
+
+
+
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
+{% block body_block %}
+
+    <div class="transaction-wrapper">
+        <div class="trasaction-body">
+
+            <div class="item-review-header-title">Make an Offer</div>
+
+            <div class="item-review-wrapper">
+                <div class="item-review-image-wrapper">
+                    <img src="{% static 'images/bike.jpg' %}" width="200" alt="">
+                </div>
+                <div class="item-review-info-wrapper">
+                    <div class="item-review-title review-title"><span>Item &nbsp;</span>Road Bike</div>
+                    <div class="item-review-owner review-title"><span>Owner &nbsp;</span>John Smith</div>
+                    <div class="item-review-price review-title"><span>Price &nbsp;</span>$100</div>
+                    <!--<div class="item-review-price review-title"><span>Trade</span></div>-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+<p>
+    Item to inspect <br>
+    {{sale_item}}
+</p>
+<p>
+    Your Items list <br>
+    {{user_item_list}}
+</p>
+
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
+{% endblock %}
