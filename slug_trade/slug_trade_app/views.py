@@ -38,7 +38,7 @@ def products(request):
         else:
             items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
 
-        paginator = Paginator(items_list, 6) # Show 6 items per page
+        paginator = Paginator(items_list, 16) # Show 6 items per page
         page = request.GET.get('page', 1)
 
         try:
@@ -53,7 +53,7 @@ def products(request):
     else:
         if request.user.is_authenticated():
             items_list = ItemImage.objects.all()
-            paginator = Paginator(items_list, 6) # Show 6 items per page
+            paginator = Paginator(items_list, 16) # Show 6 items per page
             page = request.GET.get('page', 1)
 
             try:
