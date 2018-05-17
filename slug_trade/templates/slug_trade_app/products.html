@@ -15,6 +15,22 @@
 
     <div class="products-categories-title">Filters</div>
 
+    <div class="products-categories-subtitle">Type</div>
+
+    <form class="products-filter-container" method="get">
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>Cash</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>Trades</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>Free</span>
+      </div>
+    </form>
+
+    <div class="products-categories-subtitle">Category</div>
+
     <form class="products-filter-container" method="get">
       <div class="products-filter">
         <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
@@ -78,49 +94,55 @@
   </div>
   <div class="products-list-wrapper">
 
-    <div class="products-drop-title-wrapper">
+    <div class="pagination-title-wrapper">
       <div class="products-categories-title">Products</div>
-      <div class="products-drop-wrapper">
-        <form enctype="multipart/form-data" method="post">
-        		{% csrf_token %}
-        		<select class="products-drop-category" name="category">
-        			{% for category in categories %}
-        				{% if category.value == last_category %}
-        					<option value="{{category.value}}" selected="selected">{{category.name}}</option>
-        				{% else %}
-        					<option value="{{category.value}}">{{category.name}}</option>
-        				{% endif %}
-        			{% endfor %}
-        		</select>
-        		<input id="products-top-filter-button" type="submit" name="" value="Filter">
-        	</form>
-
-          <form enctype="multipart/form-data" method="post">
-          		{% csrf_token %}
-          		<select class="products-drop-category" name="category">
-          			{% for category in categories %}
-          				{% if category.value == last_category %}
-          					<option value="{{category.value}}" selected="selected">{{category.name}}</option>
-          				{% else %}
-          					<option value="{{category.value}}">{{category.name}}</option>
-          				{% endif %}
-          			{% endfor %}
-          		</select>
-          		<input id="products-top-filter-button" type="submit" name="" value="Filter">
-          	</form>
-      </div>
-
-
-
+      {% if items.has_other_pages %}
+      <ul class="pagination">
+        {% if items.has_previous %}
+        <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+        {% endif %} {% for i in items.paginator.page_range %} {% if items.number == i %}
+        <li class="active"><span>{{ i }}</span></li>
+        {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %} {% endfor %} {% if items.has_next %}
+        <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+      {% endif %}
     </div>
 
-
-    <div class="products-list-container products cols">
+    <div class="products-list-container">
       {% for item in items %}
-      <div>
-        {{ item.item.name|upper }}<br>
-        <img src="{{item.image1.url}}" width="240">
+      <div class="item-wrapper">
+        <div class="item-image-wrapper">
+          <img src="{{item.image1.url}}" width="300" alt="">
+        </div>
+        <div class="item-seller-wrapper">
+          <div class="seller-title">SOLD BY: &nbsp;</div>
+          <div class="seller-name">{{item.item.user.first_name | title}}</div>
+        </div>
+        <div class="item-title">{{item.item.name|title}}</div>
+        <div class="item-price-wrapper">
+
+          <div class="item-type-title">{{item.item.get_trade_options_display}}</div>
+
+          {% if item.item.get_trade_options_display == "Cash Only" %}
+            <div class="item-type-price">${{item.item.price}}</div>
+          {% elif item.item.get_trade_options_display == "Trade Only" %}
+            <div class="item-type-price">Make an offer</div>
+          {% elif item.item.get_trade_options_display == "Free" %}
+            <div class="item-type-price">Free</div>
+          {% else %}
+            <div class="item-type-price">REMOVE</div>
+          {% endif %}
+
+        </div>
       </div>
+
       {% endfor %}
     </div>
 
