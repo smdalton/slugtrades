@@ -4,54 +4,146 @@
 <title>Products</title>
 
 {% block nav_block %}
-    {% include "slug_trade_app/header-footer/navigation.html" %}
+  {% include "slug_trade_app/header-footer/navigation.html" %}
 {% endblock %}
 
 {% block body_block %}
-	<form enctype="multipart/form-data" method="post">
-		{% csrf_token %}
-		<label>Category</label>
-		<select name="category">
-			{% for category in categories %}
-				{% if category.value == last_category %}
-					<option value="{{category.value}}" selected="selected">{{category.name}}</option>
-				{% else %}
-					<option value="{{category.value}}">{{category.name}}</option>
-				{% endif %}
-			{% endfor %}
-		</select>
-		<input type="submit" name="" value="Filter">
-	</form><br>
-	<div class="products cols">
-		{% for item in items %}
-			<div>
-				{{ item.item.name|upper }}<br>
-				<img src="{{item.image1.url}}" width="240">
-			</div>
-		{% endfor %}
-	</div>
 
-	{% if items.has_other_pages %}
-		<ul class="pagination">
-	{% if items.has_previous %}
-		<li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
-	{% else %}
-		<li class="disabled"><span>&laquo;</span></li>
-	{% endif %}
-	{% for i in items.paginator.page_range %}
-		{% if items.number == i %}
-			<li class="active"><span>{{ i }}</span></li>
-		{% else %}
-			<li><a href="?page={{ i }}">{{ i }}</a></li>
-		{% endif %}
-	{% endfor %}
-	{% if items.has_next %}
-		<li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
-	{% else %}
-		<li class="disabled"><span>&raquo;</span></li>
-	{% endif %}
-		</ul>
-	{% endif %}
+<div class="products-wrapper">
+
+  <div class="products-categories-wrapper">
+
+    <div class="products-categories-title">Filters</div>
+
+    <form class="products-filter-container" method="get">
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <div class="products-filter">
+        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
+      </div>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <div class="products-list-wrapper">
+
+    <div class="products-drop-title-wrapper">
+      <div class="products-categories-title">Products</div>
+      <div class="products-drop-wrapper">
+        <form enctype="multipart/form-data" method="post">
+        		{% csrf_token %}
+        		<select class="products-drop-category" name="category">
+        			{% for category in categories %}
+        				{% if category.value == last_category %}
+        					<option value="{{category.value}}" selected="selected">{{category.name}}</option>
+        				{% else %}
+        					<option value="{{category.value}}">{{category.name}}</option>
+        				{% endif %}
+        			{% endfor %}
+        		</select>
+        		<input id="products-top-filter-button" type="submit" name="" value="Filter">
+        	</form>
+
+          <form enctype="multipart/form-data" method="post">
+          		{% csrf_token %}
+          		<select class="products-drop-category" name="category">
+          			{% for category in categories %}
+          				{% if category.value == last_category %}
+          					<option value="{{category.value}}" selected="selected">{{category.name}}</option>
+          				{% else %}
+          					<option value="{{category.value}}">{{category.name}}</option>
+          				{% endif %}
+          			{% endfor %}
+          		</select>
+          		<input id="products-top-filter-button" type="submit" name="" value="Filter">
+          	</form>
+      </div>
+
+
+
+    </div>
+
+
+    <div class="products-list-container products cols">
+      {% for item in items %}
+      <div>
+        {{ item.item.name|upper }}<br>
+        <img src="{{item.image1.url}}" width="240">
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if items.has_other_pages %}
+    <ul class="pagination">
+      {% if items.has_previous %}
+      <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+      {% endif %} {% for i in items.paginator.page_range %} {% if items.number == i %}
+      <li class="active"><span>{{ i }}</span></li>
+      {% else %}
+      <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %} {% endfor %} {% if items.has_next %}
+      <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+      {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
+
 {% endblock %}
 
 {% block footer_block %}
