@@ -8,11 +8,12 @@ var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, pro
   )
 };
 
-var editItemTouched = function(name, category, tradeOptions, description, condition, image1, image2, image3, image4, image5) {
+var editItemTouched = function(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5) {
   return (
     ($('#id_name').val() != name) ||
     ($('#id_category').val() != category) ||
     ($('#id_trade_options').val() != tradeOptions) ||
+    ($('#id_price').val() != price) ||
     ($('#id_description').val() != description) ||
     ($('#id_condition').val() != condition) ||
     ($('temp-image1').val() != image1) ||
@@ -166,6 +167,7 @@ $(document).ready(function() {
     let name = $('#id_name').val();
     let category = $('#id_category').val();
     let tradeOptions = $('#id_trade_options').val();
+    let price = $('#id_price').val();
     let description = $('#id_description').val();
     let condition = $('#id_condition').val();
     let image1 = $('#temp-image1').val();
@@ -174,7 +176,7 @@ $(document).ready(function() {
     let image4 = $('#temp-image4').val();
     let image5 = $('#temp-image5').val();
     $(window).on("beforeunload", function() {
-      if(editItemTouched(name, category, tradeOptions, description, condition, image1, image2, image3, image4, image5)) {
+      if(editItemTouched(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5)) {
         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
       }
     });
@@ -185,6 +187,13 @@ $(document).ready(function() {
         return true;
       });
     });
+    //enable / disable the price field
+    dropChoice = $('#id_trade_options option:selected').text();
+    if(dropChoice == 'Cash Only') {
+      $('.add-item-price').css('display', 'flex');
+    } else {
+      $('.add-item-price').css('display', 'none');
+    }
   }
 
 
@@ -221,19 +230,12 @@ $(document).ready(function() {
   });
 
   $(document).on('change', '#id_trade_options', function(e) {
-
     var dropChoice = this.options[e.target.selectedIndex].text;
-
     if(dropChoice == 'Cash Only') {
-      $('.add-item-price').css('display','flex');
-      $('#add-item-left').css('margin-right','10px');
+      $('.add-item-price').css('display', 'flex');
     } else {
-      $('.add-item-price').css('display','none');
-      $('#add-item-left').css('margin-right','0');
+      $('.add-item-price').css('display', 'none');
     }
-
-
-
 });
 
   // --- ADD CLOSET ITEM EVENTS --------------------------------------------------------------------------
