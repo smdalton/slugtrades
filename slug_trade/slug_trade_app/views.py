@@ -264,40 +264,6 @@ def add_closet_item(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
-def compare_and_swap_next(images, actions, image1, image2):
-    if actions[image1] == 'delete':
-        if actions[image2] != 'delete':
-            actions[image1] = actions[image2]
-            images[image1] = images[image2]
-            images[image2] = None
-            actions[image2] = 'delete'
-            return True
-    return False
-
-def shift_down(images, actions):
-
-    compare_and_swap_next(images, actions, 'image4', 'image5')
-
-    swapped = compare_and_swap_next(images, actions, 'image3', 'image4')
-    if swapped:
-        compare_and_swap_next(images, actions, 'image4', 'image5')
-
-    swapped = compare_and_swap_next(images, actions, 'image2', 'image3')
-    if swapped:
-        swapped = compare_and_swap_next(images, actions, 'image3', 'image4')
-        if swapped:
-            compare_and_swap_next(images, actions, 'image4', 'image5')
-
-    swapped = compare_and_swap_next(images, actions, 'image1', 'image2')
-    if swapped:
-        swapped = compare_and_swap_next(images, actions, 'image2', 'image3')
-        if swapped:
-            swapped = compare_and_swap_next(images, actions, 'image3', 'image4')
-            if swapped:
-                compare_and_swap_next(images, actions, 'image4', 'image5')
-
-
-
 def edit_closet_item(request):
     if request.method == 'POST':
         item_images_instance = ItemImage.objects.get(id=request.POST.get('id', None))
@@ -377,8 +343,6 @@ def edit_closet_item(request):
                 'image5': image5_action
             }
 
-            shift_down(images, actions)
-
             update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
 
             if actions['image1'] == 'update':
@@ -404,6 +368,43 @@ def edit_closet_item(request):
             if actions['image5'] == 'update':
                 update.image5 = images['image5']
             elif actions['image5'] == 'delete':
+                update.image5 = None
+
+            update.save()
+
+            pics = []
+
+            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+            if update.image1: pics.append(update.image1)
+            if update.image2: pics.append(update.image2)
+            if update.image3: pics.append(update.image3)
+            if update.image4: pics.append(update.image4)
+            if update.image5: pics.append(update.image5)
+
+            if len(pics)>=1:
+                update.image1 = pics.pop(0)
+            else:
+                update.image1 = None
+
+            if len(pics)>=1:
+                update.image2 = pics.pop(0)
+            else:
+                update.image2 = None
+
+            if len(pics)>=1:
+                update.image3 = pics.pop(0)
+            else:
+                update.image3 = None
+
+            if len(pics)>=1:
+                update.image4 = pics.pop(0)
+            else:
+                update.image4 = None
+
+            if len(pics)>=1:
+                update.image5 = pics.pop(0)
+            else:
                 update.image5 = None
 
             update.save()

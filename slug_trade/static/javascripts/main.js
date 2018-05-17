@@ -16,11 +16,11 @@ var editItemTouched = function(name, category, tradeOptions, price, description,
     ($('#id_price').val() != price) ||
     ($('#id_description').val() != description) ||
     ($('#id_condition').val() != condition) ||
-    ($('temp-image1').val() != image1) ||
-    ($('temp-image2').val() != image2) ||
-    ($('temp-image3').val() != image3) ||
-    ($('temp-image4').val() != image4) ||
-    ($('temp-image5').val() != image5)
+    ($('#temp-image1').val() != image1) ||
+    ($('#temp-image2').val() != image2) ||
+    ($('#temp-image3').val() != image3) ||
+    ($('#temp-image4').val() != image4) ||
+    ($('#temp-image5').val() != image5)
   )
 };
 
@@ -177,6 +177,7 @@ $(document).ready(function() {
     let image5 = $('#temp-image5').val();
     $(window).on("beforeunload", function() {
       if(editItemTouched(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5)) {
+        console.log('triggered!');
         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
       }
     });
