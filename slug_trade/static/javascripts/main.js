@@ -1,5 +1,107 @@
-$(document).ready(function() {
+var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, profilePicture) {
+  return (
+    ($('#id_first_name').val() != firstName) ||
+    ($('#id_last_name').val() != lastName) ||
+    ($('#id_bio').val() != bio) ||
+    ($('#id_on_off_campus').val() != onOffCampus) ||
+    ($('#id_profile_picture').val() != profilePicture)
+  )
+};
 
+// add closet items helper functions and variables
+
+var addClosetItemDefaultImage = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
+var closetPhotos = undefined;
+var closetFiles = undefined;
+
+var countHiddenPhotos = function() {
+  var num_photos = 5;
+  var id = '#picture';
+  var count = 0;
+  for(var i=1; i<=num_photos; i++) {
+    var currentId = id+i;
+    if($(currentId).css('display') == 'none') {
+      count++;
+    }
+  }
+  return count;
+};
+
+var countSelectedPhotos = function() {
+  var num_photos = 5;
+  var id = '#id_image';
+  var count = 0;
+  for(var i=1; i<=num_photos; i++) {
+    var currentId = id+i;
+    if($(currentId).val() != '') {
+      count++;
+    }
+  }
+  return count;
+};
+
+var canAddPhoto = function() {
+  if(countHiddenPhotos() == 5) {
+    return true;
+  }
+  for(var i=closetPhotos.length-1; i>=0; i--) {
+    var currentId = closetPhotos[i];
+    if($('#' + currentId).css('display') == 'block') {
+      var image = $('#' + closetFiles[i]).val();
+      return image != '';
+    }
+  }
+}
+
+var showAddPhotoButton = function() {
+  if(countHiddenPhotos() > 0) {
+    $('#add_picture').css('display', 'block');
+  }
+};
+
+var swapArrayElements = function(arr, index1, index2) {
+  var temp = arr[index1];
+  arr[index1] = arr[index2];
+  arr[index2] = temp;
+}
+
+var swapDivElements = function(id1, id2) {
+  obj1 = document.getElementById(id1);
+  obj2 = document.getElementById(id2);
+  // create marker element and insert it where obj1 is
+  var temp = document.createElement("div");
+  obj1.parentNode.insertBefore(temp, obj1);
+
+  // move obj1 to right before obj2
+  obj2.parentNode.insertBefore(obj1, obj2);
+
+  // move obj2 to right before where obj1 used to be
+  temp.parentNode.insertBefore(obj2, temp);
+
+  // remove temporary marker node
+  temp.parentNode.removeChild(temp);
+
+  var index1 = closetPhotos.indexOf(id1);
+  var index2 = closetPhotos.indexOf(id2)
+  swapArrayElements(closetPhotos, index1, index2);
+  swapArrayElements(closetFiles, index1, index2);
+}
+
+// function moves any unselected photos to the back of the container, so that
+// the user is always entering photos at the back of the list
+var shuffle = function() {
+  for(var i=0; i<closetFiles.length-1; i++) {
+    curr_id = closetFiles[i];
+    next_id = closetFiles[i+1];
+    if($('#'+curr_id).val() == '' && $('#'+next_id).val() != '') {
+      var photo1 = closetPhotos[closetFiles.indexOf(curr_id)];
+      var photo2 = closetPhotos[closetFiles.indexOf(next_id)];
+      swapDivElements(photo1, photo2);
+    }
+  }
+}
+
+$(document).ready(function() {
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');
@@ -8,16 +110,37 @@ $(document).ready(function() {
   });
 
   //inject placeholder text into login forms
+  //on login page make login wrapper height of viewpoint
   if (location.pathname.substring(1) == "login/") {
     $('#id_username').attr('placeholder', 'Email Address');
     $('#id_password').attr('placeholder', 'Password');
-  }
-
-  //on login page make login wrapper height of viewpoint
-  if (location.pathname.substring(1) == "login/") {
     var height = $(window).height() - 86;
     $('.login-wrapper').css('height',height)
+    $(window).load(function () {
+      $('#id_username').focus();
+    });
   }
+
+  if (location.pathname.substring(1) == "edit_profile/") {
+    let firstName = $('#id_first_name').val();
+    let lastName = $('#id_last_name').val();
+    let bio = $('#id_bio').val();
+    let onOffCampus = $('#id_on_off_campus').val();
+    let profilePicture = $('#id_profile_picture').val();
+    $(window).on("beforeunload", function() {
+      if(editProfileFormTouched(firstName, lastName, bio, onOffCampus, profilePicture)) {
+        return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
+      }
+    });
+    //turn off the beforeunload event upon form submission
+    $(document).ready(function() {
+      $("#edit_profile_form").on("submit", function(e) {
+        $(window).off("beforeunload");
+        return true;
+      });
+    });
+  }
+
 
 //displays a preview of profile picture in edit_profile page
   $(function() {
@@ -67,85 +190,176 @@ $(document).ready(function() {
 
 });
 
-  // ---- These are functions that handle the hiding/showing of images
-    // get it to show the next one
- $(function(){
-   $('#show_2').click(function(e){
-       e.preventDefault();
-     $('#picture_2').css('display','flex');
-       $('#show_2').hide()
-   })
- })
+  // --- ADD CLOSET ITEM EVENTS --------------------------------------------------------------------------
 
- $(function(){
-   $('#show_3').click(function(e){
-       e.preventDefault();
-     $('#picture_3').css('display','flex');
-     $('#show_3').hide()
-   })
- })
+  // ---- These functions show photo previews in add closet itm
+  closetPhotos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
+  closetFiles = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
 
- $(function(){
-   $('#show_4').click(function(e){
-       e.preventDefault();
-     $('#picture_4').css('display','flex');
-     $('#show_4').hide()
-   })
- })
-
- $(function(){
-   $('#show_5').click(function(e){
-       e.preventDefault();
-     $('#picture_5').css('display','flex');
-     $('#show_5').hide()
-   })
- })
-
-
-
-
-  // ---- all of these functions clear images out of the file selectors inside add_closet_item ----
   $(function() {
-    $('#clear_image1').click(function() {
-      $("#id_image1").val("");
-
+    $('#id_image1').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img1').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image2').click(function() {
-      $("#id_image2").val("");
-      $("#picture_2").hide();
-      $('#show_2').show();
+    $('#id_image2').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img2').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image3').click(function() {
-      $("#id_image3").val("");
-      $("#picture_3").hide();
-      $('#show_3').show();
+    $('#id_image3').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img3').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image4').click(function() {
-      $("#id_image4").val("");
-      $("#picture_4").hide();
-      $('#show_4').show();
+    $('#id_image4').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img4').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
 
   $(function() {
-    $('#clear_image5').click(function() {
-      $("#id_image5").val("");
-      $("#picture_5").hide();
-      //This needs to show the plus sign above it which is plus sign for show_5
-      $('#show_5').show()
+    $('#id_image5').change(function() {
+      var input = this;
+      var url = $(this).val();
+      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+      if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#add_closet_img5').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
     });
   });
-  // -- endblock -----
+
+  //---- These functions handle the logic when you click an x on the photos
+
+  $(function() {
+    $('#close_img1').click(function() {
+      $('#add_closet_img1').attr('src', addClosetItemDefaultImage);
+      $('#id_image1').val('');
+      $('#picture1').css('display', 'none');
+      showAddPhotoButton();
+      shuffle();
+    });
+  });
+
+  $(function() {
+    $('#close_img2').click(function() {
+      $('#add_closet_img2').attr('src', addClosetItemDefaultImage);
+      $('#id_image2').val('');
+      $('#picture2').css('display', 'none');
+      showAddPhotoButton();
+      shuffle();
+    });
+  });
+
+  $(function() {
+    $('#close_img3').click(function() {
+      $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
+      $('#id_image3').val('');
+      $('#picture3').css('display', 'none');
+      showAddPhotoButton();
+      shuffle();
+    });
+  });
+
+  $(function() {
+    $('#close_img4').click(function() {
+      $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
+      $('#id_image4').val('');
+      $('#picture4').css('display', 'none');
+      showAddPhotoButton();
+      shuffle();
+    });
+  });
+
+  $(function() {
+    $('#close_img5').click(function() {
+      $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
+      $('#id_image5').val('');
+      $('#picture5').css('display', 'none');
+      showAddPhotoButton();
+      shuffle();
+    });
+  });
+
+  // ---- This function handles the logic when you click add photo
+
+  $(function() {
+    $('#add_picture').click(function() {
+      if(canAddPhoto()) {
+        shuffle();
+        for(var i=0; i<closetPhotos.length; i++) {
+          var currentId = '#'+closetPhotos[i];
+          if($(currentId).css('display') == 'none') {
+            $(currentId).css('display', 'block');
+            $('#'+closetFiles[i]).trigger('click');
+            break;
+          }
+        }
+        if(countHiddenPhotos() == 0) {
+          $('#add_picture').css('display', 'none');
+        }
+      } else {
+        alert('You must choose a photo first.');
+      }
+    });
+  });
+
+  // -- Validation for add closet item form
+  $(function() {
+    $('#add-closet-submit').click(function(event) {
+      if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
+        alert('You must add a photo!');
+        event.preventDefault();
+      }
+    });
+  });
+
+// ------------------ END OF ADD ADD CLOSET ITEM FUNCTIONS --------------------
   //this function deletes an item from the wishlist on the profile
+
+  // ---------------- WISHLIST FUNCTIONS ------------------------------------
   $(function() {
     $('.delete_from_wishlist').click(function() {
       let id = $(this).val();
@@ -166,6 +380,8 @@ $(document).ready(function() {
     $('#wishlist_item_description').focus();
   }
 });
+
+// --------------- END OF WISHLIST FUNCTIONS ------------------------
 
 //Smooth scrolling on steps
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

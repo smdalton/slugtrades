@@ -63,10 +63,8 @@ class ClosetItemPhotos(forms.Form):
     image5 = forms.FileField(required=False)
     def __init__(self, *args, **kwargs):
         super(ClosetItemPhotos, self).__init__(*args, **kwargs)
-        self.fields['image1'].widget.attrs.update({'required': True, 'accept': 'image/*',
-                                                   'class': 'add-closet-wrapper-input'})
-        self.fields['image2'].widget.attrs.update({'accept': 'image/*',
-                                                   'class': 'add-closet-wrapper-input'})
+        self.fields['image1'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
+        self.fields['image2'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image3'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image4'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image5'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
@@ -88,7 +86,8 @@ class UserForm(UserCreationForm):
                                                               'placeholder': 'First Name',
                                                               'autocomplete':'given-name',
                                                               'required': True,
-                                                              'maxlength': 30}))
+                                                              'maxlength': 30,
+                                                              'size': 5})) # firefox requires a size attribute to avoid overflowing the container
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
                                                               'id': 'last-name',
@@ -96,7 +95,8 @@ class UserForm(UserCreationForm):
                                                               'placeholder': 'Last Name',
                                                               'autocomplete':'family-name',
                                                               'required': True,
-                                                              'maxlength': 30}))
+                                                              'maxlength': 30,
+                                                              'size': 5})) # firefox requires a size attribute to avoid overflowing the container
 
     email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
                                                               'name':'email',
@@ -112,14 +112,16 @@ class UserForm(UserCreationForm):
                                                               'autocomplete':'password',
                                                               'type': 'password',
                                                               'required': True,
-                                                              'maxlength': 256}))
+                                                              'maxlength': 256,
+                                                              'size': 5})) # firefox requires a size attribute to avoid overflowing the container
 
     password2 = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-input',
                                                               'name':'password',
                                                               'placeholder':'Verification Password',
                                                               'type': 'password',
                                                               'required': True,
-                                                              'maxlength': 256}))
+                                                              'maxlength': 256,
+                                                              'size': 5})) # firefox requires a size attribute to avoid overflowing the container
 
     def clean_email(self):
         username = self.cleaned_data["email"]

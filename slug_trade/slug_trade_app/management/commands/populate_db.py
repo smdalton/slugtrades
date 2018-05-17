@@ -67,6 +67,7 @@ class Command(BaseCommand):
         user.is_staff = True
         user.first_name = 'admin'
         user.last_name = 'istrator'
+        user.email = 'admin@slugtrade.com'
         user.save()
 
         profile = models.UserProfile(user=user)
@@ -97,12 +98,13 @@ class Command(BaseCommand):
         location = 'on'
 
         username = name.replace(' ', '')
-        user = User.objects.create_user(username=username.lower(), password='pass1234')
+        email = (username + '@somewhere.com').lower()
+        user = User.objects.create_user(username=email, password='pass1234')
         user.is_superuser = False
         user.is_staff = False
         user.first_name = name.split(' ')[0]
         user.last_name = name.split(' ')[1]
-        user.email = (username + '@somewhere.com').lower()
+        user.email = email
         user.save()
 
         profile = models.UserProfile(user=user)
@@ -132,12 +134,13 @@ class Command(BaseCommand):
 
         for name, bio, location, counter in profile_data:
             username = name.replace(' ', '')
-            user = User.objects.create_user(username=username.lower(), password='pass1234')
+            email = (username + '@somewhere.com').lower()
+            user = User.objects.create_user(username=email, password='pass1234')
             user.is_superuser = False
             user.is_staff = False
             user.first_name = name.split(' ')[0]
             user.last_name = name.split(' ')[1]
-            user.email = (username + '@somewhere.com').lower()
+            user.email = email
             user.save()
 
             profile = models.UserProfile(user=user)
@@ -165,6 +168,7 @@ class Command(BaseCommand):
 
         # create the debug item
         item = models.Item(user=user, name='test', price='5.99', category='C', description='placeholder')
+        item.bid_counter = random.choice(range(100))
         item.save()
 
         # get the debug image to use as the item image
@@ -204,6 +208,7 @@ class Command(BaseCommand):
                                category=self.categories[picture],
                                description=fake.text(),
                                trade_options=random.choice(['0','2','3']))
+            item.bid_counter = random.choice(range(100))
             item.save()
 
             # get the item image from its name

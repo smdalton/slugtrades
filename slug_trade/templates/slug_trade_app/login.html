@@ -19,10 +19,15 @@
         {{form.username.errors}}
         {{form.password}}
         {{form.password.errors}}
+        {% if form.errors %}
+            <p>
+                Wrong username or password. Try again.
+            </p>
+        {% endif %}
       </div>
 
       <div class="login-submit-wrapper">
-        <button type="submit">Login</button>
+        <button id="login_submit" type="submit">Login</button>
       </div>
 
       <div class="already-member-wrapper">
