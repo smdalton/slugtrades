@@ -3,3 +3,4 @@ django==1.9.13
 pillow
 faker
 selenium
+pylint
