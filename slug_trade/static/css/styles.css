@@ -1490,9 +1490,14 @@ margin-left: 10px;
   color: #555;
 }
 
+.products-item-wrapper {
+  width: 100%;
+  max-width: 300px;
+}
+
 .products-list-container {
   display: grid;
-  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 15px;
 }
 
