@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^add_closet_item/$', views.add_closet_item, name='add_closet_item'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^delete_from_wishlist/$', views.delete_from_wishlist, name='delete_from_wishlist'),
+    url(r'^edit_closet_item/$', views.edit_closet_item, name='edit_closet_item'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

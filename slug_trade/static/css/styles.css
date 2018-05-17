@@ -1368,7 +1368,7 @@ margin-left: 10px;
   margin: auto;
 }
 
-.add-closet-photos-inner-wrapper input[type=file] {
+.closet-image-field {
   display: none;
 }
 

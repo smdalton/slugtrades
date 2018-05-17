@@ -8,11 +8,32 @@ var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, pro
   )
 };
 
+var editItemTouched = function(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5) {
+  return (
+    ($('#id_name').val() != name) ||
+    ($('#id_category').val() != category) ||
+    ($('#id_trade_options').val() != tradeOptions) ||
+    ($('#id_price').val() != price) ||
+    ($('#id_description').val() != description) ||
+    ($('#id_condition').val() != condition) ||
+    ($('#temp-image1').val() != image1) ||
+    ($('#temp-image2').val() != image2) ||
+    ($('#temp-image3').val() != image3) ||
+    ($('#temp-image4').val() != image4) ||
+    ($('#temp-image5').val() != image5)
+  )
+};
+
+var clickItem = function(id) {
+  window.location.href = '/edit_closet_item/?id='+id;
+};
+
 // add closet items helper functions and variables
 
 var addClosetItemDefaultImage = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
 var closetPhotos = undefined;
 var closetFiles = undefined;
+var closetTemps = undefined;
 
 var countHiddenPhotos = function() {
   var num_photos = 5;
@@ -29,7 +50,7 @@ var countHiddenPhotos = function() {
 
 var countSelectedPhotos = function() {
   var num_photos = 5;
-  var id = '#id_image';
+  var id = '#temp-image';
   var count = 0;
   for(var i=1; i<=num_photos; i++) {
     var currentId = id+i;
@@ -47,7 +68,7 @@ var canAddPhoto = function() {
   for(var i=closetPhotos.length-1; i>=0; i--) {
     var currentId = closetPhotos[i];
     if($('#' + currentId).css('display') == 'block') {
-      var image = $('#' + closetFiles[i]).val();
+      var image = $('#' + closetTemps[i]).val();
       return image != '';
     }
   }
@@ -85,17 +106,18 @@ var swapDivElements = function(id1, id2) {
   var index2 = closetPhotos.indexOf(id2)
   swapArrayElements(closetPhotos, index1, index2);
   swapArrayElements(closetFiles, index1, index2);
+  swapArrayElements(closetTemps, index1, index2);
 }
 
 // function moves any unselected photos to the back of the container, so that
 // the user is always entering photos at the back of the list
 var shuffle = function() {
   for(var i=0; i<closetFiles.length-1; i++) {
-    curr_id = closetFiles[i];
-    next_id = closetFiles[i+1];
-    if($('#'+curr_id).val() == '' && $('#'+next_id).val() != '') {
-      var photo1 = closetPhotos[closetFiles.indexOf(curr_id)];
-      var photo2 = closetPhotos[closetFiles.indexOf(next_id)];
+    currId = closetTemps[i];
+    nextId = closetTemps[i+1];
+    if($('#'+currId).val() == '' && $('#'+nextId).val() != '') {
+      var photo1 = closetPhotos[closetTemps.indexOf(currId)];
+      var photo2 = closetPhotos[closetTemps.indexOf(nextId)];
       swapDivElements(photo1, photo2);
     }
   }
@@ -141,6 +163,40 @@ $(document).ready(function() {
     });
   }
 
+  if (location.pathname.substring(1) == "edit_closet_item/") {
+    let name = $('#id_name').val();
+    let category = $('#id_category').val();
+    let tradeOptions = $('#id_trade_options').val();
+    let price = $('#id_price').val();
+    let description = $('#id_description').val();
+    let condition = $('#id_condition').val();
+    let image1 = $('#temp-image1').val();
+    let image2 = $('#temp-image2').val();
+    let image3 = $('#temp-image3').val();
+    let image4 = $('#temp-image4').val();
+    let image5 = $('#temp-image5').val();
+    $(window).on("beforeunload", function() {
+      if(editItemTouched(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5)) {
+        console.log('triggered!');
+        return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
+      }
+    });
+    //turn off the beforeunload event upon form submission
+    $(document).ready(function() {
+      $("#add-closet-item-form").on("submit", function(e) {
+        $(window).off("beforeunload");
+        return true;
+      });
+    });
+    //enable / disable the price field
+    dropChoice = $('#id_trade_options option:selected').text();
+    if(dropChoice == 'Cash Only') {
+      $('.add-item-price').css('display', 'flex');
+    } else {
+      $('.add-item-price').css('display', 'none');
+    }
+  }
+
 
 //displays a preview of profile picture in edit_profile page
   $(function() {
@@ -175,19 +231,12 @@ $(document).ready(function() {
   });
 
   $(document).on('change', '#id_trade_options', function(e) {
-
     var dropChoice = this.options[e.target.selectedIndex].text;
-
     if(dropChoice == 'Cash Only') {
-      $('.add-item-price').css('display','flex');
-      $('#add-item-left').css('margin-right','10px');
+      $('.add-item-price').css('display', 'flex');
     } else {
-      $('.add-item-price').css('display','none');
-      $('#add-item-left').css('margin-right','0');
+      $('.add-item-price').css('display', 'none');
     }
-
-
-
 });
 
   // --- ADD CLOSET ITEM EVENTS --------------------------------------------------------------------------
@@ -195,11 +244,13 @@ $(document).ready(function() {
   // ---- These functions show photo previews in add closet itm
   closetPhotos = ['picture1', 'picture2', 'picture3', 'picture4', 'picture5'];
   closetFiles = ['id_image1', 'id_image2', 'id_image3', 'id_image4', 'id_image5'];
+  closetTemps = ['temp-image1', 'temp-image2', 'temp-image3', 'temp-image4', 'temp-image5']
 
   $(function() {
     $('#id_image1').change(function() {
       var input = this;
       var url = $(this).val();
+      $('#temp-image1').val(url);
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
         var reader = new FileReader();
@@ -215,6 +266,7 @@ $(document).ready(function() {
     $('#id_image2').change(function() {
       var input = this;
       var url = $(this).val();
+      $('#temp-image2').val(url);
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
         var reader = new FileReader();
@@ -230,6 +282,7 @@ $(document).ready(function() {
     $('#id_image3').change(function() {
       var input = this;
       var url = $(this).val();
+      $('#temp-image3').val(url);
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
         var reader = new FileReader();
@@ -245,6 +298,7 @@ $(document).ready(function() {
     $('#id_image4').change(function() {
       var input = this;
       var url = $(this).val();
+      $('#temp-image4').val(url);
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
         var reader = new FileReader();
@@ -260,6 +314,7 @@ $(document).ready(function() {
     $('#id_image5').change(function() {
       var input = this;
       var url = $(this).val();
+      $('#temp-image5').val(url);
       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
         var reader = new FileReader();
@@ -277,6 +332,7 @@ $(document).ready(function() {
     $('#close_img1').click(function() {
       $('#add_closet_img1').attr('src', addClosetItemDefaultImage);
       $('#id_image1').val('');
+      $('#temp-image1').val('');
       $('#picture1').css('display', 'none');
       showAddPhotoButton();
       shuffle();
@@ -287,6 +343,7 @@ $(document).ready(function() {
     $('#close_img2').click(function() {
       $('#add_closet_img2').attr('src', addClosetItemDefaultImage);
       $('#id_image2').val('');
+      $('#temp-image2').val('');
       $('#picture2').css('display', 'none');
       showAddPhotoButton();
       shuffle();
@@ -297,6 +354,7 @@ $(document).ready(function() {
     $('#close_img3').click(function() {
       $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
       $('#id_image3').val('');
+      $('#temp-image3').val('');
       $('#picture3').css('display', 'none');
       showAddPhotoButton();
       shuffle();
@@ -307,6 +365,7 @@ $(document).ready(function() {
     $('#close_img4').click(function() {
       $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
       $('#id_image4').val('');
+      $('#temp-image4').val('');
       $('#picture4').css('display', 'none');
       showAddPhotoButton();
       shuffle();
@@ -317,6 +376,7 @@ $(document).ready(function() {
     $('#close_img5').click(function() {
       $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
       $('#id_image5').val('');
+      $('#temp-image5').val('');
       $('#picture5').css('display', 'none');
       showAddPhotoButton();
       shuffle();
