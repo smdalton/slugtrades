@@ -8,6 +8,21 @@ var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, pro
   )
 };
 
+var editItemTouched = function(name, category, tradeOptions, description, condition, image1, image2, image3, image4, image5) {
+  return (
+    ($('#id_name').val() != name) ||
+    ($('#id_category').val() != category) ||
+    ($('#id_trade_options').val() != tradeOptions) ||
+    ($('#id_description').val() != description) ||
+    ($('#id_condition').val() != condition) ||
+    ($('temp-image1').val() != image1) ||
+    ($('temp-image2').val() != image2) ||
+    ($('temp-image3').val() != image3) ||
+    ($('temp-image4').val() != image4) ||
+    ($('temp-image5').val() != image5)
+  )
+};
+
 var clickItem = function(id) {
   window.location.href = '/edit_closet_item/?id='+id;
 };
@@ -141,6 +156,31 @@ $(document).ready(function() {
     //turn off the beforeunload event upon form submission
     $(document).ready(function() {
       $("#edit_profile_form").on("submit", function(e) {
+        $(window).off("beforeunload");
+        return true;
+      });
+    });
+  }
+
+  if (location.pathname.substring(1) == "edit_closet_item/") {
+    let name = $('#id_name').val();
+    let category = $('#id_category').val();
+    let tradeOptions = $('#id_trade_options').val();
+    let description = $('#id_description').val();
+    let condition = $('#id_condition').val();
+    let image1 = $('#temp-image1').val();
+    let image2 = $('#temp-image2').val();
+    let image3 = $('#temp-image3').val();
+    let image4 = $('#temp-image4').val();
+    let image5 = $('#temp-image5').val();
+    $(window).on("beforeunload", function() {
+      if(editItemTouched(name, category, tradeOptions, description, condition, image1, image2, image3, image4, image5)) {
+        return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
+      }
+    });
+    //turn off the beforeunload event upon form submission
+    $(document).ready(function() {
+      $("#add-closet-item-form").on("submit", function(e) {
         $(window).off("beforeunload");
         return true;
       });
