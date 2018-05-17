@@ -31,64 +31,13 @@
 
     <div class="products-categories-subtitle">Category</div>
 
-    <form class="products-filter-container" method="get">
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>I have a bike</span>
-      </div>
+    <form class="products-filter-container" method="post">
+      {% csrf_token %}
+      {% for category in categories %}
+        <div class="products-filter">
+          <input type="checkbox" name="categories" value="{{category.value}}" checked="checked"> <span>{{category.name}}</span>
+        </div>
+      {% endfor %}
       <input type="submit" value="Submit">
     </form>
   </div>

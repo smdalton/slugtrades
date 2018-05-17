@@ -18,25 +18,32 @@ debug = False
 
 def index(request):
     test = "This was passed from the backend!"
-    if debug:
-        print("in index view")
     return render(request, 'slug_trade_app/index.html',{'test':test})
 
 
 def products(request):
 
-    categories = [
-        { 'name': 'All', 'value': 'All' }
-    ]
+    categories = []
+    category_values = []
 
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
+        category_values.append(value)
 
-    if request.method == 'POST':
-        if request.POST['category'] == 'All':
-            items_list = ItemImage.objects.all()
-        else:
-            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
+    if request.user.is_authenticated():
+        items_list = ItemImage.objects.all()
+
+        if request.POST.get('categories', False):
+            selected_values = []
+            for key, values in request.POST.lists():
+                if key =='categories':
+                    for value in values:
+                        selected_values.append(value)
+
+            for category in category_values:
+                if category not in selected_values:
+                    print(category)
+                    items_list = items_list.exclude(item__category=category)
 
         paginator = Paginator(items_list, 16) # Show 6 items per page
         page = request.GET.get('page', 1)
@@ -48,34 +55,16 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': request.POST['category']})
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
 
     else:
-        if request.user.is_authenticated():
-            items_list = ItemImage.objects.all()
-            paginator = Paginator(items_list, 16) # Show 6 items per page
-            page = request.GET.get('page', 1)
-
-            try:
-                items = paginator.page(page)
-            except PageNotAnInteger:
-                items = paginator.page(1)
-            except EmptyPage:
-                items = paginator.page(paginator.num_pages)
-
-            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
-
-        else:
-            return render(request, 'slug_trade_app/not_authenticated.html')
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
 # debug route
 def show_users(request):
     users = User.objects.all()
 
     # for each user we want to get the
-    if debug:
-        for item in users:
-            print(item.userprofile)
     return render(request, 'slug_trade_app/users.html', {'users': users})
 
 
@@ -105,11 +94,9 @@ def public_profile_inspect(request, user_id):
 
     # get the list of each item's images from the models method get_image_list()
     images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
-    # print(images)
 
     # zip the two lists into one iterable together
     items_and_images = zip(items, images)
-    print("Items and images: ", items_and_images)
 
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
@@ -308,10 +295,8 @@ def signup(request):
                 login(request, authenticated)
                 return redirect('/products')
             else:
-                print("not authenticated")
                 return redirect('/home')
         else:
-            print("NOT VALID")
             return render(request, 'slug_trade_app/signup.html', {'user_form': user_form, 'profile_form': profile_form})
 
     else:
