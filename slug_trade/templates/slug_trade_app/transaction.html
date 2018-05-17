@@ -34,6 +34,14 @@
                 </div>
             </div>
 
+            <form method="post">
+                {% csrf_token %}
+                <p>Cash Form here</p>
+                {{cash_transaction_form.as_p}}
+                <p>Comment Here</p>
+                {{offer_comment_form.as_p}}
+                 <input id="signup-submit" type="submit" name="" value="Sign Up">
+            </form>
         </div>
     </div>
 
@@ -41,8 +49,6 @@
 <p>
     Transaction Type <br>
     {{transaction_type}}
-
-    {{sale_item.name}}
 </p>
 
 

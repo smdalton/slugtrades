@@ -130,6 +130,9 @@ class OfferComment(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.CharField(max_length=250)
+    # add a datetime field
+    # manage addition of comments by owner on their own item somehow (item details?)
+
 
 class ItemOffer(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="primary_item")
@@ -137,6 +140,7 @@ class ItemOffer(models.Model):
     is_current = models.BooleanField(default=True)
     current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_item_bidder")
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_item_bidder")
+
 
 class CashOffer(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -146,6 +150,7 @@ class CashOffer(models.Model):
     is_current = models.BooleanField(default=True)
     current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_cash_bidder")
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
+
 
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)

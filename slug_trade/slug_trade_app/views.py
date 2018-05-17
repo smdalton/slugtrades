@@ -4,7 +4,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 
 from .models import UserProfile
-from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm, TransactionForm
+from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm
+
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
 from slug_trade_app.models import UserProfile
@@ -114,20 +115,50 @@ def item_details(request, item_id=None):
                                                                 'trade_type': trade_type_name,
                                                                 })
 
+
 def cash_transaction(request, item_id=None):
+
+    #if request.method ==
+    item = Item.objects.get(id=item_id)
+
+    # import offer comment form
+    offer_comment_form = OfferCommentForm()
+
+    # import cash offer form
+    cash_transaction_form = CashTransactionForm()
+
     sale_item = Item.objects.get(id=item_id)
+    print('>>>>>>>>>>> cash', sale_item.trade_options)
     sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
     return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'cash',
                                                                'sale_item': sale_item,
                                                                'sale_item_image': sale_item_image,
+                                                               'cash_transaction_form': cash_transaction_form,
+                                                               'offer_comment_form': offer_comment_form
                                                                })
 
+
 def trade_transaction(request, item_id=None):
-    item_list = Item.objects.filter(user__id=request.user.id)
-    return render(request, 'slug_trade_app/transaction.html', {'transaction_type':'trade'})
+    #item_list = Item.objects.filter(user__id=request.user.id)
+
+    sale_item = Item.objects.get(id=item_id)
+    print('>>>>>>>>>>> trades', sale_item.trade_options)
+    sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+    return render(request, 'slug_trade_app/transaction.html', {'transaction_type':'trade',
+                                                               'sale_item': sale_item,
+                                                               'sale_item_image':sale_item_image,
+                                                               })
+
 
 def free_transaction(request, item_id=None):
-    return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free'})
+
+    sale_item = Item.objects.get(id=item_id)
+    print('>>>>>>>>>>> free', sale_item.trade_options)
+    sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+    return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free',
+                                                               'sale_item': sale_item,
+                                                               'sale_item_image': sale_item_image,
+                                                               })
 
 def transaction(request, item_id=None): # set default value for item id so it doesn't crash
     """
@@ -398,10 +429,13 @@ def signup(request):
                 return redirect('/home')
         else:
             print("NOT VALID")
-            return render(request, 'slug_trade_app/signup.html', {'user_form': user_form, 'profile_form': profile_form})
+            return render(request, 'slug_trade_app/signup.html', {'user_form': user_form,
+                                                                  'profile_form': profile_form})
 
     else:
         user_form = UserForm()
         profile_form = SignupUserProfileForm()
 
-        return render(request, 'slug_trade_app/signup.html', {'user_form': user_form, 'profile_form': profile_form})
+        return render(request, 'slug_trade_app/signup.html', {'user_form': user_form,
+                                                              'profile_form': profile_form,
+                                                              })

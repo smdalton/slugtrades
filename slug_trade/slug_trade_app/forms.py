@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from slug_trade_app.models import UserProfile, Item, ItemImage
+from slug_trade_app.models import UserProfile, Item, ItemImage, CashOffer, OfferComment
 
 class UserProfileForm(forms.ModelForm):
 
@@ -20,11 +20,20 @@ class UserModelForm(forms.ModelForm):
             'last_name'
         )
 
-class TransactionForm(forms.Form):
-    selections = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-    )
 
+class CashTransactionForm(forms.ModelForm):
+    class Meta():
+        model = CashOffer
+        fields = (
+            'offer_amount',
+        )
+
+class OfferCommentForm(forms.ModelForm):
+    class Meta:
+        model = OfferComment
+        fields = (
+            'comment',
+        )
 
 class ProfilePictureForm(forms.Form):
     file = forms.FileField()
@@ -33,6 +42,7 @@ class ProfilePictureForm(forms.Form):
         self.fields['file'].widget.attrs.update({
             'accept': 'image/*'
         })
+
 
 class ClosetItem(forms.ModelForm):
     class Meta():
@@ -45,6 +55,7 @@ class ClosetItem(forms.ModelForm):
             'condition',
             'trade_options'
         )
+
     def __init__(self, *args, **kwargs):
         super(ClosetItem, self).__init__(*args, **kwargs)
         self.fields['price'].widget.attrs.update({'value': 0,
@@ -59,6 +70,7 @@ class ClosetItem(forms.ModelForm):
         self.fields['name'].widget.attrs.update({'required': True, 'class': 'add-closet-wrapper-input'})
 
         self.fields['trade_options'].widget.attrs.update({'required': True, 'class': 'add-closet-wrapper-input'})
+
 
 class ClosetItemPhotos(forms.Form):
     image1 = forms.FileField(required=True)
@@ -156,6 +168,7 @@ class SignupUserProfileForm(forms.ModelForm):
             'bio',
             'on_off_campus'
         )
+
     def __init__(self, *args, **kwargs):
         super(SignupUserProfileForm, self).__init__(*args, **kwargs)
         self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
