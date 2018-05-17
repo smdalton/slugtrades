@@ -1073,10 +1073,9 @@ margin-left: 10px;
 .profile-wrapper{
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-top: 75px;
-  padding-bottom: 75px;
-  background-color: #f2f2f2;
+  justify-content: flex-start;
+  background-image: url("../../static/images/hero_background.jpg");
+  background-size: cover;
 }
 
 .profile-body{
@@ -1084,7 +1083,8 @@ margin-left: 10px;
   max-width: 700px;
   background: #fff;
   padding: 100px 50px;
-  border-radius: 20px;
+  overflow: scroll;
+  height: 645px;
 }
 
 .profile-info-wrapper{
