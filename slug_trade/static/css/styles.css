@@ -365,13 +365,13 @@ input[type=submit]:hover {
   color: #333;
 }
 
-.seller-name {
+.seller-name a {
   font-weight: 100;
+  color: #F2CE60;
 }
 
-.seller-name:hover {
-  color: #F2CE60;
-  cursor: pointer;
+.seller-name a:hover {
+  color: #e2c158;
 }
 
 .seller-price {

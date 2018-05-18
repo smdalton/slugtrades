@@ -93,7 +93,7 @@
         </div>
         <div class="item-seller-wrapper">
           <div class="seller-title">SOLD BY: &nbsp;</div>
-          <div class="seller-name">{{item.item.user.first_name | title}}</div>
+          <div class="seller-name"><a href="/profile/{{item.item.user.id}}">{{item.item.user.first_name | title}}</a></div>
         </div>
         <div class="item-title">{{item.item.name|title}}</div>
         <div class="item-price-wrapper">
@@ -103,7 +103,7 @@
           {% if item.item.get_trade_options_display == "Cash Only" %}
             <div class="item-type-price">${{item.item.price}}</div>
           {% elif item.item.get_trade_options_display == "Trade only" %}
-            <div class="item-type-price">Make an offer</div>          
+            <div class="item-type-price">Make an offer</div>
           {% endif %}
 
         </div>
