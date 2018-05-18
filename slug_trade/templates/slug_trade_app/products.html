@@ -10,37 +10,50 @@
 {% block body_block %}
 
 <div class="products-wrapper">
+  <form method="get" id="products-form">
+    {% csrf_token %}
+    <div class="products-categories-wrapper">
 
-  <div class="products-categories-wrapper">
+      <div class="products-categories-title">Filters</div>
 
-    <div class="products-categories-title">Filters</div>
+      <div class="products-categories-subtitle">Type</div>
 
-    <div class="products-categories-subtitle">Type</div>
-
-    <form class="products-filter-container" method="get">
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>Cash</span>
+      <div class="products-filter-container">
+        {% for type in types %}
+          <div class="products-filter">
+            {% if selected_types %}
+              {% if type.value in selected_types %}
+                <input type="checkbox" name="types" value="{{type.value}}" checked="checked"> <span>{{type.name}}</span>
+              {% else %}
+                <input type="checkbox" name="types" value="{{type.value}}"> <span>{{type.name}}</span>
+              {% endif %}
+            {% else %}
+              <input type="checkbox" name="types" value="{{type.value}}" checked="checked"> <span>{{type.name}}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
       </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>Trades</span>
-      </div>
-      <div class="products-filter">
-        <input type="checkbox" name="vehicle" value="Bike"checked="checked"> <span>Free</span>
-      </div>
-    </form>
 
-    <div class="products-categories-subtitle">Category</div>
+      <div class="products-categories-subtitle">Category</div>
 
-    <form class="products-filter-container" method="post">
-      {% csrf_token %}
-      {% for category in categories %}
-        <div class="products-filter">
-          <input type="checkbox" name="categories" value="{{category.value}}" checked="checked"> <span>{{category.name}}</span>
-        </div>
-      {% endfor %}
-      <input type="submit" value="Submit">
-    </form>
-  </div>
+      <div class="products-filter-container">
+        {% for category in categories %}
+          <div class="products-filter">
+            {% if selected_values %}
+              {% if category.value in selected_values %}
+                <input type="checkbox" name="categories" value="{{category.value}}" checked="checked"> <span>{{category.name}}</span>
+              {% else %}
+                <input type="checkbox" name="categories" value="{{category.value}}"> <span>{{category.name}}</span>
+              {% endif %}
+            {% else %}
+              <input type="checkbox" name="categories" value="{{category.value}}" checked="checked"> <span>{{category.name}}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <input type="submit" value="Submit" id="products-form-submit">
+      </div>
+    </div>
+  </form>
   <div class="products-list-wrapper">
 
     <div class="pagination-title-wrapper">

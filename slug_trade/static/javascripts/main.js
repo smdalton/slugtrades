@@ -379,9 +379,9 @@ $(document).ready(function() {
       }, 1);
     $('#wishlist_item_description').focus();
   }
+  // --------------- END OF WISHLIST FUNCTIONS ------------------------
 });
 
-// --------------- END OF WISHLIST FUNCTIONS ------------------------
 
 //Smooth scrolling on steps
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {

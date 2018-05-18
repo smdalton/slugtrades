@@ -7,7 +7,7 @@ from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
-from slug_trade_app.models import UserProfile, ITEM_CATEGORIES
+from slug_trade_app.models import UserProfile, ITEM_CATEGORIES, TRADE_OPTIONS
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -25,25 +25,46 @@ def products(request):
 
     categories = []
     category_values = []
+    selected_values = None
+
+    types = []
+    type_values = []
+    selected_types = None
 
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
         category_values.append(value)
 
+    for value, name in TRADE_OPTIONS:
+        types.append({ 'name': name, 'value': value })
+        type_values.append(value)
+
     if request.user.is_authenticated():
         items_list = ItemImage.objects.all()
 
-        if request.POST.get('categories', False):
+        if request.GET.get('categories', False):
             selected_values = []
-            for key, values in request.POST.lists():
+            for key, values in request.GET.lists():
                 if key =='categories':
                     for value in values:
                         selected_values.append(value)
 
             for category in category_values:
                 if category not in selected_values:
-                    print(category)
                     items_list = items_list.exclude(item__category=category)
+
+        if request.GET.get('types', False):
+            selected_types = []
+            for key, values in request.GET.lists():
+                if key =='types':
+                    for value in values:
+                        selected_types.append(value)
+
+            print(selected_types)
+            for type in type_values:
+                if type not in selected_types:
+                    print(type)
+                    items_list = items_list.exclude(item__trade_options=type)
 
         paginator = Paginator(items_list, 16) # Show 6 items per page
         page = request.GET.get('page', 1)
@@ -55,7 +76,7 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types})
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
