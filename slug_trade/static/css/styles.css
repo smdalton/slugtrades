@@ -1079,6 +1079,10 @@ margin-left: 10px;
 }
 
 .profile-body{
+  margin-left: 25px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  border-radius: 10px;
   width: 100%;
   max-width: 700px;
   background: #fff;
