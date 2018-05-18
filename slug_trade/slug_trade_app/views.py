@@ -25,11 +25,11 @@ def products(request):
 
     categories = []
     category_values = []
-    selected_values = None
+    selected_values = []
 
     types = []
     type_values = []
-    selected_types = None
+    selected_types = []
 
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
@@ -66,7 +66,7 @@ def products(request):
                     print(type)
                     items_list = items_list.exclude(item__trade_options=type)
 
-        paginator = Paginator(items_list, 16) # Show 6 items per page
+        paginator = Paginator(items_list, 12) # Show 6 items per page
         page = request.GET.get('page', 1)
 
         try:

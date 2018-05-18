@@ -1501,6 +1501,14 @@ margin-left: 10px;
   grid-gap: 15px;
 }
 
+.products-list-container img {
+  border-radius: 15px;
+}
+
+.showing-all {
+  font-size: 12px;
+}
+
 .pagination-title-wrapper {
     display: flex;
     align-items: center;
