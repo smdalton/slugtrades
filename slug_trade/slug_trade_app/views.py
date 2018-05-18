@@ -27,6 +27,7 @@ def index(request):
 
 
 def products(request):
+
     categories = [
         { 'name': 'All', 'value': 'All' },
         { 'name': 'Electronics', 'value': 'E' },
@@ -34,7 +35,9 @@ def products(request):
         { 'name': 'Clothing', 'value': 'C' },
         { 'name': 'Other', 'value': 'O' }
     ]
+
     if request.method == 'POST':
+        print ("Product: Post")
         if request.POST['category'] == 'All':
             items_list = ItemImage.objects.all()
         else:
@@ -50,22 +53,59 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': request.POST['category']})
+        print("Last cat " + str(request.POST['category']))
+
+        return render(request, 'slug_trade_app/products.html', {
+        'items': items,
+        'categories': categories,
+        'last_category': request.POST['category'],
+        })
 
     else:
         if request.user.is_authenticated():
-            items_list = ItemImage.objects.all()
-            paginator = Paginator(items_list, 6) # Show 6 items per page
-            page = request.GET.get('page', 1)
+            print("Product: Authenticated")
 
-            try:
-                items = paginator.page(page)
-            except PageNotAnInteger:
-                items = paginator.page(1)
-            except EmptyPage:
-                items = paginator.page(paginator.num_pages)
+            if request.method == 'POST' and 'category' in request.POST:
+                print("Last cat " + str(request.POST['category']))
+                last_cat = request.POST['category']
+            else:
+                last_cat = "All"
 
-            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
+            if request.method == 'GET' and 'category' in request.GET:
+                last_cat = request.GET['category']
+
+                items_list = ItemImage.objects.all().filter(item__category=last_cat)
+
+                paginator = Paginator(items_list, 6) # Show 6 items per page
+                page = request.GET.get('page', 1)
+
+                try:
+                    items = paginator.page(page)
+                except PageNotAnInteger:
+                    items = paginator.page(1)
+                except EmptyPage:
+                    items = paginator.page(paginator.num_pages)
+
+            else:
+
+                items_list = ItemImage.objects.all()
+                paginator = Paginator(items_list, 6) # Show 6 items per page
+                page = request.GET.get('page', 1)
+
+                try:
+                    items = paginator.page(page)
+                except PageNotAnInteger:
+                    items = paginator.page(1)
+                except EmptyPage:
+                    items = paginator.page(paginator.num_pages)
+
+            print (last_cat)
+
+            return render(request, 'slug_trade_app/products.html', {
+            'items': items,
+            'categories': categories,
+            'last_category': last_cat,
+            })
 
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
@@ -147,6 +187,7 @@ def profile(request):
         items= Item.objects.filter(user__id=request.user.id)
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
+        
         return render(request, 'slug_trade_app/profile.html', {
                     'user_to_view': request.user,
                     'public': False,
