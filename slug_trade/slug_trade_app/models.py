@@ -140,7 +140,7 @@ class CashOffer(models.Model):
                                        decimal_places=2,
                                        blank=False)
     is_current = models.BooleanField(default=True)
-    current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_cash_bidder")
+    time_stamp = models.DateTimeField(auto_now=True)
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
 
 class Offer(models.Model):
