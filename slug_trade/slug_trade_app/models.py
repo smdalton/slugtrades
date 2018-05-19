@@ -55,6 +55,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='static/profile_pictures', blank=True)
     bio = models.TextField(max_length=500, blank=True)
+    time_stamp = models.DateTimeField(auto_now=True)
     on_off_campus = models.CharField(max_length=3,
                                 default="on",
                                 choices=CAMPUS_STATUS)
@@ -67,6 +68,7 @@ class Wishlist(models.Model):
 
 class Item(models.Model):
     # who owns the item
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80, blank=False)
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=False)
@@ -80,6 +82,7 @@ class Item(models.Model):
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
     description = models.TextField(blank=False, default='')
+    time_stamp = models.DateTimeField(auto_now=True)
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
                                 blank=False,
@@ -117,32 +120,36 @@ class ItemImage(models.Model):
 class ItemComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    time_stamp = models.DateTimeField()
+    time_stamp = models.DateTimeField(auto_now=True)
     comment = models.TextField(blank=False)
-
 
 
 class OfferComment(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time_stamp = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=250)
 
+
 class ItemOffer(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="primary_item")
-    offer_item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="offer_item")
-    is_current = models.BooleanField(default=True)
-    current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_item_bidder")
-    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_item_bidder")
+    item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="primary_item")
+    item_bid_with = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="offer_item")
+    time_stamp = models.DateTimeField(auto_now=True)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
+
 
 class CashOffer(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE)
     offer_amount = models.DecimalField(max_digits=9,
                                        decimal_places=2,
                                        blank=False)
-    is_current = models.BooleanField(default=True)
     time_stamp = models.DateTimeField(auto_now=True)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
+
 
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
     bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
+    time_stamp = models.DateTimeField(auto_now=True)
