@@ -1523,6 +1523,36 @@ margin-left: 10px;
 
 .pagination li {
   display: inline-block;
-  margin: 0 5px;
-  padding: 5px;
+  margin: 0 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 15px;
+  color: black;
+}
+
+.pagination .active {
+  border-radius: 5px;
+  background-color: #fff3ce;
+}
+
+.pagination .button {
+  border-radius: 5px;
+}
+
+.pagination .button:hover {
+  background-color: #fff3ce;
+  cursor: pointer;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: black;
+}
+
+.pagination li:hover {
+  border-radius: 5px;
+  background-color: #fff3ce;
+  cursor: pointer;
 }

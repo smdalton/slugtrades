@@ -76,6 +76,8 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
+        print('page range: ' + str(items.paginator.num_pages))
+
         return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types})
 
     else:
