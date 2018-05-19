@@ -8,6 +8,23 @@ var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, pro
   )
 };
 
+// This is the function that manipulates the url when pagination controlls are clicked
+var changePage = function(pageNumber) {
+  var url = window.location.href;
+  if(url.search(/page=\d+/i) == -1) {
+    if(url.search(/\?/i) == -1) {
+      var newUrl = url + '?page='+ pageNumber;
+    } else {
+      var newUrl = url + '&page=' + pageNumber;
+    }
+    window.location.href = newUrl;
+  } else {
+    var newUrl = url.replace(/page=\d+/i, 'page='+pageNumber);
+    console.log(newUrl);
+    window.location.href = newUrl
+  }
+};
+
 // add closet items helper functions and variables
 
 var addClosetItemDefaultImage = 'https://image.freepik.com/free-icon/question-mark-in-a-circle-outline_318-53407.jpg';
@@ -100,22 +117,6 @@ var shuffle = function() {
     }
   }
 }
-
-var changePage = function(pageNumber) {
-  var url = window.location.href;
-  if(url.search(/page=\d+/i) == -1) {
-    if(url.search(/\?/i) == -1) {
-      var newUrl = url + '?page='+ pageNumber;
-    } else {
-      var newUrl = url + '&page=' + pageNumber;
-    }
-    window.location.href = newUrl;
-  } else {
-    var newUrl = url.replace(/page=\d+/i, 'page='+pageNumber);
-    console.log(newUrl);
-    window.location.href = newUrl
-  }
-};
 
 $(document).ready(function() {
   // show drop links on hover
