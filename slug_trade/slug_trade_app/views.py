@@ -66,7 +66,7 @@ def products(request):
                     print(type)
                     items_list = items_list.exclude(item__trade_options=type)
 
-        paginator = Paginator(items_list, 12) # Show 6 items per page
+        paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
 
         try:
