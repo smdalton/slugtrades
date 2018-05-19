@@ -123,31 +123,31 @@
     </div>
 
     {% if items.has_other_pages %}
-    <ul class="pagination">
-      {% if items.number|add:'-4' > 1 %}
-        <li class="button pagination-link"><a href="?page={{ items.number|add:'-5' }}">&laquo;</a></li>
-      {% endif %}
-
-      {% if items.has_previous %}
-        <li class="button pagination-link"><a href="?page={{ items.previous_page_number }}">&lsaquo;</a></li>
-      {% endif %}
-
-      {% for i in items.paginator.page_range %}
-        {% if items.number == i %}
-          <li class="active pagination-link"><span>{{ i }}</span></li>
-        {% elif i > items.number|add:'-5' and i < items.number|add:'5' %}
-          <li class="pagination-link"><a href="?page={{ i }}">{{ i }}</a></li>
+      <ul class="pagination">
+        {% if items.number|add:'-4' > 1 %}
+          <li class="button" onclick="changePage({{ items.number|add:'-5' }})">&laquo;</li>
         {% endif %}
-      {% endfor %}
 
-      {% if items.has_next %}
-        <li class="button pagination-link"><a href="?page={{ items.next_page_number }}">&rsaquo;</a></li>
-      {% endif %}
+        {% if items.has_previous %}
+          <li class="button" onclick="changePage({{ items.previous_page_number }})">&lsaquo;</li>
+        {% endif %}
 
-      {% if items.paginator.num_pages > items.number|add:'4' %}
-        <li class="button pagination-link"><a href="?page={{ items.number|add:'5' }}">&raquo;</a></li>
-      {% endif %}
-    </ul>
+        {% for i in items.paginator.page_range %}
+          {% if items.number == i %}
+            <li class="active"><span>{{ i }}</span></li>
+          {% elif i > items.number|add:'-5' and i < items.number|add:'5' %}
+            <li onclick="changePage({{ i }})">{{ i }}</li>
+          {% endif %}
+        {% endfor %}
+
+        {% if items.has_next %}
+          <li onclick="changePage({{ items.next_page_number }})">&rsaquo;</li>
+        {% endif %}
+
+        {% if items.paginator.num_pages > items.number|add:'4' %}
+          <li class="button" onclick="changePage({{ items.number|add:'5' }})">&raquo;</li>
+        {% endif %}
+      </ul>
     {% endif %}
   </div>
 </div>
