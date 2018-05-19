@@ -10,9 +10,9 @@ var changePage = function(pageNumber) {
     window.location.href = newUrl;
   } else {
     var newUrl = url.replace(/page=\d+/i, 'page='+pageNumber);
-    console.log(newUrl);
     window.location.href = newUrl
   }
+};
 
 var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, profilePicture) {
   return (
