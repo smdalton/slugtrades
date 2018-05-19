@@ -28,12 +28,15 @@ class CashTransactionForm(forms.ModelForm):
             'offer_amount',
         )
 
+
+
 class OfferCommentForm(forms.ModelForm):
     class Meta:
         model = OfferComment
         fields = (
             'comment',
         )
+
 
 class ProfilePictureForm(forms.Form):
     file = forms.FileField()

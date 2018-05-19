@@ -118,19 +118,47 @@ def item_details(request, item_id=None):
 
 def cash_transaction(request, item_id=None):
 
-    #if request.method ==
-    item = Item.objects.get(id=item_id)
+    if request.method == 'POST':
+        # Process the form submission
+        completed_cash_offer_form = CashTransactionForm(request.POST)
+        completed_comment_offer_form = OfferCommentForm(request.POST)
 
-    # import offer comment form
-    offer_comment_form = OfferCommentForm()
+        if completed_cash_offer_form.is_valid() and completed_comment_offer_form.is_valid():
 
-    # import cash offer form
-    cash_transaction_form = CashTransactionForm()
+            item = models.Item.objects.get(id=item_id)
 
-    sale_item = Item.objects.get(id=item_id)
-    print('>>>>>>>>>>> cash', sale_item.trade_options)
-    sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
-    return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'cash',
+            print('type :', type(request.POST['comment']))
+            cash_offer = models.CashOffer(
+                item=item,
+                offer_amount=request.POST['offer_amount'],
+                original_bidder=request.user,
+                current_bidder=request.user,
+                                          )
+            cash_offer.save()
+
+            # if no comment is present do not save anything to the database
+
+            if request.POST['comment']:
+                print('>>>>>>Got a comment')
+                offer_comment = models.OfferComment(
+                    item=item,
+                    # This is the user who made the comment
+                    user=request.user,
+                    comment=request.POST['comment']
+                )
+                offer_comment.save()
+        return redirect('/home')
+
+    else:
+        # render the appropriate transaction form
+        item = Item.objects.get(id=item_id)
+        offer_comment_form = OfferCommentForm()
+        # import cash offer form
+        cash_transaction_form = CashTransactionForm()
+        sale_item = Item.objects.get(id=item_id)
+        print('>>>>>>>>>>> cash', sale_item.trade_options)
+        sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+        return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'cash',
                                                                'sale_item': sale_item,
                                                                'sale_item_image': sale_item_image,
                                                                'cash_transaction_form': cash_transaction_form,
