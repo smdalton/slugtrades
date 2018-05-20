@@ -55,7 +55,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='static/profile_pictures', blank=True)
     bio = models.TextField(max_length=500, blank=True)
-    time_stamp = models.DateTimeField(auto_now=True)
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
     on_off_campus = models.CharField(max_length=3,
                                 default="on",
                                 choices=CAMPUS_STATUS)
@@ -82,7 +82,7 @@ class Item(models.Model):
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
     description = models.TextField(blank=False, default='')
-    time_stamp = models.DateTimeField(auto_now=True)
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
                                 blank=False,
@@ -132,11 +132,11 @@ class OfferComment(models.Model):
 
 
 class ItemOffer(models.Model):
-    item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="primary_item")
-    item_bid_with = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="offer_item")
-    time_stamp = models.DateTimeField(auto_now=True)
-    item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
+    item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="item_offers_item_bid_on")
+    item_bid_with = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item_offers_bid_with")
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE, default='Empty')
+    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_offers_original_bidder")
 
 
 class CashOffer(models.Model):
@@ -144,12 +144,12 @@ class CashOffer(models.Model):
     offer_amount = models.DecimalField(max_digits=9,
                                        decimal_places=2,
                                        blank=False)
-    time_stamp = models.DateTimeField(auto_now=True)
-    item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE, default='Empty', related_name="cash_offers_item_owner")
+    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, default='Empty', related_name="cash_offers_original_bidder")
 
 
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
     bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
-    time_stamp = models.DateTimeField(auto_now=True)
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
