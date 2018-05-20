@@ -57,8 +57,6 @@
       </div>
     </div>
 
-
-    {% if show_add_button %}
       <form enctype="multipart/form-data" method="post">
       <div class="wishlist-wrapper">
         {% if item_added %}
@@ -70,15 +68,14 @@
           Items {{ user_to_view.first_name }} is interested in trading for.
         </div>
         <div class="wishlist-input-wrapper">
-
-          {% csrf_token %}
-          <input type="text" class="wishlist-input" id="wishlist_item_description" name="description" placeholder="Add Wishlist Item">
-          <input id="wishlist-button" type="submit" name="add" value="Add">
-
+          {% if show_add_button %}
+            {% csrf_token %}
+            <input type="text" class="wishlist-input" id="wishlist_item_description" name="description" placeholder="Add Wishlist Item">
+            <input id="wishlist-button" type="submit" name="add" value="Add">
+          {% endif %}
         </div>
       </div>
       </form>
-    {% endif %}
 
 
     <div class="wishlist-list-wrapper">
