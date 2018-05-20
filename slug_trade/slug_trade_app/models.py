@@ -23,9 +23,7 @@ ITEM_CATEGORIES = (
     ('OF', 'Office'),
     ('F', 'Furniture'),
     ('A', 'Appliances'),
-    ('FI', 'Fitness'),
-    ('OU', 'Outdoors')
-
+    ('FI', 'Fitness')
 )
 
 CAMPUS_STATUS = (

@@ -118,7 +118,11 @@
 
         {% for item, images in item_data %}
 
-          <div class="profile-item-wrapper">
+          {% if my_profile %}
+            <div class="profile-item-wrapper" onclick="clickItem({{item.id}})">
+          {% else %}
+            <div class="profile-item-wrapper">
+          {% endif %}
 
             <div class="profile-item-image-wrapper">
               <img src="{{images.0}}" width="240" alt="">
