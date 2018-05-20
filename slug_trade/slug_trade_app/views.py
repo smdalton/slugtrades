@@ -160,7 +160,7 @@ def profile(request):
         wishlist = Wishlist.objects.filter(user=request.user)
         items_list= Item.objects.filter(user__id=request.user.id)
 
-        paginator = Paginator(items_list, 4)
+        paginator = Paginator(items_list, 6)
         page = request.GET.get('page', 1)
 
         try:

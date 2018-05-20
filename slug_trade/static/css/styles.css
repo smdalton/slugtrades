@@ -719,6 +719,7 @@ input[type=submit]:hover {
   margin: 20px 0;
 }
 
+/********* Profile ************/
 .profile-picture-wrapper {
   display: flex;
   align-items: center;
@@ -1066,27 +1067,23 @@ margin-left: 10px;
 
 .profile-wrapper{
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .profile-body{
-  margin-left: 70px;
   width: 100%;
   max-width: 650px;
   background: #fff;
-  padding-top: 70px;
-  padding-right: 60px;
+  padding: 100px 60px;
+  margin-bottom: 140px 0;
 }
 
 .closet-body {
-  margin-right: 70px
   width: 100%;
   max-width: 650px;
   background: #fff;
-  padding-top: 70px;
-  padding-left: 60px;
-  padding-bottom: 70px;
+  padding: 100px 60px;
 }
 
 .profile-info-wrapper{
@@ -1114,6 +1111,23 @@ margin-left: 10px;
   width: 100%;
   max-width: 400px;
   margin-left: 40px;
+}
+
+.profile-item-edit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-edit-profile-link {
+  margin: 8px 0;
+  font-size: 12px;
+  color: tomato;
+  text-decoration: none;
+}
+
+.profile-edit-profile-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .profile-info-name-wrapper, .profile-info-location-wrapper, .profile-info-bio-wrapper{
@@ -1231,17 +1245,19 @@ margin-left: 10px;
 }
 
 .profile-item-wrapper {
-  width: 240px;
   margin: 10px;
 }
 
 .profile-item-image-wrapper {
-  width: 240px;
   height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+.profile-item-image-wrapper img {
+  width: 100%;
 }
 
 .profile-item-image-wrapper:hover {
@@ -1523,10 +1539,6 @@ margin-left: 10px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 15px;
-}
-
-.products-list-container img {
-  border-radius: 15px;
 }
 
 .showing-all {

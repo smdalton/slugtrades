@@ -12,6 +12,7 @@
 
 {% block body_block %}
 <div class="profile-wrapper">
+
   <div class="profile-body">
     <div class="profile-info-wrapper">
 
@@ -118,19 +119,27 @@
 
         {% for item, images in item_data %}
 
-          {% if my_profile %}
-            <div class="profile-item-wrapper" onclick="clickItem({{item.id}})">
-          {% else %}
             <div class="profile-item-wrapper">
-          {% endif %}
 
             <div class="profile-item-image-wrapper">
               <img src="{{images.0}}" width="240" alt="">
             </div>
-            <div class="item-seller-wrapper">
-              <div class="seller-title">CATEGORY: &nbsp;</div>
-              <div class="seller-name">{{item.get_category_display|title}}</div>
-            </div>
+
+            {% if not public %}
+              <div class="profile-item-edit">
+                <div class="item-seller-wrapper">
+                  <div class="seller-title">CATEGORY: &nbsp;</div>
+                  <div class="seller-name">{{item.get_category_display|title}}</div>
+                </div>
+                <div class="profile-edit-profile-link" onclick="clickItem({{item.id}})">Edit Item</div>
+              </div>
+            {% else %}
+              <div class="item-seller-wrapper">
+                <div class="seller-title">CATEGORY: &nbsp;</div>
+                <div class="seller-name">{{item.get_category_display|title}}</div>
+              </div>
+            {% endif %}
+
             <div class="item-title">{{item.name|title}}</div>
             <div class="item-price-wrapper">
 
