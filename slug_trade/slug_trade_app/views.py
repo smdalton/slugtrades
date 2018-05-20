@@ -113,7 +113,7 @@ def public_profile_inspect(request, user_id):
     # get all of the items for the given user
     items_list = Item.objects.filter(user__id=user_id)
 
-    paginator = Paginator(items_list, 4)
+    paginator = Paginator(items_list, 6)
     page = request.GET.get('page', 1)
 
     try:
