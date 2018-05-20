@@ -1,3 +1,19 @@
+// This is the function that manipulates the url when pagination controlls are clicked
+var changePage = function(pageNumber) {
+  var url = window.location.href;
+  if(url.search(/page=\d+/i) == -1) {
+    if(url.search(/\?/i) == -1) {
+      var newUrl = url + '?page='+ pageNumber;
+    } else {
+      var newUrl = url + '&page=' + pageNumber;
+    }
+    window.location.href = newUrl;
+  } else {
+    var newUrl = url.replace(/page=\d+/i, 'page='+pageNumber);
+    window.location.href = newUrl
+  }
+};
+
 var editProfileFormTouched = function(firstName, lastName, bio, onOffCampus, profilePicture) {
   return (
     ($('#id_first_name').val() != firstName) ||

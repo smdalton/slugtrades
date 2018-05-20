@@ -142,16 +142,29 @@ def profile(request):
                 return redirect('/profile?item_added=True')
 
         wishlist = Wishlist.objects.filter(user=request.user)
-        items= Item.objects.filter(user__id=request.user.id)
+        items_list= Item.objects.filter(user__id=request.user.id)
+
+        paginator = Paginator(items_list, 4)
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
+
         return render(request, 'slug_trade_app/profile.html', {
                     'user_to_view': request.user,
                     'public': False,
                     'item_data': items_and_images,
                     'wishlist': wishlist,
                     'show_add_button': True,
-                    'item_added': request.GET.get('item_added', False)
+                    'item_added': request.GET.get('item_added', False),
+                    'items': items
                 })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
