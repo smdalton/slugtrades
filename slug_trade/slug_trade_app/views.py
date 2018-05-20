@@ -111,13 +111,20 @@ def public_profile_inspect(request, user_id):
     user_to_view = User.objects.get(id=user_id)
 
     # get all of the items for the given user
-    items = Item.objects.filter(user__id=user_id)
+    items_list = Item.objects.filter(user__id=user_id)
 
-    # get the list of each item's images from the models method get_image_list()
-    images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    paginator = Paginator(items_list, 6)
+    page = request.GET.get('page', 1)
 
-    # zip the two lists into one iterable together
-    items_and_images = zip(items, images)
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+    images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    items_and_images = zip(items,images)
 
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
@@ -126,7 +133,8 @@ def public_profile_inspect(request, user_id):
                       'public': True,
                       'item_data': items_and_images,
                       'wishlist': wishlist,
-                      'show_add_button': False
+                      'show_add_button': False,
+                      'items': items
                   })
 
 
@@ -150,9 +158,21 @@ def profile(request):
                 return redirect('/profile?item_added=True')
 
         wishlist = Wishlist.objects.filter(user=request.user)
-        items= Item.objects.filter(user__id=request.user.id)
+        items_list= Item.objects.filter(user__id=request.user.id)
+
+        paginator = Paginator(items_list, 6)
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
+
         return render(request, 'slug_trade_app/profile.html', {
                     'user_to_view': request.user,
                     'public': False,
@@ -160,6 +180,7 @@ def profile(request):
                     'wishlist': wishlist,
                     'show_add_button': True,
                     'item_added': request.GET.get('item_added', False),
+                    'items': items,
                     'my_profile': True
                 })
     else:
