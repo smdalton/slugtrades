@@ -34,7 +34,7 @@ CAMPUS_STATUS = (
 TRADE_OPTIONS = (
     ('0','Cash Only'),
     ('1','Cash and Items'),
-    ('2','Trade Only'),
+    ('2','Items Only'),
     ('3','Free')
 )
 
