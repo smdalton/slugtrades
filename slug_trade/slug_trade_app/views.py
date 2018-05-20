@@ -137,7 +137,7 @@ def profile(request):
         is logged in, it will redirect to a sign-up/broken page
     """
     if request.user.is_authenticated():
-        if request.method == 'POST':
+        if request.method == 'POST' and not request.POST['description'].isspace():
             # if the wishlist item already exists in the wishlist, do not add it again
             try:
                 existing_item = Wishlist.objects.get(user=request.user, wishlist_item_description=request.POST['description'])
