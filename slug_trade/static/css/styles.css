@@ -346,6 +346,10 @@ input[type=submit]:hover {
   color: #777;
 }
 
+.item-type-price {
+  font-size: 14px;
+}
+
 .item-title {
   font-family: 'Archivo Black', sans-serif;
   font-size: 20px;
