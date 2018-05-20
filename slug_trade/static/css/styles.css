@@ -1074,21 +1074,25 @@ margin-left: 10px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-image: url("../../static/images/hero_background.jpg");
-  background-size: cover;
 }
 
 .profile-body{
-  margin-left: 25px;
-  margin-top: 25px;
-  margin-bottom: 25px;
-  border-radius: 10px;
+  margin-left: 70px;
   width: 100%;
-  max-width: 700px;
+  max-width: 650px;
   background: #fff;
-  padding: 100px 50px;
-  overflow: scroll;
-  height: 645px;
+  padding-top: 70px;
+  padding-right: 60px;
+}
+
+.closet-body {
+  margin-right: 70px
+  width: 100%;
+  max-width: 650px;
+  background: #fff;
+  padding-top: 70px;
+  padding-left: 60px;
+  padding-bottom: 70px;
 }
 
 .profile-info-wrapper{
@@ -1214,7 +1218,6 @@ margin-left: 10px;
 .profile-closet-title-wrapper {
   display: flex;
   align-items: center;
-  margin-top: 80px;
   justify-content: space-between;
 }
 
@@ -1233,12 +1236,25 @@ margin-left: 10px;
   color: #F2CE60;
 }
 
+.profile-item-wrapper {
+  width: 240px;
+  margin: 10px;
+}
+
+.profile-item-image-wrapper {
+  width: 240px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 .closet-item-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, minmax(200px, 1fr));
-  grid-gap: 15px;
+  grid-template-columns: repeat(2, minmax(270px, 1fr));
   width: 100%;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 /******** Add Closet Item *********/
 

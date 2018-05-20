@@ -97,7 +97,8 @@
 
       {% endif %}
     </div>
-
+  </div>
+  <div class="closet-body">
       <div class="profile-closet-title-wrapper">
 
           <h2>Closet</h2>
@@ -117,10 +118,10 @@
 
         {% for item, images in item_data %}
 
-          <div class="item-wrapper">
+          <div class="profile-item-wrapper">
 
-            <div class="item-image-wrapper">
-              <img src="{{images.0}}" width="300" alt="">
+            <div class="profile-item-image-wrapper">
+              <img src="{{images.0}}" width="240" alt="">
             </div>
             <div class="item-seller-wrapper">
               <div class="seller-title">CATEGORY: &nbsp;</div>
@@ -148,8 +149,7 @@
           </div>
         {% endfor %}
         {% endif %}
-        </div>
-
+      </div>
   </div>
 </div>
 
