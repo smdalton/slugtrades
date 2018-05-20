@@ -60,12 +60,11 @@ def products(request):
                     for value in values:
                         selected_types.append(value)
 
-            print(selected_types)
             for type in type_values:
                 if type not in selected_types:
-                    print(type)
                     items_list = items_list.exclude(item__trade_options=type)
 
+        item_count = items_list.count()
         paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
 
@@ -76,7 +75,7 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types})
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
