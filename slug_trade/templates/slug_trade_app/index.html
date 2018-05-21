@@ -19,13 +19,15 @@
           <div class="dropdown-lists-wrapper">
             <div class="drop-wrapper" id="drop-wrapper-left">
               <div class="category-title">Category</div>
-              <select>
-                <option value="volvo">All</option>
-                <option value="saab">Bikes</option>
-                <option value="mercedes">Clothes</option>
-                <option value="audi">Electronics</option>
-                <option value="audi">Textbooks</option>
-              </select>
+            	<form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <select name="category">
+                  <option value="All">All</option>
+                  <option value="BI">Bikes</option>
+                  <option value="C">Clothes</option>
+                  <option value="E">Electronics</option>
+                  <option value="BO">Textbooks</option>
+                </select>
             </div>
             <div class="drop-wrapper" id="drop-wrapper-right">
               <div class="category-title">Type</div>
@@ -36,7 +38,8 @@
                 <option value="audi">Free</option>
               </select>
             </div>
-            <input id="my" type="submit" value="Submit">
+            <input  type="submit" value="Submit">
+            </form><br>
             <div class="drop-wrapper" id="drop-wrapper-right">
               <div class="category-title"></div>
             </div>
@@ -45,6 +48,8 @@
       </div>
     </div>
   </div>
+  <!-- ======================= Recent Item Section ======================= -->
+
   <div class="angle-box">
     <div class="items-preview-wrapper angle-wrapper">
       <div class="items-preview-body top-padding-100">
@@ -91,72 +96,10 @@
         </div>
       </div>
 
-          <!-- <div class="item-wrapper">
-            <div class="item-image-wrapper">
-              <img src="{% static 'images/ps4.jpg' %}" width="300" alt="">
-            </div>
-            <div class="item-seller-wrapper">
-              <div class="seller-title">SOLD BY: &nbsp;</div>
-              <div class="seller-name">Bones</div>
-            </div>
-            <div class="item-title">Playstation 4</div>
-            <div class="item-price-wrapper">
-              <div class="item-type-title">Trade only</div>
-              <div class="item-type-price">Make an offer</div>
-            </div>
-          </div>
-
-          <div class="item-wrapper">
-            <div class="item-image-wrapper">
-              <img src="{% static 'images/bike.jpg' %}" width="300" alt="">
-            </div>
-            <div class="item-seller-wrapper">
-              <div class="seller-title">SOLD BY: &nbsp;</div>
-              <div class="seller-name">Spock</div>
-            </div>
-            <div class="item-title">Bike</div>
-            <div class="item-price-wrapper">
-              <div class="item-type-title">Sale</div>
-              <div class="item-type-price">$200</div>
-            </div>
-          </div>
-
-          <div class="item-wrapper">
-            <div class="item-image-wrapper">
-              <img src="{% static 'images/textbook.jpg' %}" width="300" alt="">
-            </div>
-            <div class="item-seller-wrapper">
-              <div class="seller-title">SOLD BY: &nbsp;</div>
-              <div class="seller-name">Ohura</div>
-            </div>
-            <div class="item-title">Math Textbook</div>
-            <div class="item-price-wrapper">
-              <div class="item-type-title">Sale</div>
-              <div class="item-type-price">$20</div>
-            </div>
-
-          </div>
-
-          <div class="item-wrapper">
-            <div class="item-image-wrapper">
-              <img src="{% static 'images/bird.jpg' %}" width="300" alt="">
-            </div>
-            <div class="item-seller-wrapper">
-              <div class="seller-title">SOLD BY: &nbsp;</div>
-              <div class="seller-name">Kirk</div>
-            </div>
-            <div class="item-title">Birdcage</div>
-            <div class="item-price-wrapper">
-              <div class="item-type-title">Free</div>
-              <div class="item-type-price"></div>
-            </div>
-          </div> -->
-
-        <!-- </div>
-      </div> -->
+      <!-- ======================= Categories Section ======================= -->
 
       <div class="go-to-category-wrapper">
-        <a href="{% url 'slug_trade_app:products' %}"><div class="go-to-category-button">View Category</div></a>
+        <a href="/products?category=Recent"><div class="go-to-category-button">View Category</div></a>
       </div>
     </div>
   </div>
@@ -166,13 +109,15 @@
       <div class="categories-icons-title">Shop Categories</div>
       <div class="categories-icons-subtitle">Simplify your search. Find what you're looking for faster.</div>
       <div class="categories-tiles-wrapper">
-        <a href="products?category=B"><div class="box bikes-box">Bikes</div></a>
-        <a href="products?category=C"><div class="box clothes-box">Clothes</div></a>
-        <a href="products?category=E"><div class="box electronics-box">Electronics</div></a>
-        <a href="products?category=T"><div class="box textbooks-box">Textbooks</div></a>
+        <a href="/products?category=BI"><div class="box bikes-box">Bikes</div></a>
+        <a href="/products?category=C"><div class="box clothes-box">Clothes</div></a>
+        <a href="/products?category=E"><div class="box electronics-box">Electronics</div></a>
+        <a href="/products?category=BO"><div class="box textbooks-box">Textbooks</div></a>
       </div>
     </div>
   </div>
+
+      <!-- ======================= MISC Section ======================= -->
 
   <div class="add-wrapper">
     <div class="add-wrapper-body">
@@ -184,7 +129,7 @@
         </div>
         <p>It's time to update your steez. Slug Trade helps you find those hidden gems that are being neglected in someone's closet so you can make them an essential piece of your wardrobe. </p>
         <span style="font-weight: 800; color: #333;">Let's get started.</span>
-        <a href="{% url 'slug_trade_app:products' %}"><div class="shop-button">Shop Clothes</div></a>
+        <a href="/products?category=C"><div class="shop-button">Shop Clothes</div></a>
       </div>
     </div>
   </div>
@@ -225,79 +170,53 @@
     </div>
   </div>
 
+    <!-- ======================= Popular Section ======================= -->
+
   <div class="items-preview-wrapper">
     <div class="items-preview-body top-padding-100">
       <div class="items-preview-title">Popular Items</div>
       <div class="items-preview-subtitle">Check out the stuff everyone has been talking about.</div>
+      {% if popular_and_images %}
       <div class="items-horizontal-wrapper">
+        {% for popular, images in popular_and_images %}
 
-        <div class="item-wrapper">
-          <div class="item-image-wrapper">
-            <img src="{% static 'images/ps4.jpg' %}" width="300" alt="">
-          </div>
-          <div class="item-seller-wrapper">
-            <div class="seller-title">SOLD BY: &nbsp;</div>
-            <div class="seller-name">Bones</div>
-          </div>
-          <div class="item-title">Playstation 4</div>
-          <div class="item-price-wrapper">
-            <div class="item-type-title">Trade only</div>
-            <div class="item-type-price">Make an offer</div>
-          </div>
-        </div>
+          <div class="item-wrapper">
+              <div class="item-image-wrapper">
+                <img src="{{images.0}}" width="300" alt="">
+              </div>
 
-        <div class="item-wrapper">
-          <div class="item-image-wrapper">
-            <img src="{% static 'images/bike.jpg' %}" width="300" alt="">
-          </div>
-          <div class="item-seller-wrapper">
-            <div class="seller-title">SOLD BY: &nbsp;</div>
-            <div class="seller-name">Spock</div>
-          </div>
-          <div class="item-title">Bike</div>
-          <div class="item-price-wrapper">
-            <div class="item-type-title">Sale</div>
-            <div class="item-type-price">$200</div>
-          </div>
-        </div>
+              <div class="item-seller-wrapper">
+                <div class="seller-title">Category:&nbsp;</div>
+                <div class="seller-name">{{popular.get_category_display|title}}</div>
+              </div>
 
-        <div class="item-wrapper">
-          <div class="item-image-wrapper">
-            <img src="{% static 'images/textbook.jpg' %}" width="300" alt="">
-          </div>
-          <div class="item-seller-wrapper">
-            <div class="seller-title">SOLD BY: &nbsp;</div>
-            <div class="seller-name">Ohura</div>
-          </div>
-          <div class="item-title">Math Textbook</div>
-          <div class="item-price-wrapper">
-            <div class="item-type-title">Sale</div>
-            <div class="item-type-price">$20</div>
-          </div>
+              <div class="item-title">{{popular.name|title}}</div>
+              <div class="item-price-wrapper">
 
-        </div>
+                {% if popular.get_trade_options_display == "Cash with items on top" %}
+                  <div class="item-type-title">Trade Only</div>
+                {% else%}
+                  <div class="item-type-price">{{popular.get_trade_options_display}}</div>
+                {% endif %}
 
-        <div class="item-wrapper">
-          <div class="item-image-wrapper">
-            <img src="{% static 'images/bird.jpg' %}" width="300" alt="">
-          </div>
-          <div class="item-seller-wrapper">
-            <div class="seller-title">SOLD BY: &nbsp;</div>
-            <div class="seller-name">Kirk</div>
-          </div>
-          <div class="item-title">Birdcage</div>
-          <div class="item-price-wrapper">
-            <div class="item-type-title">Free</div>
-            <div class="item-type-price"></div>
-          </div>
-        </div>
+                {% if popular.get_trade_options_display == "Cash Only" %}
+                  <div class="item-type-price">${{popular.price}}</div>
+                {% elif popular.get_trade_options_display == "Trade Only" %}
+                  <div class="item-type-price">Make an Offer</div>
+                {% elif popular.get_trade_options_display == "Cash with items on top" %}
+                  <div class="item-type-price">Make an Offer</div>
+                {% else %}
+                  <div class="item-type-price">Free</div>
+                {% endif %}
 
-      </div>
-    </div>
+              </div>
+          </div>
+        {% endfor %}
+      {% endif %}
   </div>
 
   <div class="go-to-category-wrapper">
-    <a href="{% url 'slug_trade_app:products' %}"><div class="go-to-category-button">View Category</div></a>
+    <a href="/products?category=Popular"><div class="go-to-category-button">View Category</div></a>
   </div>
 </div>
 
@@ -310,7 +229,7 @@
       </div>
       <p>There are hundreds of students on campus that have the book you are looking for lying around in their closet. </p>
       <span style="font-weight: 800; color: #333;">Lose the bookstore.</span>
-      <a href="{% url 'slug_trade_app:products' %}"><div class="shop-button2">Shop Textbooks</div></a>
+      <a href="/products?category=BO"><div class="shop-button2">Shop Textbooks</div></a>
     </div>
     <div class="ad-image2"></div>
   </div>
@@ -327,76 +246,53 @@
 
 <hr style="max-width: 500px; border: 1px solid #efefef;" />
 
+  <!-- ======================= Textbook Section ======================= -->
+
 <div class="items-preview-wrapper">
   <div class="items-preview-body top-padding-100">
     <div class="items-preview-title">Shop Textbooks</div>
     <div class="items-preview-subtitle">Looks like you need to learn a thing or two. Checkout textbooks.</div>
+    {% if books_and_images %}
     <div class="items-horizontal-wrapper">
+      {% for book, images in books_and_images %}
 
-      <div class="item-wrapper">
-        <div class="item-image-wrapper">
-          <img src="{% static 'images/ps4.jpg' %}" width="300" alt="">
-        </div>
-        <div class="item-seller-wrapper">
-          <div class="seller-title">SOLD BY: &nbsp;</div>
-          <div class="seller-name">Bones</div>
-        </div>
-        <div class="item-title">Playstation 4</div>
-        <div class="item-price-wrapper">
-          <div class="item-type-title">Trade only</div>
-          <div class="item-type-price">Make an offer</div>
-        </div>
-      </div>
+        <div class="item-wrapper">
+            <div class="item-image-wrapper">
+              <img src="{{images.0}}" width="300" alt="">
+            </div>
 
-      <div class="item-wrapper">
-        <div class="item-image-wrapper">
-          <img src="{% static 'images/bike.jpg' %}" width="300" alt="">
-        </div>
-        <div class="item-seller-wrapper">
-          <div class="seller-title">SOLD BY: &nbsp;</div>
-          <div class="seller-name">Spock</div>
-        </div>
-        <div class="item-title">Bike</div>
-        <div class="item-price-wrapper">
-          <div class="item-type-title">Sale</div>
-          <div class="item-type-price">$200</div>
-        </div>
-      </div>
+            <div class="item-seller-wrapper">
+              <div class="seller-title">Category:&nbsp;</div>
+              <div class="seller-name">{{book.get_category_display|title}}</div>
+            </div>
 
-      <div class="item-wrapper">
-        <div class="item-image-wrapper">
-          <img src="{% static 'images/textbook.jpg' %}" width="300" alt="">
-        </div>
-        <div class="item-seller-wrapper">
-          <div class="seller-title">SOLD BY: &nbsp;</div>
-          <div class="seller-name">Ohura</div>
-        </div>
-        <div class="item-title">Math Textbook</div>
-        <div class="item-price-wrapper">
-          <div class="item-type-title">Sale</div>
-          <div class="item-type-price">$20</div>
-        </div>
+            <div class="item-title">{{book.name|title}}</div>
+            <div class="item-price-wrapper">
 
-      </div>
+              {% if book.get_trade_options_display == "Cash with items on top" %}
+                <div class="item-type-title">Trade Only</div>
+              {% else%}
+                <div class="item-type-price">{{book.get_trade_options_display}}</div>
+              {% endif %}
 
-      <div class="item-wrapper">
-        <div class="item-image-wrapper">
-          <img src="{% static 'images/bird.jpg' %}" width="300" alt="">
+              {% if book.get_trade_options_display == "Cash Only" %}
+                <div class="item-type-price">${{book.price}}</div>
+              {% elif book.get_trade_options_display == "Trade Only" %}
+                <div class="item-type-price">Make an Offer</div>
+              {% elif book.get_trade_options_display == "Cash with items on top" %}
+                <div class="item-type-price">Make an Offer</div>
+              {% else %}
+                <div class="item-type-price">Free</div>
+              {% endif %}
+
+            </div>
         </div>
-        <div class="item-seller-wrapper">
-          <div class="seller-title">SOLD BY: &nbsp;</div>
-          <div class="seller-name">Kirk</div>
-        </div>
-        <div class="item-title">Birdcage</div>
-        <div class="item-price-wrapper">
-          <div class="item-type-title">Free</div>
-          <div class="item-type-price"></div>
-        </div>
-      </div>
+      {% endfor %}
+    {% endif %}
     </div>
 
     <div class="go-to-category-wrapper">
-      <a href="{% url 'slug_trade_app:products' %}"><div class="go-to-category-button">View Category</div></a>
+      <a href="/products?category=BO"><div class="go-to-category-button">View Category</div></a>
     </div>
   </div>
 </div>

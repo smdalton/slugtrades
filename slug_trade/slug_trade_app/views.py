@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,  HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -7,7 +7,7 @@ from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
-from slug_trade_app.models import UserProfile
+from slug_trade_app.models import UserProfile, ITEM_CATEGORIES
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -21,20 +21,71 @@ def index(request):
     images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
     items_and_images = zip(items,images)
 
+    books = Item.objects.filter(category="BO")[:4]
+    b_images = [ItemImage.objects.get(item=book).get_image_list() for book in books]
+    books_and_images = zip(books,b_images)
+
+    popular = Item.objects.all().order_by('-bid_counter')[:4]
+    p_images = [ItemImage.objects.get(item=p).get_image_list() for p in popular]
+    popular_and_images = zip(popular,p_images)
+
+
     if debug:
         print("in index view")
-    return render(request, 'slug_trade_app/index.html',{'items_and_images':items_and_images})
+
+    if request.method == 'POST':
+        print ("Index: POST")
+
+        categories = [
+            { 'name': 'All', 'value': 'All' }
+        ]
+
+        for value, name in ITEM_CATEGORIES:
+            categories.append({ 'name': name, 'value': value})
+
+        print ("Product: Post")
+        if request.POST['category'] == 'All':
+            items_list = ItemImage.objects.all()
+        else:
+            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
+
+        paginator = Paginator(items_list, 6) # Show 6 items per page
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
+        print("Last cat " + str(request.POST['category']))
+
+        return render(request, 'slug_trade_app/products.html', {
+        'items': items,
+        'categories': categories,
+        'last_category': request.POST['category'],
+        })
+
+    else:
+
+        print("At home")
+        return render(request, 'slug_trade_app/index.html',{
+        'items_and_images':items_and_images,
+        'books_and_images': books_and_images,
+        'popular_and_images': popular_and_images,
+
+    })
 
 
 def products(request):
 
     categories = [
-        { 'name': 'All', 'value': 'All' },
-        { 'name': 'Electronics', 'value': 'E' },
-        { 'name': 'Household goods', 'value': 'H' },
-        { 'name': 'Clothing', 'value': 'C' },
-        { 'name': 'Other', 'value': 'O' }
+        { 'name': 'All', 'value': 'All' }
     ]
+
+    for value, name in ITEM_CATEGORIES:
+        categories.append({ 'name': name, 'value': value})
 
     if request.method == 'POST':
         print ("Product: Post")
@@ -71,6 +122,7 @@ def products(request):
             else:
                 last_cat = "All"
 
+            # Category section
             if request.method == 'GET' and 'category' in request.GET:
                 last_cat = request.GET['category']
 
@@ -187,7 +239,7 @@ def profile(request):
         items= Item.objects.filter(user__id=request.user.id)
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
-        
+
         return render(request, 'slug_trade_app/profile.html', {
                     'user_to_view': request.user,
                     'public': False,
