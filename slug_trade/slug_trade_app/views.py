@@ -447,11 +447,19 @@ def edit_closet_item(request):
                 item_images = ItemImage.objects.get(item=item)
                 form = ClosetItem(instance=item)
                 photos = ClosetItemPhotos(instance=item_images)
-                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images})
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images, 'item_id': item.id, 'images_id': item_images.id})
             else:
                 return HttpResponse("You can't edit someone else's items.")
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
+
+@csrf_exempt
+def delete_closet_item(request):
+    item = Item.objects.get(id=request.POST['item_id'])
+    item_images = ItemImage.objects.get(item=item)
+    item_images.delete()
+    item.delete()
+    return HttpResponse('Deleted!')
 
 def signup(request):
 

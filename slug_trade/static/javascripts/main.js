@@ -138,7 +138,20 @@ var shuffle = function() {
       swapDivElements(photo1, photo2);
     }
   }
-}
+};
+
+var deleteClosetItem = function(itemId, imagesId) {
+  if (window.confirm("Are you sure you want to delete this item?")) {
+    $.ajax({
+      type: "POST",
+      url: "/delete_closet_item/",
+      data: {item_id: itemId, images_id: imagesId},
+      success: function(result) {
+        window.location.href = '/profile/'
+      }
+    });
+  }
+};
 
 $(document).ready(function() {
   // show drop links on hover
