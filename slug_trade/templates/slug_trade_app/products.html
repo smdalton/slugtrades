@@ -95,6 +95,9 @@
     </div>
 
     <div class="products-list-container">
+      {% if item_count == 0 %}
+        <h4>Nothing to see here!</h4>
+      {% endif %}
       {% for item in items %}
       <div class="products-item-wrapper">
         <div class="item-image-wrapper">
