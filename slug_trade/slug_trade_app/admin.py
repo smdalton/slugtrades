@@ -61,12 +61,12 @@ class OfferCommentAdmin(admin.ModelAdmin):
     def get_item_name(self, obj):
         return obj.item.name + obj.comment
 
-
-class ItemOfferAdmin(admin.ModelAdmin):
-    list_display = ['get_item_name']
-
-    def get_item_name(self, obj):
-        return obj.item.offer_item.name
+#
+# class ItemOfferAdmin(admin.ModelAdmin):
+#     list_display = ['get_item_name']
+#
+#     def get_item_name(self, obj):
+#         return obj.item.offer_item.name
 
 
 class CashOfferAdmin(admin.ModelAdmin):
@@ -81,7 +81,7 @@ admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(ItemComment, ItemCommentAdmin)
 admin.site.register(OfferComment, OfferCommentAdmin)
-admin.site.register(ItemOffer, ItemOfferAdmin)
+admin.site.register(ItemOffer)
 admin.site.register(CashOffer, CashOfferAdmin)
 admin.site.register(Item, ItemAdmin)
 

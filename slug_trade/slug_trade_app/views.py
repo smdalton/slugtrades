@@ -6,7 +6,7 @@ from django.forms import formset_factory
 
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, \
-    UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm, ItemSelectForm
+    UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm
 
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
@@ -121,11 +121,13 @@ def item_details(request, item_id=None):
 
 
 def cash_transaction(request, item_id=None):
+
+
     if request.method == 'POST':
         # Process the form submission
         completed_cash_offer_form = CashTransactionForm(request.POST)
         completed_comment_offer_form = OfferCommentForm(request.POST)
-
+        sale_item = Item.objects.get(id=item_id)
         if completed_cash_offer_form.is_valid() and completed_comment_offer_form.is_valid():
 
             item = models.Item.objects.get(id=item_id)
@@ -137,7 +139,9 @@ def cash_transaction(request, item_id=None):
                 current_bidder=request.user,
             )
             cash_offer.save()
-
+            completed_comment_offer_form.item = sale_item
+            completed_comment_offer_form.user = request.user
+            completed_comment_offer_form.save()
             # if no comment is present do not save anything to the database
 
             if request.POST['comment']:
@@ -154,9 +158,12 @@ def cash_transaction(request, item_id=None):
     else:
         # render the appropriate transaction form
         item = Item.objects.get(id=item_id)
+
         offer_comment_form = OfferCommentForm()
         # import cash offer form
         cash_transaction_form = CashTransactionForm()
+        # TODO: Believe the below sale_item declaration is redundant (shadows clone in top scope)
+        # too little time to test at the moment
         sale_item = Item.objects.get(id=item_id)
         print('>>>>>>>>>>> cash', sale_item.trade_options)
         sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
@@ -177,18 +184,33 @@ def trade_transaction(request, item_id=None):
     :param item_id: id for which the transaction is being placed on
     :return: redirect to home page, successfully save the transaction in the database with the models
     """
+    offer_comment_form = OfferCommentForm(request.POST)
     sale_item = Item.objects.get(id=item_id)
-
-    # get the currently logged in users items for sending to the template or the form
+        # get the currently logged in users items for sending to the template or the form
     logged_in_users_items = models.Item.objects.filter(user=request.user).values()
-
+    selected_items = request.POST.getlist("selected-item")
+    selected_items = [int(item) for item in selected_items]
+    print(selected_items)
     if request.method == 'POST':
-        for item in request.POST:
-            print(item, request.POST[item])
-        # TODO://
+        for item in selected_items:
+            print(item)
+            # item
+            # these are the items that were checked in the form, so for each we must add an item trade offer
+            new_item_offer = models.ItemOffer(
+                item_bid_on=sale_item,
+                item_bid_with=models.Item.objects.get(id=item),
+                item_owner=sale_item.user,
+                original_bidder=request.user
+            )
+            new_item_offer.save()
+
+        # offer_comment_form.item = sale_item
+        # offer_comment_form.user = request.user
+        # offer_comment_form.save()
+        # # TODO://
 
 
-
+        return redirect('/home')
 
     else:
         # prepare the multi-field item form for rendering

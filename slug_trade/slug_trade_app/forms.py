@@ -29,9 +29,6 @@ class CashTransactionForm(forms.ModelForm):
             'offer_amount',
         )
 
-class ItemSelectForm(forms.Form):
-    checkbox = forms.BooleanField()
-    item_name = forms.CharField(initial='test')
 
 class OfferCommentForm(forms.ModelForm):
     class Meta:
