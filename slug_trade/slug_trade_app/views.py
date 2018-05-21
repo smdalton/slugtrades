@@ -2,9 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.forms import formset_factory
 
 from .models import UserProfile
-from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm
+from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, \
+    UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm, ItemSelectForm
 
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
@@ -21,16 +23,16 @@ def index(request):
     test = "This was passed from the backend!"
     if debug:
         print("in index view")
-    return render(request, 'slug_trade_app/index.html',{'test':test})
+    return render(request, 'slug_trade_app/index.html', {'test': test})
 
 
 def products(request):
     categories = [
-        { 'name': 'All', 'value': 'All' },
-        { 'name': 'Electronics', 'value': 'E' },
-        { 'name': 'Household goods', 'value': 'H' },
-        { 'name': 'Clothing', 'value': 'C' },
-        { 'name': 'Other', 'value': 'O' }
+        {'name': 'All', 'value': 'All'},
+        {'name': 'Electronics', 'value': 'E'},
+        {'name': 'Household goods', 'value': 'H'},
+        {'name': 'Clothing', 'value': 'C'},
+        {'name': 'Other', 'value': 'O'}
     ]
     if request.method == 'POST':
         if request.POST['category'] == 'All':
@@ -38,7 +40,7 @@ def products(request):
         else:
             items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
 
-        paginator = Paginator(items_list, 6) # Show 6 items per page
+        paginator = Paginator(items_list, 6)  # Show 6 items per page
         page = request.GET.get('page', 1)
 
         try:
@@ -48,12 +50,13 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': request.POST['category']})
+        return render(request, 'slug_trade_app/products.html',
+                      {'items': items, 'categories': categories, 'last_category': request.POST['category']})
 
     else:
         if request.user.is_authenticated():
             items_list = ItemImage.objects.all()
-            paginator = Paginator(items_list, 6) # Show 6 items per page
+            paginator = Paginator(items_list, 6)  # Show 6 items per page
             page = request.GET.get('page', 1)
 
             try:
@@ -63,7 +66,8 @@ def products(request):
             except EmptyPage:
                 items = paginator.page(paginator.num_pages)
 
-            return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'last_category': 'All'})
+            return render(request, 'slug_trade_app/products.html',
+                          {'items': items, 'categories': categories, 'last_category': 'All'})
 
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
@@ -87,9 +91,9 @@ def item_details(request, item_id=None):
     :return: a template with detailed information on the item with item_id, and the ability
     to continue further in the transaction process of trading
     """
-    #Get the item with specified item id to load it's details
+    # Get the item with specified item id to load it's details
 
-    #render the details into a useful dictionary object
+    # render the details into a useful dictionary object
 
     if not item_id:
         return render(request, 'slug_trade_app/not_authenticated.html')
@@ -105,7 +109,7 @@ def item_details(request, item_id=None):
 
     # send that dictionary object to the template for rendering
 
-    #remove spaces from trade type and makes lowercase for url. ex - Cash Only -> cash_only
+    # remove spaces from trade type and makes lowercase for url. ex - Cash Only -> cash_only
     trade_type_name = bid_item.get_trade_options_display()
     trade_type_name = trade_type_name.replace(" ", "_").lower()
 
@@ -117,7 +121,6 @@ def item_details(request, item_id=None):
 
 
 def cash_transaction(request, item_id=None):
-
     if request.method == 'POST':
         # Process the form submission
         completed_cash_offer_form = CashTransactionForm(request.POST)
@@ -126,14 +129,13 @@ def cash_transaction(request, item_id=None):
         if completed_cash_offer_form.is_valid() and completed_comment_offer_form.is_valid():
 
             item = models.Item.objects.get(id=item_id)
-
             print('type :', type(request.POST['comment']))
             cash_offer = models.CashOffer(
                 item=item,
                 offer_amount=request.POST['offer_amount'],
                 original_bidder=request.user,
                 current_bidder=request.user,
-                                          )
+            )
             cash_offer.save()
 
             # if no comment is present do not save anything to the database
@@ -158,28 +160,56 @@ def cash_transaction(request, item_id=None):
         sale_item = Item.objects.get(id=item_id)
         print('>>>>>>>>>>> cash', sale_item.trade_options)
         sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
-        return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'cash',
-                                                               'sale_item': sale_item,
-                                                               'sale_item_image': sale_item_image,
-                                                               'cash_transaction_form': cash_transaction_form,
-                                                               'offer_comment_form': offer_comment_form
-                                                               })
+        return render(request, 'slug_trade_app/transaction.html', {
+            'transaction_type': 'cash',
+            'sale_item': sale_item,
+            'sale_item_image': sale_item_image,
+            'cash_transaction_form': cash_transaction_form,
+            'offer_comment_form': offer_comment_form
+        })
 
 
 def trade_transaction(request, item_id=None):
-    #item_list = Item.objects.filter(user__id=request.user.id)
+    # item_list = Item.objects.filter(user__id=request.user.id)
+    """
 
+    :param request: request from a user, maybe be a get or a post
+    :param item_id: id for which the transaction is being placed on
+    :return: redirect to home page, successfully save the transaction in the database with the models
+    """
     sale_item = Item.objects.get(id=item_id)
-    print('>>>>>>>>>>> trades', sale_item.trade_options)
-    sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
-    return render(request, 'slug_trade_app/transaction.html', {'transaction_type':'trade',
-                                                               'sale_item': sale_item,
-                                                               'sale_item_image':sale_item_image,
-                                                               })
+
+    # get the currently logged in users items for sending to the template or the form
+    logged_in_users_items = models.Item.objects.filter(user=request.user).values()
+
+    if request.method == 'POST':
+        for item in request.POST:
+            print(item, request.POST[item])
+        # TODO://
+
+
+
+
+    else:
+        # prepare the multi-field item form for rendering
+
+        sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+        offer_comment_form = OfferCommentForm()
+        all_forms = []
+
+
+
+        return render(request,
+                      'slug_trade_app/transaction.html',
+                      {'transaction_type': 'trade',
+                       'sale_item': sale_item,
+                       'offer_comment_form': offer_comment_form,
+                       'logged_in_users_items': logged_in_users_items,
+                       'sale_item_image': sale_item_image,
+                       })
 
 
 def free_transaction(request, item_id=None):
-
     sale_item = Item.objects.get(id=item_id)
     print('>>>>>>>>>>> free', sale_item.trade_options)
     sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
@@ -188,7 +218,8 @@ def free_transaction(request, item_id=None):
                                                                'sale_item_image': sale_item_image,
                                                                })
 
-def transaction(request, item_id=None): # set default value for item id so it doesn't crash
+
+def transaction(request, item_id=None):  # set default value for item id so it doesn't crash
     """
     Primary purpose is to place an offer from the current user
     consisting of one or more items from their inventory ONTO
@@ -210,8 +241,8 @@ def transaction(request, item_id=None): # set default value for item id so it do
         return HttpResponse('test')
 
     else:
-    # TODO: Uncomment below for final version, commented because logging in is repetitive
-    # if  request.user.is_authenticated() and request.method == 'GET':
+        # TODO: Uncomment below for final version, commented because logging in is repetitive
+        # if  request.user.is_authenticated() and request.method == 'GET':
         if request.method == 'GET':
             item_list = Item.objects.filter(user__id=request.user.id)
             sale_item = Item.objects.get(id=item_id)
@@ -223,7 +254,6 @@ def transaction(request, item_id=None): # set default value for item id so it do
 
 
 def public_profile_inspect(request, user_id):
-
     """
         :param request: http request obj
         :param user_id: database key for specific user to load details about
@@ -256,12 +286,12 @@ def public_profile_inspect(request, user_id):
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
     return render(request, 'slug_trade_app/profile.html', {
-                      'user': user_to_view,
-                      'public': True,
-                      'item_data': items_and_images,
-                      'wishlist': wishlist,
-                      'show_add_button': False
-                  })
+        'user': user_to_view,
+        'public': True,
+        'item_data': items_and_images,
+        'wishlist': wishlist,
+        'show_add_button': False
+    })
 
 
 def profile(request):
@@ -274,29 +304,31 @@ def profile(request):
         if request.method == 'POST':
             # if the wishlist item already exists in the wishlist, do not add it again
             try:
-                existing_item = Wishlist.objects.get(user=request.user, wishlist_item_description=request.POST['description'])
+                existing_item = Wishlist.objects.get(user=request.user,
+                                                     wishlist_item_description=request.POST['description'])
             except Wishlist.DoesNotExist:
                 item = Wishlist(
-                        user = request.user,
-                        wishlist_item_description = request.POST['description']
-                    )
+                    user=request.user,
+                    wishlist_item_description=request.POST['description']
+                )
                 item.save()
                 return redirect('/profile?item_added=True')
 
         wishlist = Wishlist.objects.filter(user=request.user)
-        items= Item.objects.filter(user__id=request.user.id)
-        images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
-        items_and_images = zip(items,images)
+        items = Item.objects.filter(user__id=request.user.id)
+        images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
+        items_and_images = zip(items, images)
         return render(request, 'slug_trade_app/profile.html', {
-                    'user': request.user,
-                    'public': False,
-                    'item_data': items_and_images,
-                    'wishlist': wishlist,
-                    'show_add_button': True,
-                    'item_added': request.GET.get('item_added', False)
-                })
+            'user': request.user,
+            'public': False,
+            'item_data': items_and_images,
+            'wishlist': wishlist,
+            'show_add_button': True,
+            'item_added': request.GET.get('item_added', False)
+        })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
+
 
 @csrf_exempt
 def delete_from_wishlist(request):
@@ -331,7 +363,7 @@ def edit_profile(request):
                 'user_profile_form': user_profile_form,
                 'profile_picture_form': profile_picture_form,
                 'user': request.user
-                })
+            })
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
@@ -411,10 +443,8 @@ def add_closet_item(request):
 
 
 def signup(request):
-
     if request.user.is_authenticated():
         return redirect('/products')
-
 
     if request.method == 'POST':
 
@@ -433,10 +463,10 @@ def signup(request):
             created_profile = profile_form.save(commit=False)
 
             profile = UserProfile(
-                user = created_user,
-                profile_picture = request.FILES['profile_picture'],
-                bio = created_profile.bio,
-                on_off_campus = created_profile.on_off_campus
+                user=created_user,
+                profile_picture=request.FILES['profile_picture'],
+                bio=created_profile.bio,
+                on_off_campus=created_profile.on_off_campus
             )
             profile.save()
 

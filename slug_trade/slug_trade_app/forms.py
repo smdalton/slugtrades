@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from slug_trade_app.models import UserProfile, Item, ItemImage, CashOffer, OfferComment
+
+from slug_trade_app.models import UserProfile, Item, ItemImage, CashOffer, OfferComment, ItemOffer
 
 class UserProfileForm(forms.ModelForm):
 
@@ -28,7 +29,9 @@ class CashTransactionForm(forms.ModelForm):
             'offer_amount',
         )
 
-
+class ItemSelectForm(forms.Form):
+    checkbox = forms.BooleanField()
+    item_name = forms.CharField(initial='test')
 
 class OfferCommentForm(forms.ModelForm):
     class Meta:
