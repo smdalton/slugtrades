@@ -55,10 +55,10 @@
       <div class="items-preview-body top-padding-100">
         <div class="items-preview-title">Recent Items</div>
         <div class="items-preview-subtitle">Looking for something you haven't seen yet? Check out our latest items.</div>
-        {% if items_and_images %}
+        {% if recent_and_images %}
         <div class="items-horizontal-wrapper">
 
-          {% for item, images in items_and_images %}
+          {% for recent, images in recent_and_images %}
 
             <div class="item-wrapper">
                 <div class="item-image-wrapper">
@@ -67,23 +67,23 @@
 
                 <div class="item-seller-wrapper">
                   <div class="seller-title">Category:&nbsp;</div>
-                  <div class="seller-name">{{item.get_category_display|title}}</div>
+                  <div class="seller-name">{{recent.get_category_display|title}}</div>
                 </div>
 
-                <div class="item-title">{{item.name|title}}</div>
+                <div class="item-title">{{recent.name|title}}</div>
                 <div class="item-price-wrapper">
 
-                  {% if item.get_trade_options_display == "Cash with items on top" %}
+                  {% if recent.get_trade_options_display == "Cash with items on top" %}
                     <div class="item-type-title">Trade Only</div>
                   {% else%}
-                    <div class="item-type-price">{{item.get_trade_options_display}}</div>
+                    <div class="item-type-price">{{recent.get_trade_options_display}}</div>
                   {% endif %}
 
-                  {% if item.get_trade_options_display == "Cash Only" %}
-                    <div class="item-type-price">${{item.price}}</div>
-                  {% elif item.get_trade_options_display == "Trade Only" %}
+                  {% if recent.get_trade_options_display == "Cash Only" %}
+                    <div class="item-type-price">${{recent.price}}</div>
+                  {% elif recent.get_trade_options_display == "Trade Only" %}
                     <div class="item-type-price">Make an Offer</div>
-                  {% elif item.get_trade_options_display == "Cash with items on top" %}
+                  {% elif recent.get_trade_options_display == "Cash with items on top" %}
                     <div class="item-type-price">Make an Offer</div>
                   {% else %}
                     <div class="item-type-price">Free</div>
@@ -109,10 +109,10 @@
       <div class="categories-icons-title">Shop Categories</div>
       <div class="categories-icons-subtitle">Simplify your search. Find what you're looking for faster.</div>
       <div class="categories-tiles-wrapper">
-        <a href="/products?category=BI"><div class="box bikes-box">Bikes</div></a>
-        <a href="/products?category=C"><div class="box clothes-box">Clothes</div></a>
-        <a href="/products?category=E"><div class="box electronics-box">Electronics</div></a>
-        <a href="/products?category=BO"><div class="box textbooks-box">Textbooks</div></a>
+        <a href="/products?categories=BI"><div class="box bikes-box">Bikes</div></a>
+        <a href="/products?categories=C"><div class="box clothes-box">Clothes</div></a>
+        <a href="/products?categories=E"><div class="box electronics-box">Electronics</div></a>
+        <a href="/products?categories=BO"><div class="box textbooks-box">Textbooks</div></a>
       </div>
     </div>
   </div>
@@ -129,7 +129,7 @@
         </div>
         <p>It's time to update your steez. Slug Trade helps you find those hidden gems that are being neglected in someone's closet so you can make them an essential piece of your wardrobe. </p>
         <span style="font-weight: 800; color: #333;">Let's get started.</span>
-        <a href="/products?category=C"><div class="shop-button">Shop Clothes</div></a>
+        <a href="/products?categories=C"><div class="shop-button">Shop Clothes</div></a>
       </div>
     </div>
   </div>
@@ -216,7 +216,7 @@
   </div>
 
   <div class="go-to-category-wrapper">
-    <a href="/products?category=Popular"><div class="go-to-category-button">View Category</div></a>
+    <a href="/products?categories=Popular"><div class="go-to-category-button">View Category</div></a>
   </div>
 </div>
 
@@ -229,7 +229,7 @@
       </div>
       <p>There are hundreds of students on campus that have the book you are looking for lying around in their closet. </p>
       <span style="font-weight: 800; color: #333;">Lose the bookstore.</span>
-      <a href="/products?category=BO"><div class="shop-button2">Shop Textbooks</div></a>
+      <a href="/products?categories=BO"><div class="shop-button2">Shop Textbooks</div></a>
     </div>
     <div class="ad-image2"></div>
   </div>
@@ -292,7 +292,7 @@
     </div>
 
     <div class="go-to-category-wrapper">
-      <a href="/products?category=BO"><div class="go-to-category-button">View Category</div></a>
+      <a href="/products?categories=BO"><div class="go-to-category-button">View Category</div></a>
     </div>
   </div>
 </div>

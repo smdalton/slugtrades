@@ -55,12 +55,16 @@ class ClosetItem(forms.ModelForm):
 
         self.fields['trade_options'].widget.attrs.update({'required': True, 'class': 'add-closet-wrapper-input'})
 
-class ClosetItemPhotos(forms.Form):
-    image1 = forms.FileField(required=True)
-    image2 = forms.FileField(required=False)
-    image3 = forms.FileField(required=False)
-    image4 = forms.FileField(required=False)
-    image5 = forms.FileField(required=False)
+class ClosetItemPhotos(forms.ModelForm):
+    class Meta():
+        model = ItemImage
+        fields = (
+            'image1',
+            'image2',
+            'image3',
+            'image4',
+            'image5'
+        )
     def __init__(self, *args, **kwargs):
         super(ClosetItemPhotos, self).__init__(*args, **kwargs)
         self.fields['image1'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})

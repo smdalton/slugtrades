@@ -7,7 +7,7 @@ from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, UserForm, SignupUserProfileForm
 from . import models
 from slug_trade_app.models import ItemImage, Item, Wishlist
-from slug_trade_app.models import UserProfile, ITEM_CATEGORIES
+from slug_trade_app.models import UserProfile, ITEM_CATEGORIES, TRADE_OPTIONS
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -28,6 +28,10 @@ def index(request):
     popular = Item.objects.all().order_by('-bid_counter')[:4]
     p_images = [ItemImage.objects.get(item=p).get_image_list() for p in popular]
     popular_and_images = zip(popular,p_images)
+
+    recent = Item.objects.all().order_by('-time_stamp')[:4]
+    r_images = [ItemImage.objects.get(item=r).get_image_list() for r in recent]
+    recent_and_images = zip(recent,r_images)
 
 
     if debug:
@@ -74,18 +78,24 @@ def index(request):
         'items_and_images':items_and_images,
         'books_and_images': books_and_images,
         'popular_and_images': popular_and_images,
+        'recent_and_images': recent_and_images,
 
     })
 
 
 def products(request):
 
-    categories = [
-        { 'name': 'All', 'value': 'All' }
-    ]
+    categories = []
+    category_values = []
+    selected_values = []
+
+    types = []
+    type_values = []
+    selected_types = []
 
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
+        category_values.append(value)
 
     if request.method == 'POST':
         print ("Product: Post")
@@ -94,7 +104,38 @@ def products(request):
         else:
             items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
 
-        paginator = Paginator(items_list, 6) # Show 6 items per page
+    for value, name in TRADE_OPTIONS:
+        types.append({ 'name': name, 'value': value })
+        type_values.append(value)
+
+    if request.user.is_authenticated():
+        items_list = ItemImage.objects.all()
+
+        if request.GET.get('categories', False):
+            selected_values = []
+            for key, values in request.GET.lists():
+                if key =='categories':
+                    for value in values:
+                        selected_values.append(value)
+                        print("Categories: " + value)
+
+            for category in category_values:
+                if category not in selected_values:
+                    items_list = items_list.exclude(item__category=category)
+
+        if request.GET.get('types', False):
+            selected_types = []
+            for key, values in request.GET.lists():
+                if key =='types':
+                    for value in values:
+                        selected_types.append(value)
+
+            for type in type_values:
+                if type not in selected_types:
+                    items_list = items_list.exclude(item__trade_options=type)
+
+        item_count = items_list.count()
+        paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
 
         try:
@@ -104,12 +145,16 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        print("Last cat " + str(request.POST['category']))
+        if request.method == 'POST' and 'category' in request.POST:
+            print("Last cat " + str(request.POST['category']))
+            last_cat = request.POST['category']
+        else:
+            last_cat = "All"
 
         return render(request, 'slug_trade_app/products.html', {
         'items': items,
         'categories': categories,
-        'last_category': request.POST['category'],
+        'last_category': last_cat,
         })
 
     else:
@@ -157,6 +202,10 @@ def products(request):
             'items': items,
             'categories': categories,
             'last_category': last_cat,
+            'selected_values': selected_values,
+            'types': types,
+            'selected_types': selected_types,
+            'item_count': item_count
             })
 
         else:
@@ -167,9 +216,6 @@ def show_users(request):
     users = User.objects.all()
 
     # for each user we want to get the
-    if debug:
-        for item in users:
-            print(item.userprofile)
     return render(request, 'slug_trade_app/users.html', {'users': users})
 
 
@@ -195,15 +241,20 @@ def public_profile_inspect(request, user_id):
     user_to_view = User.objects.get(id=user_id)
 
     # get all of the items for the given user
-    items = Item.objects.filter(user__id=user_id)
+    items_list = Item.objects.filter(user__id=user_id)
 
-    # get the list of each item's images from the models method get_image_list()
-    images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
-    # print(images)
+    paginator = Paginator(items_list, 6)
+    page = request.GET.get('page', 1)
 
-    # zip the two lists into one iterable together
-    items_and_images = zip(items, images)
-    print("Items and images: ", items_and_images)
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+    images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    items_and_images = zip(items,images)
 
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
@@ -212,7 +263,8 @@ def public_profile_inspect(request, user_id):
                       'public': True,
                       'item_data': items_and_images,
                       'wishlist': wishlist,
-                      'show_add_button': False
+                      'show_add_button': False,
+                      'items': items
                   })
 
 
@@ -223,7 +275,7 @@ def profile(request):
         is logged in, it will redirect to a sign-up/broken page
     """
     if request.user.is_authenticated():
-        if request.method == 'POST':
+        if request.method == 'POST' and not request.POST['description'].isspace() and not request.POST['description'] == '':
             # if the wishlist item already exists in the wishlist, do not add it again
             try:
                 existing_item = Wishlist.objects.get(user=request.user, wishlist_item_description=request.POST['description'])
@@ -236,7 +288,18 @@ def profile(request):
                 return redirect('/profile?item_added=True')
 
         wishlist = Wishlist.objects.filter(user=request.user)
-        items= Item.objects.filter(user__id=request.user.id)
+        items_list= Item.objects.filter(user__id=request.user.id)
+
+        paginator = Paginator(items_list, 6)
+        page = request.GET.get('page', 1)
+
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
+
         images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
         items_and_images = zip(items,images)
 
@@ -246,7 +309,9 @@ def profile(request):
                     'item_data': items_and_images,
                     'wishlist': wishlist,
                     'show_add_button': True,
-                    'item_added': request.GET.get('item_added', False)
+                    'item_added': request.GET.get('item_added', False),
+                    'items': items,
+                    'my_profile': True
                 })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
@@ -359,6 +424,165 @@ def add_closet_item(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
+def edit_closet_item(request):
+    if request.method == 'POST':
+        item_images_instance = ItemImage.objects.get(id=request.POST.get('id', None))
+        item_instance = item_images_instance.item
+
+        form = ClosetItem(request.POST, instance=item_instance)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.user = request.user
+            if item.price < 0:
+                item.price = 0
+            form.save()
+
+            files = request.FILES
+            temps = request.POST
+
+            image1 = files.get('image1', '')
+            image2 = files.get('image2', '')
+            image3 = files.get('image3', '')
+            image4 = files.get('image4', '')
+            image5 = files.get('image5', '')
+
+            temp1 = temps.get('temp-image1', '')
+            temp2 = temps.get('temp-image2', '')
+            temp3 = temps.get('temp-image3', '')
+            temp4 = temps.get('temp-image4', '')
+            temp5 = temps.get('temp-image5', '')
+
+            if image1:
+                image1_action = 'update'
+            elif not image1 and not temp1:
+                image1_action = 'delete'
+            else:
+                image1_action = 'none'
+
+            if image2:
+                image2_action = 'update'
+            elif not image2 and not temp2:
+                image2_action = 'delete'
+            else:
+                image2_action = 'none'
+
+            if image3:
+                image3_action = 'update'
+            elif(not image3 and not temp3):
+                image3_action = 'delete'
+            else:
+                image3_action = 'none'
+
+            if image4:
+                image4_action = 'update'
+            elif(not image4 and not temp4):
+                image4_action = 'delete'
+            else:
+                image4_action = 'none'
+
+            if image5:
+                image5_action = 'update'
+            elif not image5 and not temp5:
+                image5_action = 'delete'
+            else:
+                image5_action = 'none'
+
+            images = {
+                'image1': image1,
+                'image2': image2,
+                'image3': image3,
+                'image4': image4,
+                'image5': image5
+            }
+
+            actions = {
+                'image1': image1_action,
+                'image2': image2_action,
+                'image3': image3_action,
+                'image4': image4_action,
+                'image5': image5_action
+            }
+
+            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+            if actions['image1'] == 'update':
+                update.image1 = images['image1']
+            elif actions['image1'] == 'delete':
+                update.image1 = None
+
+            if actions['image2'] == 'update':
+                update.image2 = images['image2']
+            elif actions['image2'] == 'delete':
+                update.image2 = None
+
+            if actions['image3'] == 'update':
+                update.image3 = images['image3']
+            elif actions['image3'] == 'delete':
+                update.image3 = None
+
+            if actions['image4'] == 'update':
+                update.image4 = images['image4']
+            elif actions['image4'] == 'delete':
+                update.image4 = None
+
+            if actions['image5'] == 'update':
+                update.image5 = images['image5']
+            elif actions['image5'] == 'delete':
+                update.image5 = None
+
+            update.save()
+
+            pics = []
+
+            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+            if update.image1: pics.append(update.image1)
+            if update.image2: pics.append(update.image2)
+            if update.image3: pics.append(update.image3)
+            if update.image4: pics.append(update.image4)
+            if update.image5: pics.append(update.image5)
+
+            if len(pics)>=1:
+                update.image1 = pics.pop(0)
+            else:
+                update.image1 = None
+
+            if len(pics)>=1:
+                update.image2 = pics.pop(0)
+            else:
+                update.image2 = None
+
+            if len(pics)>=1:
+                update.image3 = pics.pop(0)
+            else:
+                update.image3 = None
+
+            if len(pics)>=1:
+                update.image4 = pics.pop(0)
+            else:
+                update.image4 = None
+
+            if len(pics)>=1:
+                update.image5 = pics.pop(0)
+            else:
+                update.image5 = None
+
+            update.save()
+
+        return redirect('/profile')
+
+    else:
+        if request.user.is_authenticated():
+            item = Item.objects.get(id=request.GET.get('id', None))
+            if request.user == item.user:
+                item_images = ItemImage.objects.get(item=item)
+                form = ClosetItem(instance=item)
+                photos = ClosetItemPhotos(instance=item_images)
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images})
+            else:
+                return HttpResponse("You can't edit someone else's items.")
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
 
 def signup(request):
 
@@ -403,10 +627,8 @@ def signup(request):
                 login(request, authenticated)
                 return redirect('/products')
             else:
-                print("not authenticated")
                 return redirect('/home')
         else:
-            print("NOT VALID")
             return render(request, 'slug_trade_app/signup.html', {'user_form': user_form, 'profile_form': profile_form})
 
     else:
