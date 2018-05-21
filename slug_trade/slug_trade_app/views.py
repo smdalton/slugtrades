@@ -447,7 +447,7 @@ def edit_closet_item(request):
                 item_images = ItemImage.objects.get(item=item)
                 form = ClosetItem(instance=item)
                 photos = ClosetItemPhotos(instance=item_images)
-                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images, 'item_id': item.id, 'images_id': item_images.id})
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images, 'item_id': item.id})
             else:
                 return HttpResponse("You can't edit someone else's items.")
         else:
