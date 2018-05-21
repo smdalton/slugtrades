@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.forms import formset_factory
-
+import datetime
 from .models import UserProfile
 from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, \
     UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm
@@ -122,6 +122,18 @@ def item_details(request, item_id=None):
 
 def cash_transaction(request, item_id=None):
 
+    if not request.user.is_authenticated():
+        return redirect('/home')
+
+    try:
+        sale_item = Item.objects.get(id=item_id)
+        if sale_item.trade_options is not '0':
+            # redirect them to item details that is appropriate for this specific item
+            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
+    except Exception as e:
+        print(e)
+        # send them a life preserver if they get lost
+        return HttpResponse('This item does not exist <a href="/home">Go to home page<a>')
 
     if request.method == 'POST':
         # Process the form submission
@@ -184,23 +196,40 @@ def trade_transaction(request, item_id=None):
     :param item_id: id for which the transaction is being placed on
     :return: redirect to home page, successfully save the transaction in the database with the models
     """
-    offer_comment_form = OfferCommentForm(request.POST)
-    sale_item = Item.objects.get(id=item_id)
-        # get the currently logged in users items for sending to the template or the form
-    logged_in_users_items = models.Item.objects.filter(user=request.user).values()
-    print(list(logged_in_users_items))
-    for dict in logged_in_users_items:
-        # get the image link from db for representation in the template
-        dict['image'] =models.ItemImage.objects.get(item=dict['id']).get_image_list()[0]
-        print(dict['image'])
-    selected_items = [int(item) for item in request.POST.getlist("selected-item")]
 
-    if debug: print(selected_items)
+    # If user enters wrong id for some reason the item will not exist and redirect them to home
+    # ensure that no incorrect querys ever end up in this view
+
+    if not request.user.is_authenticated():
+        return redirect('/home')
+
+    try:
+        sale_item = Item.objects.get(id=item_id)
+        if sale_item.trade_options is not '2':
+            # redirect them to item details that is appropriate for this specific item
+            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
+
+    except Exception as e:
+        print(e)
+        # send them a life preserver if they get lost
+        return HttpResponse('This item does not exist <a href="/home">Go to home page<a>')
+
+    # preload the offer comment form with an offer comment object
+
+    offer_comment_form = OfferCommentForm(request.POST)
+
+    # get the currently logged in users items for sending to the template or the form
+    logged_in_users_items = models.Item.objects.filter(user=request.user).values()
+
+    for item_representation_dict in logged_in_users_items:
+        # fore each get the image link for representation in the template
+        item_representation_dict['image'] = models.ItemImage.objects.get(item=item_representation_dict['id']).get_image_list()[0]
+    # process all of the strings in the form body into ints of item id's
 
     if request.method == 'POST':
-        for item in selected_items:
-            print(item)
-            # item
+        items_selected_for_trade = [int(item) for item in request.POST.getlist("selected-item")]
+        for item in items_selected_for_trade:
+            # print(item)
             # these are the items that were checked in the form, so for each we must add an item trade offer
             new_item_offer = models.ItemOffer(
                 item_bid_on=sale_item,
@@ -210,23 +239,31 @@ def trade_transaction(request, item_id=None):
             )
             new_item_offer.save()
 
-        # # TODO:// offer comment is not currently working correctly
+        offer_comment_form.is_valid()
+        # specify a default value for the comment as None, so that if there is a problem the code will terminate
+        comment = offer_comment_form.cleaned_data.get('comment', None)
 
-        # offer_comment_form.item = sale_item
-        # offer_comment_form.user = request.user
-        # offer_comment_form.save()
-
+        if comment:
+            # create an offer comment and save it to the database
+            new_comment = models.OfferComment(
+                item=sale_item,
+                user=request.user,
+                comment=comment,
+            )
+            new_comment.save()
 
         return redirect('/home')
+
+        # # TODO:// offer comment is not currently working correctly
+
 
     else:
         # prepare the multi-field item form for rendering
 
         sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+
         offer_comment_form = OfferCommentForm()
         all_forms = []
-
-
 
         return render(request,
                       'slug_trade_app/transaction.html',
@@ -239,11 +276,26 @@ def trade_transaction(request, item_id=None):
 
 
 def free_transaction(request, item_id=None):
+
+    if not request.user.is_authenticated():
+        return redirect('/home')
+
+    try:
+        # check existence
+        sale_item = Item.objects.get(id=item_id)
+        # check free
+        if sale_item.trade_options is not '3':
+            # redirect them to item details that is appropriate for this specific item
+            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
+    except Exception as e:
+        print(e)
+        # send them a life preserver if they get lost
+        return HttpResponse('This item does not exist <a href="/home">Go to home page<a>')
+
+
     sale_item = Item.objects.get(id=item_id)
     print('>>>>>>>>>>> free', sale_item.trade_options)
     sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
-
-
 
     return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free',
                                                                'sale_item': sale_item,

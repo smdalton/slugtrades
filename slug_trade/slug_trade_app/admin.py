@@ -25,7 +25,7 @@ class CustomUserAdmin(UserAdmin):
 class ItemAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_filter = ['category', 'trade_options']
-    list_display = ['name', 'get_name', 'price', 'category', 'trade_options', 'bid_counter', 'condition']
+    list_display = ['id', 'name', 'get_name', 'price', 'category', 'trade_options', 'bid_counter', 'condition']
 
     def get_name(self, obj):
         return obj.user.first_name + " " + obj.user.last_name

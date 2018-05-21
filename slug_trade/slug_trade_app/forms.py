@@ -35,7 +35,19 @@ class OfferCommentForm(forms.ModelForm):
         model = OfferComment
         fields = (
             'comment',
+            'item',
+            'user',
         )
+    def __init__(self, *args, **kwargs):
+        super(OfferCommentForm, self).__init__(*args, **kwargs)
+        self.fields['user'].widget = forms.HiddenInput()
+        self.fields['item'].widget = forms.HiddenInput()
+        initial_arguments = kwargs.get('initial', None)
+        updated_initial = {}
+        if initial_arguments:
+            user = initial_arguments.get('user', None)
+
+
 
 
 class ProfilePictureForm(forms.Form):
