@@ -188,9 +188,15 @@ def trade_transaction(request, item_id=None):
     sale_item = Item.objects.get(id=item_id)
         # get the currently logged in users items for sending to the template or the form
     logged_in_users_items = models.Item.objects.filter(user=request.user).values()
-    selected_items = request.POST.getlist("selected-item")
-    selected_items = [int(item) for item in selected_items]
-    print(selected_items)
+    print(list(logged_in_users_items))
+    for dict in logged_in_users_items:
+        # get the image link from db for representation in the template
+        dict['image'] =models.ItemImage.objects.get(item=dict['id']).get_image_list()[0]
+        print(dict['image'])
+    selected_items = [int(item) for item in request.POST.getlist("selected-item")]
+
+    if debug: print(selected_items)
+
     if request.method == 'POST':
         for item in selected_items:
             print(item)
@@ -204,10 +210,11 @@ def trade_transaction(request, item_id=None):
             )
             new_item_offer.save()
 
+        # # TODO:// offer comment is not currently working correctly
+
         # offer_comment_form.item = sale_item
         # offer_comment_form.user = request.user
         # offer_comment_form.save()
-        # # TODO://
 
 
         return redirect('/home')
@@ -235,6 +242,9 @@ def free_transaction(request, item_id=None):
     sale_item = Item.objects.get(id=item_id)
     print('>>>>>>>>>>> free', sale_item.trade_options)
     sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+
+
+
     return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free',
                                                                'sale_item': sale_item,
                                                                'sale_item_image': sale_item_image,
