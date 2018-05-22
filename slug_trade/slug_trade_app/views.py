@@ -75,17 +75,9 @@ def products(request):
         categories.append({ 'name': name, 'value': value})
         category_values.append(value)
 
-    if request.method == 'POST':
-        print ("Product: Post")
-        if request.POST['category'] == 'All':
-            items_list = ItemImage.objects.all()
-        else:
-            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
-
     for value, name in TRADE_OPTIONS:
         types.append({ 'name': name, 'value': value })
         type_values.append(value)
-    print(types)
 
     if request.user.is_authenticated():
         items_list = ItemImage.objects.all()
@@ -96,7 +88,6 @@ def products(request):
                 if key =='categories':
                     for value in values:
                         selected_values.append(value)
-                        print("Categories: " + value)
 
             for category in category_values:
                 if category not in selected_values:
@@ -124,74 +115,10 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        if request.method == 'POST' and 'category' in request.POST:
-            print("Last cat " + str(request.POST['category']))
-            last_cat = request.POST['category']
-        else:
-            last_cat = "All"
-
-        return render(request, 'slug_trade_app/products.html', {
-        'items': items,
-        'categories': categories,
-        'last_category': last_cat,
-        'selected_values': selected_values,
-        'types': types,
-        'selected_types': selected_types,
-        })
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
 
     else:
-        if request.user.is_authenticated():
-            print("Product: Authenticated")
-
-            if request.method == 'POST' and 'category' in request.POST:
-                print("Last cat " + str(request.POST['category']))
-                last_cat = request.POST['category']
-            else:
-                last_cat = "All"
-
-            # Category section
-            if request.method == 'GET' and 'category' in request.GET:
-                last_cat = request.GET['category']
-
-                items_list = ItemImage.objects.all().filter(item__category=last_cat)
-
-                paginator = Paginator(items_list, 6) # Show 6 items per page
-                page = request.GET.get('page', 1)
-
-                try:
-                    items = paginator.page(page)
-                except PageNotAnInteger:
-                    items = paginator.page(1)
-                except EmptyPage:
-                    items = paginator.page(paginator.num_pages)
-
-            else:
-
-                items_list = ItemImage.objects.all()
-                paginator = Paginator(items_list, 6) # Show 6 items per page
-                page = request.GET.get('page', 1)
-
-                try:
-                    items = paginator.page(page)
-                except PageNotAnInteger:
-                    items = paginator.page(1)
-                except EmptyPage:
-                    items = paginator.page(paginator.num_pages)
-
-            print (last_cat)
-
-            return render(request, 'slug_trade_app/products.html', {
-            'items': items,
-            'categories': categories,
-            'last_category': last_cat,
-            'selected_values': selected_values,
-            'types': types,
-            'selected_types': selected_types,
-            'item_count': item_count
-            })
-
-        else:
-            return render(request, 'slug_trade_app/not_authenticated.html')
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
 # debug route
 def show_users(request):
@@ -560,11 +487,19 @@ def edit_closet_item(request):
                 item_images = ItemImage.objects.get(item=item)
                 form = ClosetItem(instance=item)
                 photos = ClosetItemPhotos(instance=item_images)
-                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images})
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images, 'item_id': item.id})
             else:
                 return HttpResponse("You can't edit someone else's items.")
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
+
+@csrf_exempt
+def delete_closet_item(request):
+    item = Item.objects.get(id=request.POST['item_id'])
+    item_images = ItemImage.objects.get(item=item)
+    item_images.delete()
+    item.delete()
+    return HttpResponse('Deleted!')
 
 def signup(request):
 

@@ -140,20 +140,30 @@
             <div class="item-title">{{item.name|title}}</div>
             <div class="item-price-wrapper">
 
-              {% if item.get_trade_options_display == "Cash with items on top" %}
-                <div class="item-type-title">Trade Only</div>
-              {% else%}
-                <div class="item-type-price">{{item.get_trade_options_display}}</div>
-              {% endif %}
+            {% if not public %}
+              <div class="profile-item-edit">
+                <div class="item-seller-wrapper">
+                  <div class="seller-title">CATEGORY: &nbsp;</div>
+                  <div class="seller-name">{{item.get_category_display|title}}</div>
+                </div>
+                <div class="profile-edit-profile-link" onclick="clickItem({{item.id}})">Edit Item</div>
+              </div>
+            {% else %}
+              <div class="item-seller-wrapper">
+                <div class="seller-title">CATEGORY: &nbsp;</div>
+                <div class="seller-name">{{item.get_category_display|title}}</div>
+              </div>
+            {% endif %}
 
+            <div class="item-title">{{item.name|title}}</div>
+            <div class="item-price-wrapper">
+              <div class="item-type-price">{{item.get_trade_options_display}}</div>
               {% if item.get_trade_options_display == "Cash Only" %}
                 <div class="item-type-price">${{item.price}}</div>
-              {% elif item.get_trade_options_display == "Trade Only" %}
-                <div class="item-type-price">Make an Offer</div>
-              {% elif item.get_trade_options_display == "Cash with items on top" %}
-                <div class="item-type-price">Make an Offer</div>
+              {% elif item.get_trade_options_display == "Free" %}
+                <div class="item-type-price">$0.00</div>
               {% else %}
-                <div class="item-type-price">Free</div>
+                <div class="item-type-price">Offers Welcome!</div>
               {% endif %}
             </div>
           </div>

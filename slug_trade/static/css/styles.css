@@ -347,6 +347,10 @@ input[type=submit]:hover {
   color: #777;
 }
 
+.item-type-price {
+  font-size: 14px;
+}
+
 .item-title {
   font-family: 'Archivo Black', sans-serif;
   font-size: 20px;
@@ -1461,6 +1465,25 @@ margin-left: 10px;
 
 #picture_2, #picture_3, #picture_4, #picture_5 {
   display: none;
+}
+
+#delete-closet-item {
+  border-radius: 5px;
+  font-weight: 900;
+  background-color: #c90202;
+  color: #fff;
+  font-size: 14px;
+  height: 50px;
+  margin-top: 21px;
+  margin-left: 5px;
+  width: 150px;
+  border: none;
+  width: 100%;
+}
+
+#delete-closet-item:hover {
+  background-color: #F2CE60;
+  color: #fff;
 }
 
 /*********** products list *********/
