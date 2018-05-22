@@ -21,24 +21,21 @@
               <div class="category-title">Category</div>
             	<form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
-                <select name="category">
-                  <option value="All">All</option>
-                  <option value="BI">Bikes</option>
-                  <option value="C">Clothes</option>
-                  <option value="E">Electronics</option>
-                  <option value="BO">Textbooks</option>
+                <select name="category" id="home-filter-category">
+                  {% for category in categories %}
+                    <option value="{{category.value}}">{{category.name}}</option>
+                  {% endfor %}
                 </select>
             </div>
             <div class="drop-wrapper" id="drop-wrapper-right">
               <div class="category-title">Type</div>
-              <select>
-                <option value="volvo">All</option>
-                <option value="saab">Sale Only</option>
-                <option value="mercedes">Trade Only</option>
-                <option value="audi">Free</option>
+              <select id="home-filter-type">
+                {% for type in types %}
+                  <option value="{{type.value}}">{{type.name}}</option>
+                {% endfor %}
               </select>
             </div>
-            <input  type="submit" value="Submit">
+            <input id="home-filter" type="button" value="Submit" >
             </form><br>
             <div class="drop-wrapper" id="drop-wrapper-right">
               <div class="category-title"></div>

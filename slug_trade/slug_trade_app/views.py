@@ -37,49 +37,27 @@ def index(request):
     if debug:
         print("in index view")
 
-    if request.method == 'POST':
-        print ("Index: POST")
+    categories = [
+        { 'name': 'All', 'value': 'All' }
+    ]
+    types = [
+        { 'name': 'All', 'value': 'All' }
+    ]
 
-        categories = [
-            { 'name': 'All', 'value': 'All' }
-        ]
+    for value, name in ITEM_CATEGORIES:
+        categories.append({ 'name': name, 'value': value})
 
-        for value, name in ITEM_CATEGORIES:
-            categories.append({ 'name': name, 'value': value})
+    for value, name in TRADE_OPTIONS:
+        types.append({ 'name': name, 'value': value })
 
-        print ("Product: Post")
-        if request.POST['category'] == 'All':
-            items_list = ItemImage.objects.all()
-        else:
-            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
-
-        paginator = Paginator(items_list, 6) # Show 6 items per page
-        page = request.GET.get('page', 1)
-
-        try:
-            items = paginator.page(page)
-        except PageNotAnInteger:
-            items = paginator.page(1)
-        except EmptyPage:
-            items = paginator.page(paginator.num_pages)
-
-        print("Last cat " + str(request.POST['category']))
-
-        return render(request, 'slug_trade_app/products.html', {
-        'items': items,
-        'categories': categories,
-        'last_category': request.POST['category'],
-        })
-
-    else:
-
-        print("At home")
-        return render(request, 'slug_trade_app/index.html',{
+    print("At home")
+    return render(request, 'slug_trade_app/index.html',{
         'items_and_images':items_and_images,
         'books_and_images': books_and_images,
         'popular_and_images': popular_and_images,
         'recent_and_images': recent_and_images,
-
+        'categories': categories,
+        'types': types
     })
 
 
