@@ -114,8 +114,10 @@
 
           {% if item.item.get_trade_options_display == "Cash Only" %}
             <div class="item-type-price">${{item.item.price}}</div>
-          {% elif item.item.get_trade_options_display == "Trade only" %}
-            <div class="item-type-price">Make an offer</div>
+          {% elif item.item.get_trade_options_display == "Free" %}
+            <div class="item-type-price">$0.00</div>
+          {% else %}
+            <div class="item-type-price">Offers Welcome!</div>
           {% endif %}
 
         </div>
