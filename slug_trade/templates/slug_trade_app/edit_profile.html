@@ -8,7 +8,7 @@
 {% block body_block %}
   <div class="edit-profile-wrapper">
     <div class="edit-profile-body">
-      <form enctype="multipart/form-data" method="post">
+      <form enctype="multipart/form-data" method="post" id="edit_profile_form">
         {% csrf_token %}
         <div class="edit-profile-title">Edit Profile</div>
         <div class="profile-picture-wrapper">

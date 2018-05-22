@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^transaction/cash_only/(?P<item_id>\d+)/$', views.cash_transaction, name='view_item_details'),
     url(r'^transaction/trade_only/(?P<item_id>\d+)/$', views.trade_transaction, name='view_item_details'),
     url(r'^transaction/free/(?P<item_id>\d+)/$', views.free_transaction, name='view_item_details'),
+    url(r'^edit_closet_item/$', views.edit_closet_item, name='edit_closet_item'),
+    url(r'^delete_closet_item/$', views.delete_closet_item, name='delete_closet_item'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

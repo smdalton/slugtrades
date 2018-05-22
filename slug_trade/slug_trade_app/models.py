@@ -23,9 +23,7 @@ ITEM_CATEGORIES = (
     ('OF', 'Office'),
     ('F', 'Furniture'),
     ('A', 'Appliances'),
-    ('FI', 'Fitness'),
-    ('OU', 'Outdoors')
-
+    ('FI', 'Fitness')
 )
 
 CAMPUS_STATUS = (
@@ -34,10 +32,10 @@ CAMPUS_STATUS = (
 )
 
 TRADE_OPTIONS = (
-    ('0', 'Cash Only'),
-    ('1', 'Cash with items on top'),
-    ('2', 'Trade only'),
-    ('3', 'Free')
+    ('0','Cash Only'),
+    ('1','Cash and Items'),
+    ('2','Items Only'),
+    ('3','Free')
 )
 
 
@@ -72,7 +70,7 @@ class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80, blank=False)
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=False)
-    category = models.CharField(max_length=1,
+    category = models.CharField(max_length=8,
                                 default="O",
                                 choices=ITEM_CATEGORIES,
                                 blank=False)
