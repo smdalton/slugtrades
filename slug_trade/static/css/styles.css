@@ -56,13 +56,16 @@ body {
 }
 
 .active {
-  background-color: powderblue
+  color: #F2CE60;
 }
 
 .pagination li {
   display: inline-block;
   padding: 10px;
-  border: 1px solid black;
+}
+
+.pagination li:hover {
+  cursor: pointer;
 }
 
 /******** Nav ********/
@@ -1452,6 +1455,33 @@ item-details-image-row-wrapper{
   grid-gap: 15px;
 }
 
+.item-seller-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin: 8px 0;
+  color: #777;
+  font-size: 12px;
+}
+
+.seller-title {
+  font-weight: 500;
+  color: #333;
+}
+
+.seller-name {
+  font-weight: 100;
+}
+
+.seller-name a {
+  text-decoration: none;
+  color: #777;
+}
+
+.seller-name a:hover {
+  color: #F2CE60;
+}
+
 .pagination-title-wrapper {
     display: flex;
     align-items: center;
@@ -1468,8 +1498,8 @@ item-details-image-row-wrapper{
   display: inline-block;
   margin: 0 5px;
   padding: 5px;
+  border: none;
 }
-
 
 
 /************ item details slider **********/
