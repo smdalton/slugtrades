@@ -32,10 +32,6 @@
             <li><img src="{{item_photo}}"></li>
           {% endfor %}
 
-          <!-- {% for item_photo in item_photos%}
-            <img class="item-details-image-row-image" src="{{item_photo}}" alt="">
-          {% endfor %} -->
-
       </ul>
 
         <!--Load the first item-->
@@ -48,7 +44,7 @@
 
     <div class="item-details-addl-info-wrapper">
       <div class="item-details-name-category-wrapper">
-        <div class="item-details-owner-name">SOLD BY: <a href="#"> {{ inspect_item.user.first_name}}</a></div>
+        <div class="item-details-owner-name">SOLD BY: <a href="/profile/{{ inspect_item.user.id}}"> {{ inspect_item.user.first_name}}</a></div>
         <div class="item-details-category">CATEGORY: <a href="#">{{ inspect_item.get_category_display }}</a></div>
       </div>
     </div>
