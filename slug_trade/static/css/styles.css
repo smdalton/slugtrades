@@ -1494,13 +1494,6 @@ item-details-image-row-wrapper{
     justify-content: flex-end;
 }
 
-.pagination li {
-  display: inline-block;
-  margin: 0 5px;
-  padding: 5px;
-  border: none;
-}
-
 
 /************ item details slider **********/
 .pgwSlider {
