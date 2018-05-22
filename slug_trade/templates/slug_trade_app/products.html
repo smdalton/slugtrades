@@ -22,6 +22,7 @@
       {% endif %}
 
       <div class="products-filter-container">
+
         {% for type in types %}
           <div class="products-filter">
             {% if selected_types %}
@@ -35,6 +36,7 @@
             {% endif %}
           </div>
         {% endfor %}
+
       </div>
 
       {% if selected_values %}

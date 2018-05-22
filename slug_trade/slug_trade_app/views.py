@@ -107,6 +107,7 @@ def products(request):
     for value, name in TRADE_OPTIONS:
         types.append({ 'name': name, 'value': value })
         type_values.append(value)
+    print(types)
 
     if request.user.is_authenticated():
         items_list = ItemImage.objects.all()
@@ -155,6 +156,9 @@ def products(request):
         'items': items,
         'categories': categories,
         'last_category': last_cat,
+        'selected_values': selected_values,
+        'types': types,
+        'selected_types': selected_types,
         })
 
     else:
