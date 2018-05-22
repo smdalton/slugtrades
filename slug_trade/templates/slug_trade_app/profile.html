@@ -139,24 +139,6 @@
 
             <div class="item-title">{{item.name|title}}</div>
             <div class="item-price-wrapper">
-
-            {% if not public %}
-              <div class="profile-item-edit">
-                <div class="item-seller-wrapper">
-                  <div class="seller-title">CATEGORY: &nbsp;</div>
-                  <div class="seller-name">{{item.get_category_display|title}}</div>
-                </div>
-                <div class="profile-edit-profile-link" onclick="clickItem({{item.id}})">Edit Item</div>
-              </div>
-            {% else %}
-              <div class="item-seller-wrapper">
-                <div class="seller-title">CATEGORY: &nbsp;</div>
-                <div class="seller-name">{{item.get_category_display|title}}</div>
-              </div>
-            {% endif %}
-
-            <div class="item-title">{{item.name|title}}</div>
-            <div class="item-price-wrapper">
               <div class="item-type-price">{{item.get_trade_options_display}}</div>
               {% if item.get_trade_options_display == "Cash Only" %}
                 <div class="item-type-price">${{item.price}}</div>
