@@ -14,7 +14,13 @@
     <div class="item-details-item-info-wrapper">
       <div class="item-details-title-wrapper">
         <div class="item-details-title">{{ inspect_item.name | title }}</div>
-        <div class="item-details-price">Price ${{ inspect_item.price }}</div>
+        {% if inspect_item.get_trade_options_display == "Cash Only" %}
+          <div class="item-details-price">Price ${{ inspect_item.price }}</div>
+        {% elif inspect_item.get_trade_options_display == "Trade only" %}
+          <div class="item-details-price">Offers Welcome!</div>
+        {% elif inspect_item.get_trade_options_display == "Free" %}
+          <div class="item-details-price">Free</div>
+        {% endif %}
       </div>
       <a style="text-decoration: none;" href="/transaction/{{trade_type}}/{{item_id}}">
         <div class="item-details-snag-item-button">Snag Item</div>
@@ -22,30 +28,18 @@
     </div>
 
     <div class="item-details-carousel-wrapper">
-
       <ul class="pgwSlider">
-          <!-- <li><img src="{{item_photos.0}}"></li>
-          <li><img src="{{item_photos.0}}"></li>
-          <li><img src="{{item_photos.0}}"></li>
-          <li><img src="{{item_photos.0}}"></li> -->
           {% for item_photo in item_photos%}
             <li><img src="{{item_photo}}"></li>
           {% endfor %}
 
       </ul>
-
-        <!--Load the first item-->
-        <!-- <img src="{{item_photos.0}}" alt=""> -->
-
     </div>
-    <!-- {% for item_photo in item_photos%}
-      <img class="item-details-image-row-image" src="{{item_photos.0}}" alt="">
-    {% endfor %} -->
 
     <div class="item-details-addl-info-wrapper">
       <div class="item-details-name-category-wrapper">
         <div class="item-details-owner-name">SOLD BY: <a href="/profile/{{ inspect_item.user.id}}"> {{ inspect_item.user.first_name}}</a></div>
-        <div class="item-details-category">CATEGORY: <a href="#">{{ inspect_item.get_category_display }}</a></div>
+        <div class="item-details-category">CATEGORY: <a href="/products?categories={{inspect_item.category}}">{{ inspect_item.get_category_display }}</a></div>
       </div>
     </div>
 
@@ -55,21 +49,6 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- <div class="item-details-photo">
-    <!--Load the first item-->
-    <!-- <img src="{{item_photos.0}}" alt="">
-</div>
-<div class="item-details-image-row-wrapper">
-    <div class=" item-details-image-row-container">
-        <span class="item-details-image-row-image">these will eventually be clickable</span>
-        {% for item_photo in item_photos%}
-          <img class="item-details-image-row-image" src="{{item_photos.0}}" alt="">
-        {% endfor %}
-    </div>
-</div> -->
 
 {% endblock %}
 
