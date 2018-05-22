@@ -238,7 +238,7 @@ input[type=submit]:hover {
   color: #fff;
 }
 
-.drop-wrapper select {
+.drop-wrapper select, #products-filter-select {
   padding-left: 10px;
   border: 1px solid #d6d6d6;
   background: #fff;

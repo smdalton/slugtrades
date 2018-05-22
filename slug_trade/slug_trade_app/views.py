@@ -71,6 +71,17 @@ def products(request):
     type_values = []
     selected_types = []
 
+    order_by = [
+        { 'name': 'Popular', 'value': 'Popular' },
+        { 'name': 'Recent', 'value': 'Recent' }
+    ]
+
+    order_by_selected = 'Nothing'
+
+    default_order_name = 'Recent'
+    default_order_filter = '-item__time_stamp'
+
+
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
         category_values.append(value)
@@ -104,6 +115,18 @@ def products(request):
                 if type not in selected_types:
                     items_list = items_list.exclude(item__trade_options=type)
 
+        if request.GET.get('order_by', False):
+            if request.GET['order_by'] == 'Popular':
+                items_list = items_list.order_by('-item__bid_counter')
+                order_by_selected = 'Popular'
+            elif request.GET['order_by'] == 'Recent':
+                items_list = items_list.order_by('-item__time_stamp')
+                order_by_selected = 'Recent'
+        else:
+            items_list = items_list.order_by(default_order_filter)
+            order_by_selected = default_order_name
+
+
         item_count = items_list.count()
         paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
@@ -115,7 +138,7 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count, 'order_by': order_by, 'order_by_selected': order_by_selected})
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
