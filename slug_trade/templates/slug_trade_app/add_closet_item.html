@@ -283,6 +283,7 @@
               <input type="text" name="id" style="display: none" value="{{ id }}">
               {% if edit %}
                 <input id="add-closet-submit" type="submit" name="" value="Save">
+                <input type="button" id="delete-closet-item" onclick="deleteClosetItem({{item_id}})" value="Delete Item">
               {% else %}
                 <input id="add-closet-submit" type="submit" name="" value="Add Item">
               {% endif %}
