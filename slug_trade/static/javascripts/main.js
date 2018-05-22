@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  $('.pgwSlider').pgwSlider();
+
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');
