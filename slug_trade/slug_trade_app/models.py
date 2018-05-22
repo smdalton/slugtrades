@@ -88,7 +88,7 @@ class Item(models.Model):
                                 blank=False,
                                  default='2')
     def __str__(self):
-        return f"name: {self.name} price:{self.price} category:{self.category}"
+        return self.name
 
 
 class ItemImage(models.Model):
@@ -126,7 +126,8 @@ class ItemComment(models.Model):
 
 class OfferComment(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="offer_comments")
+    comment_placed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     time_stamp = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=250)
 

@@ -56,10 +56,11 @@ class WishlistAdmin(admin.ModelAdmin):
 
 
 class OfferCommentAdmin(admin.ModelAdmin):
-    list_display = ['get_item_name']
+
+    list_display = ['item_owner', 'item', 'comment_placed_by', 'comment', 'time_stamp']
 
     def get_item_name(self, obj):
-        return obj.item.name + obj.comment
+        return obj.item.name + " "+ obj.comment
 
 #
 # class ItemOfferAdmin(admin.ModelAdmin):
@@ -70,10 +71,9 @@ class OfferCommentAdmin(admin.ModelAdmin):
 
 
 class CashOfferAdmin(admin.ModelAdmin):
-    list_display = ['get_item_name','offer_amount']
+    list_display = ['item_bid_on','offer_amount','item_owner','original_bidder','time_stamp']
 
-    def get_item_name(self, obj):
-        return obj.item.name
+
 
 
 # Register your models here.

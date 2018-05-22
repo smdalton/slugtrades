@@ -129,7 +129,8 @@ def cash_transaction(request, item_id=None):
         sale_item = Item.objects.get(id=item_id)
         if sale_item.trade_options is not '0':
             # redirect them to item details that is appropriate for this specific item
-            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
+            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>"
+                                f"Go to this items details page</a>")
     except Exception as e:
         print(e)
         # send them a life preserver if they get lost
@@ -138,34 +139,42 @@ def cash_transaction(request, item_id=None):
     if request.method == 'POST':
         # Process the form submission
         completed_cash_offer_form = CashTransactionForm(request.POST)
-        completed_comment_offer_form = OfferCommentForm(request.POST)
-        sale_item = Item.objects.get(id=item_id)
-        if completed_cash_offer_form.is_valid() and completed_comment_offer_form.is_valid():
+        completed_offer_comment_form = OfferCommentForm(request.POST)
+        completed_cash_offer_form.is_valid()
+        completed_offer_comment_form.is_valid()
 
-            item = models.Item.objects.get(id=item_id)
-            print('type :', type(request.POST['comment']))
+        print(request.POST['offer_amount'])
+        print(request.POST['comment'])
+
+        item_owner = sale_item.user
+
+        if request.POST['comment']:
+            # make a comment object
+            comment = models.OfferComment(
+                item=sale_item,
+                item_owner=item_owner,
+                comment_placed_by=request.user,
+                comment=request.POST['comment']
+            )
+            comment.save()
+            print(f"comment detected {request.POST['comment']}")
+        else:
+            print('no comment')
+
+        # print(request.POST['offer_amount'])
+        if request.POST['offer_amount']:
+            # make a cash offer object
             cash_offer = models.CashOffer(
-                item=item,
+                item_bid_on=sale_item,
                 offer_amount=request.POST['offer_amount'],
-                original_bidder=request.user,
-                current_bidder=request.user,
+                item_owner=item_owner,
+                original_bidder=request.user
             )
             cash_offer.save()
-            completed_comment_offer_form.item = sale_item
-            completed_comment_offer_form.user = request.user
-            completed_comment_offer_form.save()
-            # if no comment is present do not save anything to the database
+            print(f"offer_amount detected {request.POST['offer_amount']}")
 
-            if request.POST['comment']:
-                print('>>>>>>Got a comment')
-                offer_comment = models.OfferComment(
-                    item=item,
-                    # This is the user who made the comment
-                    user=request.user,
-                    comment=request.POST['comment']
-                )
-                offer_comment.save()
-        return redirect('/home')
+
+        return redirect('/transaction/cash_only/22')
 
     else:
         # render the appropriate transaction form
@@ -199,7 +208,6 @@ def trade_transaction(request, item_id=None):
 
     # If user enters wrong id for some reason the item will not exist and redirect them to home
     # ensure that no incorrect querys ever end up in this view
-
     if not request.user.is_authenticated():
         return redirect('/home')
 
@@ -207,8 +215,8 @@ def trade_transaction(request, item_id=None):
         sale_item = Item.objects.get(id=item_id)
         if sale_item.trade_options is not '2':
             # redirect them to item details that is appropriate for this specific item
-            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
-
+            return HttpResponse(f"This is not a trade item"
+                                f" <a href='/item_details/{item_id}'>Go to this items details page</a>")
     except Exception as e:
         print(e)
         # send them a life preserver if they get lost
@@ -223,11 +231,14 @@ def trade_transaction(request, item_id=None):
 
     for item_representation_dict in logged_in_users_items:
         # fore each get the image link for representation in the template
-        item_representation_dict['image'] = models.ItemImage.objects.get(item=item_representation_dict['id']).get_image_list()[0]
-    # process all of the strings in the form body into ints of item id's
+        item_representation_dict['image'] = models.ItemImage.objects.get(item=item_representation_dict['id'])\
+            .get_image_list()[0]
 
     if request.method == 'POST':
+
+        # process all of the item_id strings in form body into ints
         items_selected_for_trade = [int(item) for item in request.POST.getlist("selected-item")]
+
         for item in items_selected_for_trade:
             # print(item)
             # these are the items that were checked in the form, so for each we must add an item trade offer
@@ -239,10 +250,11 @@ def trade_transaction(request, item_id=None):
             )
             new_item_offer.save()
 
+        # call this to generate the cleaned data dict for the form
         offer_comment_form.is_valid()
+
         # specify a default value for the comment as None, so that if there is a problem the code will terminate
         comment = offer_comment_form.cleaned_data.get('comment', None)
-
         if comment:
             # create an offer comment and save it to the database
             new_comment = models.OfferComment(
@@ -277,14 +289,16 @@ def trade_transaction(request, item_id=None):
 
 def free_transaction(request, item_id=None):
 
+    offer_comment_form = OfferCommentForm(request.POST)
+
     if not request.user.is_authenticated():
         return redirect('/home')
 
     try:
         # check existence
-        sale_item = Item.objects.get(id=item_id)
+        free_item = Item.objects.get(id=item_id)
         # check free
-        if sale_item.trade_options is not '3':
+        if free_item.trade_options is not '3':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
     except Exception as e:
@@ -292,49 +306,26 @@ def free_transaction(request, item_id=None):
         # send them a life preserver if they get lost
         return HttpResponse('This item does not exist <a href="/home">Go to home page<a>')
 
+    if request.method == 'POST':
+        if request.POST['comment']:
+            # make a comment object
+            comment = models.OfferComment(
+                item=free_item,
+                item_owner=free_item.user,
+                comment_placed_by=request.user,
+                comment=request.POST['comment']
+            )
+            comment.save()
 
-    sale_item = Item.objects.get(id=item_id)
-    print('>>>>>>>>>>> free', sale_item.trade_options)
-    sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
-
-    return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free',
-                                                               'sale_item': sale_item,
-                                                               'sale_item_image': sale_item_image,
-                                                               })
-
-
-def transaction(request, item_id=None):  # set default value for item id so it doesn't crash
-    """
-    Primary purpose is to place an offer from the current user
-    consisting of one or more items from their inventory ONTO
-    another item (described by item_id) that is owned by a different user
-    :param request: req. obj
-    :param item_id: describes the item that is currently being offered/bid on
-    :return: redirects user to an arbitrary page after they complete the offer, sends
-    the completed offer to an as-of-yet undetermined endpoint to process the offer.
-    """
-
-    if not item_id:
-        return render(request, 'slug_trade_app/not_authenticated.html')
-
-    # handle a form submission:
-    if request.method == 'POST' and request.user.is_authenticated():
-        print("it's a post!")
-        # handle post
-        form = TransactionForm(request.POST)
-        return HttpResponse('test')
-
+            return redirect('/home/')
     else:
-        # TODO: Uncomment below for final version, commented because logging in is repetitive
-        # if  request.user.is_authenticated() and request.method == 'GET':
-        if request.method == 'GET':
-            item_list = Item.objects.filter(user__id=request.user.id)
-            sale_item = Item.objects.get(id=item_id)
-            return render(request, 'slug_trade_app/transaction.html',
-                          {
-                              'user_item_list': item_list,
-                              'sale_item': sale_item
-                          })
+        sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
+
+        return render(request, 'slug_trade_app/transaction.html', {'transaction_type': 'free',
+                                                                   'sale_item': free_item,
+                                                                   'sale_item_image': sale_item_image,
+                                                                   'offer_comment_form':offer_comment_form
+                                                                   })
 
 
 def public_profile_inspect(request, user_id):

@@ -36,22 +36,18 @@ class OfferCommentForm(forms.ModelForm):
         fields = (
             'comment',
             'item',
-            'user',
+            'item_owner',
         )
+
     def __init__(self, *args, **kwargs):
         super(OfferCommentForm, self).__init__(*args, **kwargs)
-        self.fields['user'].widget = forms.HiddenInput()
+        self.fields['item_owner'].widget = forms.HiddenInput()
         self.fields['item'].widget = forms.HiddenInput()
-        initial_arguments = kwargs.get('initial', None)
-        updated_initial = {}
-        if initial_arguments:
-            user = initial_arguments.get('user', None)
-
-
 
 
 class ProfilePictureForm(forms.Form):
     file = forms.FileField()
+
     def __init__(self, *args, **kwargs):
         super(ProfilePictureForm, self).__init__(*args, **kwargs)
         self.fields['file'].widget.attrs.update({
@@ -93,6 +89,7 @@ class ClosetItemPhotos(forms.Form):
     image3 = forms.FileField(required=False)
     image4 = forms.FileField(required=False)
     image5 = forms.FileField(required=False)
+
     def __init__(self, *args, **kwargs):
         super(ClosetItemPhotos, self).__init__(*args, **kwargs)
         self.fields['image1'].widget.attrs.update({'required': True, 'accept': 'image/*',
@@ -102,6 +99,7 @@ class ClosetItemPhotos(forms.Form):
         self.fields['image3'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image4'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image5'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
+
 
 class UserForm(UserCreationForm):
 
