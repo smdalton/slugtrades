@@ -15,6 +15,20 @@
 
       <div class="products-categories-title">Filters</div>
 
+
+      <div class="products-categories-subtitle">Order By</div>
+      <div class="products-filter-container">
+        <select name="order_by" id="products-filter-select">
+          {% for option in order_by %}
+            {% if order_by_selected == option.value %}
+              <option value="{{option.value}}" selected>{{option.name}}</option>
+            {% else %}
+              <option value="{{option.value}}">{{option.name}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+
       {% if selected_types %}
         <div class="products-categories-subtitle">Trade Options</div>
       {% else %}
@@ -22,6 +36,7 @@
       {% endif %}
 
       <div class="products-filter-container">
+
         {% for type in types %}
           <div class="products-filter">
             {% if selected_types %}
@@ -35,6 +50,7 @@
             {% endif %}
           </div>
         {% endfor %}
+
       </div>
 
       {% if selected_values %}
