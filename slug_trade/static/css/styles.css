@@ -22,6 +22,10 @@ body {
   font-family: 'Questrial', sans-serif;
 }
 
+footer {
+  width: 100%;
+}
+
 .products-container {
   display: flex;
   flex-direction: column;
