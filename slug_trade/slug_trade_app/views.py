@@ -194,10 +194,15 @@ def item_details(request, item_id=None):
 def cash_transaction(request, item_id=None):
 
     if not request.user.is_authenticated():
-        return redirect('/home')
-
+        return redirect('/products')
+    # declare outside scope of try block
+    sale_item = None
     try:
         sale_item = Item.objects.get(id=item_id)
+        # check to see if
+        if sale_item.user == request.user:
+            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
+                                f" <a href='/products'>go back to products page</a>")
         if sale_item.trade_options is not '0':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>"
@@ -280,10 +285,15 @@ def trade_transaction(request, item_id=None):
     # If user enters wrong id for some reason the item will not exist and redirect them to home
     # ensure that no incorrect querys ever end up in this view
     if not request.user.is_authenticated():
-        return redirect('/home')
+        return redirect('/products')
+
+    sale_item = None
 
     try:
         sale_item = Item.objects.get(id=item_id)
+        if sale_item.user == request.user:
+            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
+                                f" <a href='/products'>go back to products page</a>")
         if sale_item.trade_options is not '2':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item"
@@ -366,9 +376,13 @@ def free_transaction(request, item_id=None):
     if not request.user.is_authenticated():
         return redirect('/home')
 
+    free_item = None
     try:
         # check existence
         free_item = Item.objects.get(id=item_id)
+        if free_item.user == request.user:
+            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
+                                f" <a href='/products'>go back to products page</a>")
         # check free
         if free_item.trade_options is not '3':
             # redirect them to item details that is appropriate for this specific item
