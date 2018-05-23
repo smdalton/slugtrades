@@ -77,7 +77,7 @@ def products(request):
             items = paginator.page(1)
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
-            
+
         return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
 
     else:
@@ -267,7 +267,8 @@ def trade_transaction(request, item_id=None):
             # create an offer comment and save it to the database
             new_comment = models.OfferComment(
                 item=sale_item,
-                user=request.user,
+                item_owner=request.user,
+                comment_placed_by=sale_item.user,
                 comment=comment,
             )
             new_comment.save()
