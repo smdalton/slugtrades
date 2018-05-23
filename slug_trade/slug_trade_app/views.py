@@ -21,28 +21,6 @@ debug = False
 
 def index(request):
     test = "This was passed from the backend!"
-<<<<<<< HEAD
-    if debug:
-        print("in index view")
-    return render(request, 'slug_trade_app/index.html', {'test': test})
-
-
-def products(request):
-    categories = [
-        {'name': 'All', 'value': 'All'},
-        {'name': 'Electronics', 'value': 'E'},
-        {'name': 'Household goods', 'value': 'H'},
-        {'name': 'Clothing', 'value': 'C'},
-        {'name': 'Other', 'value': 'O'}
-    ]
-    if request.method == 'POST':
-        if request.POST['category'] == 'All':
-            items_list = ItemImage.objects.all()
-        else:
-            items_list = ItemImage.objects.all().filter(item__category=request.POST['category'])
-
-        paginator = Paginator(items_list, 6)  # Show 6 items per page
-=======
     return render(request, 'slug_trade_app/index.html',{'test':test})
 
 
@@ -91,7 +69,6 @@ def products(request):
 
         item_count = items_list.count()
         paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
->>>>>>> develop
         page = request.GET.get('page', 1)
 
         try:
@@ -100,35 +77,11 @@ def products(request):
             items = paginator.page(1)
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
-
-<<<<<<< HEAD
-        return render(request, 'slug_trade_app/products.html',
-                      {'items': items, 'categories': categories, 'last_category': request.POST['category']})
-
-    else:
-        if request.user.is_authenticated():
-            items_list = ItemImage.objects.all()
-            paginator = Paginator(items_list, 6)  # Show 6 items per page
-            page = request.GET.get('page', 1)
-
-            try:
-                items = paginator.page(page)
-            except PageNotAnInteger:
-                items = paginator.page(1)
-            except EmptyPage:
-                items = paginator.page(paginator.num_pages)
-
-            return render(request, 'slug_trade_app/products.html',
-                          {'items': items, 'categories': categories, 'last_category': 'All'})
-
-        else:
-            return render(request, 'slug_trade_app/not_authenticated.html')
-=======
+            
         return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
->>>>>>> develop
 
 
 def show_users(request):
@@ -421,14 +374,6 @@ def public_profile_inspect(request, user_id):
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
     return render(request, 'slug_trade_app/profile.html', {
-<<<<<<< HEAD
-        'user': user_to_view,
-        'public': True,
-        'item_data': items_and_images,
-        'wishlist': wishlist,
-        'show_add_button': False
-    })
-=======
                       'user_to_view': user_to_view,
                       'public': True,
                       'item_data': items_and_images,
@@ -436,7 +381,6 @@ def public_profile_inspect(request, user_id):
                       'show_add_button': False,
                       'items': items
                   })
->>>>>>> develop
 
 
 def profile(request):
@@ -460,19 +404,6 @@ def profile(request):
                 return redirect('/profile?item_added=True')
 
         wishlist = Wishlist.objects.filter(user=request.user)
-<<<<<<< HEAD
-        items = Item.objects.filter(user__id=request.user.id)
-        images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
-        items_and_images = zip(items, images)
-        return render(request, 'slug_trade_app/profile.html', {
-            'user': request.user,
-            'public': False,
-            'item_data': items_and_images,
-            'wishlist': wishlist,
-            'show_add_button': True,
-            'item_added': request.GET.get('item_added', False)
-        })
-=======
         items_list= Item.objects.filter(user__id=request.user.id)
 
         paginator = Paginator(items_list, 6)
@@ -498,7 +429,6 @@ def profile(request):
                     'items': items,
                     'my_profile': True
                 })
->>>>>>> develop
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
@@ -822,13 +752,7 @@ def signup(request):
             else:
                 return redirect('/home')
         else:
-<<<<<<< HEAD
-            print("NOT VALID")
-            return render(request, 'slug_trade_app/signup.html', {'user_form': user_form,
-                                                                  'profile_form': profile_form})
-=======
             return render(request, 'slug_trade_app/signup.html', {'user_form': user_form, 'profile_form': profile_form})
->>>>>>> develop
 
     else:
         user_form = UserForm()
