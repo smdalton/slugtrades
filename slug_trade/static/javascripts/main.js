@@ -155,6 +155,21 @@ var deleteClosetItem = function(itemId) {
 
 $(document).ready(function() {
   $('.pgwSlider').pgwSlider();
+  $(function() {
+    $('#home-filter').click(function() {
+      category = $('#home-filter-category').val();
+      type = $('#home-filter-type').val();
+      if(category == 'All' && type == 'All') {
+        window.location.href = '/products/';
+      } else if(category == 'All') {
+        window.location.href = '/products/?types='+type;
+      } else if(type == 'All') {
+        window.location.href = '/products/?categories='+category;
+      } else {
+        window.location.href = '/products/?categories='+category+'&types='+type;
+      }
+    });
+  });
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');

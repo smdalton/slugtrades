@@ -22,6 +22,10 @@ body {
   font-family: 'Questrial', sans-serif;
 }
 
+footer {
+  width: 100%;
+}
+
 .products-container {
   display: flex;
   flex-direction: column;
@@ -220,7 +224,7 @@ body {
   padding: 10px 0;
 }
 
-input[type=submit] {
+input[type=submit], #home-filter {
     border-radius: 5px;
     font-weight: 900;
     background-color: #333;
@@ -238,7 +242,7 @@ input[type=submit]:hover {
   color: #fff;
 }
 
-.drop-wrapper select {
+.drop-wrapper select, #products-filter-select {
   padding-left: 10px;
   border: 1px solid #d6d6d6;
   background: #fff;
@@ -306,9 +310,10 @@ input[type=submit]:hover {
 
 .items-horizontal-wrapper {
   padding: 40px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-gap: 20px;
+  width: 100%;
 }
 
 .items-horizontal-body {

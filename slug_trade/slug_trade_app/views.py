@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,  HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -20,8 +20,48 @@ debug = False
 
 
 def index(request):
-    test = "This was passed from the backend!"
-    return render(request, 'slug_trade_app/index.html',{'test':test})
+    items = Item.objects.all()[:4]
+    images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    items_and_images = zip(items,images)
+
+    books = Item.objects.filter(category="BO")[:4]
+    b_images = [ItemImage.objects.get(item=book).get_image_list() for book in books]
+    books_and_images = zip(books,b_images)
+
+    popular = Item.objects.all().order_by('-bid_counter')[:4]
+    p_images = [ItemImage.objects.get(item=p).get_image_list() for p in popular]
+    popular_and_images = zip(popular,p_images)
+
+    recent = Item.objects.all().order_by('-time_stamp')[:4]
+    r_images = [ItemImage.objects.get(item=r).get_image_list() for r in recent]
+    recent_and_images = zip(recent,r_images)
+
+
+    if debug:
+        print("in index view")
+
+    categories = [
+        { 'name': 'All', 'value': 'All' }
+    ]
+    types = [
+        { 'name': 'All', 'value': 'All' }
+    ]
+
+    for value, name in ITEM_CATEGORIES:
+        categories.append({ 'name': name, 'value': value})
+
+    for value, name in TRADE_OPTIONS:
+        types.append({ 'name': name, 'value': value })
+
+    print("At home")
+    return render(request, 'slug_trade_app/index.html',{
+        'items_and_images':items_and_images,
+        'books_and_images': books_and_images,
+        'popular_and_images': popular_and_images,
+        'recent_and_images': recent_and_images,
+        'categories': categories,
+        'types': types
+    })
 
 
 def products(request):
@@ -33,6 +73,17 @@ def products(request):
     types = []
     type_values = []
     selected_types = []
+
+    order_by = [
+        { 'name': 'Popular', 'value': 'Popular' },
+        { 'name': 'Recent', 'value': 'Recent' }
+    ]
+
+    order_by_selected = 'Nothing'
+
+    default_order_name = 'Recent'
+    default_order_filter = '-item__time_stamp'
+
 
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
@@ -67,6 +118,18 @@ def products(request):
                 if type not in selected_types:
                     items_list = items_list.exclude(item__trade_options=type)
 
+        if request.GET.get('order_by', False):
+            if request.GET['order_by'] == 'Popular':
+                items_list = items_list.order_by('-item__bid_counter')
+                order_by_selected = 'Popular'
+            elif request.GET['order_by'] == 'Recent':
+                items_list = items_list.order_by('-item__time_stamp')
+                order_by_selected = 'Recent'
+        else:
+            items_list = items_list.order_by(default_order_filter)
+            order_by_selected = default_order_name
+
+
         item_count = items_list.count()
         paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
@@ -78,7 +141,7 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count, 'order_by': order_by, 'order_by_selected': order_by_selected})
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
