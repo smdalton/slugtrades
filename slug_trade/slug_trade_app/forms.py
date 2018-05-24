@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from slug_trade_app.models import UserProfile, Item, ItemImage
+
+from slug_trade_app.models import UserProfile, Item, ItemImage, CashOffer, OfferComment, ItemOffer
 
 class UserProfileForm(forms.ModelForm):
 
@@ -21,13 +22,38 @@ class UserModelForm(forms.ModelForm):
         )
 
 
+class CashTransactionForm(forms.ModelForm):
+    class Meta():
+        model = CashOffer
+        fields = (
+            'offer_amount',
+        )
+
+
+class OfferCommentForm(forms.ModelForm):
+    class Meta:
+        model = OfferComment
+        fields = (
+            'comment',
+            'item',
+            'item_owner',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(OfferCommentForm, self).__init__(*args, **kwargs)
+        self.fields['item_owner'].widget = forms.HiddenInput()
+        self.fields['item'].widget = forms.HiddenInput()
+
+
 class ProfilePictureForm(forms.Form):
     file = forms.FileField()
+
     def __init__(self, *args, **kwargs):
         super(ProfilePictureForm, self).__init__(*args, **kwargs)
         self.fields['file'].widget.attrs.update({
             'accept': 'image/*'
         })
+
 
 class ClosetItem(forms.ModelForm):
     class Meta():
@@ -40,6 +66,7 @@ class ClosetItem(forms.ModelForm):
             'condition',
             'trade_options'
         )
+
     def __init__(self, *args, **kwargs):
         super(ClosetItem, self).__init__(*args, **kwargs)
         self.fields['price'].widget.attrs.update({'value': 0,
@@ -72,6 +99,7 @@ class ClosetItemPhotos(forms.ModelForm):
         self.fields['image3'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image4'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
         self.fields['image5'].widget.attrs.update({'accept': 'image/*', 'class': 'add-closet-wrapper-input'})
+
 
 class UserForm(UserCreationForm):
 
@@ -157,6 +185,7 @@ class SignupUserProfileForm(forms.ModelForm):
             'bio',
             'on_off_campus'
         )
+
     def __init__(self, *args, **kwargs):
         super(SignupUserProfileForm, self).__init__(*args, **kwargs)
         self.fields['profile_picture'].widget.attrs.update({'accept': 'image/*'})
