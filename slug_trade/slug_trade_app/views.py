@@ -148,6 +148,7 @@ def products(request):
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
+
 def show_users(request):
     users = User.objects.all()
 
@@ -193,6 +194,34 @@ def item_details(request, item_id=None):
                                                                 'trade_type': trade_type_name,
                                                                 })
 
+def my_offers(request):
+
+    # check for authentication
+    if not request.user.is_authenticated():
+        return redirect('/signup')
+
+    # load my items
+    items = models.Item.objects.filter(user=request.user).all()
+    #
+    # for item in items:
+    #     # cash items
+    #     if item.trade_options == '0':
+    #         pass
+    #     # trade items
+    #     if item.trade_options == '1':
+    #         pass
+    #     #free items
+    #     if item.trade_options == '2':
+    #         pass
+    #     else:
+    #         raise Exception('item trade options wrong in my_offers view')
+    # for each item load the offers that have been placed on it (if any)
+
+    # if an item has no offers placed on it don't include it in the output
+
+    # if no items have offers placed on them then display a message saying so
+
+    return render(request, 'slug_trade_app/my_offers.html')
 
 def cash_transaction(request, item_id=None):
 
@@ -464,7 +493,6 @@ def public_profile_inspect(request, user_id):
                       'show_add_button': False,
                       'items': items
                   })
-
 
 
 def profile(request):

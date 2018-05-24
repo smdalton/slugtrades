@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^delete_from_wishlist/$', views.delete_from_wishlist, name='delete_from_wishlist'),
     url(r'^item_details/$', views.item_details, name='view_item_details'),
     url(r'^item_details/(?P<item_id>\d+)/$', views.item_details, name='view_item_details'),
+    url(r'^my_offers/', views.my_offers, name='view_my_offers'),
     url(r'^transaction/cash_only/(?P<item_id>\d+)/$', views.cash_transaction, name='view_item_details'),
     url(r'^transaction/items_only/(?P<item_id>\d+)/$', views.trade_transaction, name='view_item_details'),
     url(r'^transaction/free/(?P<item_id>\d+)/$', views.free_transaction, name='view_item_details'),
