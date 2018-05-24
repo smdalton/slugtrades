@@ -159,7 +159,7 @@ var deleteClosetItem = function(itemId) {
 
 
 $(document).ready(function() {
-
+  $('.pgwSlider').pgwSlider();
   $(function() {
     $('#home-filter').click(function() {
       category = $('#home-filter-category').val();

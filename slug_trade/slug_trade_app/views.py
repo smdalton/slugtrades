@@ -148,7 +148,6 @@ def products(request):
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
- 
 def show_users(request):
     users = User.objects.all()
 
@@ -169,7 +168,9 @@ def item_details(request, item_id=None):
     # render the details into a useful dictionary object
 
     if not item_id:
+
         return redirect('/products')
+
 
     # load the item assosciated with item_id
     bid_item = models.Item.objects.get(id=item_id)
@@ -196,10 +197,16 @@ def item_details(request, item_id=None):
 def cash_transaction(request, item_id=None):
 
     if not request.user.is_authenticated():
-        return redirect('/home')
 
+        return redirect('/products')
+    # declare outside scope of try block
+    sale_item = None
     try:
         sale_item = Item.objects.get(id=item_id)
+        # check to see if
+        if sale_item.user == request.user:
+            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
+                                f" <a href='/products'>go back to products page</a>")
         if sale_item.trade_options is not '0':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>"
@@ -247,7 +254,7 @@ def cash_transaction(request, item_id=None):
             print(f"offer_amount detected {request.POST['offer_amount']}")
 
 
-        return redirect('/transaction/cash_only/22')
+        return redirect('/products')
 
     else:
         # render the appropriate transaction form
@@ -282,8 +289,8 @@ def trade_transaction(request, item_id=None):
     # If user enters wrong id for some reason the item will not exist and redirect them to home
     # ensure that no incorrect querys ever end up in this view
     if not request.user.is_authenticated():
-        return redirect('/home')
 
+        return redirect('/home')
     try:
         sale_item = Item.objects.get(id=item_id)
         if sale_item.trade_options is not '2':
@@ -332,7 +339,12 @@ def trade_transaction(request, item_id=None):
             # create an offer comment and save it to the database
             new_comment = models.OfferComment(
                 item=sale_item,
-                user=request.user,
+# <<<<<<< complex-offer-pages
+                item_owner=request.user,
+                comment_placed_by=sale_item.user,
+# =======
+#                 user=request.user,
+# >>>>>>> offers-merge-conflicts
                 comment=comment,
             )
             new_comment.save()
@@ -367,9 +379,15 @@ def free_transaction(request, item_id=None):
     if not request.user.is_authenticated():
         return redirect('/home')
 
+
+    free_item = None
     try:
         # check existence
         free_item = Item.objects.get(id=item_id)
+        if free_item.user == request.user:
+            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
+                                f" <a href='/products'>go back to products page</a>")
+          
         # check free
         if free_item.trade_options is not '3':
             # redirect them to item details that is appropriate for this specific item
@@ -776,6 +794,7 @@ def delete_closet_item(request):
     return HttpResponse('Deleted!')
 
 
+
     form = ClosetItem(request.POST, instance=item_instance)
     if form.is_valid():
         item = form.save(commit=False)
@@ -931,13 +950,6 @@ def delete_closet_item(request):
         else:
             return render(request, 'slug_trade_app/not_authenticated.html')
 
-@csrf_exempt
-def delete_closet_item(request):
-    item = Item.objects.get(id=request.POST['item_id'])
-    item_images = ItemImage.objects.get(item=item)
-    item_images.delete()
-    item.delete()
-    return HttpResponse('Deleted!')
 
 def signup(request):
     if request.user.is_authenticated():
