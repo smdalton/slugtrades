@@ -16,7 +16,7 @@
         <div class="item-details-title">{{ inspect_item.name | title }}</div>
         {% if inspect_item.get_trade_options_display == "Cash Only" %}
           <div class="item-details-price">Price ${{ inspect_item.price }}</div>
-        {% elif inspect_item.get_trade_options_display == "Trade only" %}
+        {% elif inspect_item.get_trade_options_display == "Items Only" %}
           <div class="item-details-price">Offers Welcome!</div>
         {% elif inspect_item.get_trade_options_display == "Free" %}
           <div class="item-details-price">Free</div>
