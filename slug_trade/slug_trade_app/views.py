@@ -322,7 +322,7 @@ def trade_transaction(request, item_id=None):
         return redirect('/home')
     try:
         sale_item = Item.objects.get(id=item_id)
-        if sale_item.trade_options is not '2':
+        if sale_item.trade_options is not '1':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item"
                                 f" <a href='/item_details/{item_id}'>Go to this items details page</a>")
@@ -418,7 +418,7 @@ def free_transaction(request, item_id=None):
                                 f" <a href='/products'>go back to products page</a>")
           
         # check free
-        if free_item.trade_options is not '3':
+        if free_item.trade_options is not '2':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
     except Exception as e:

@@ -194,9 +194,8 @@ class Command(BaseCommand):
 
         TRADE_OPTIONS = (
             ('0', 'Cash Only'),
-            ('1', 'Cash with items on top'),
-            ('2', 'Trade only'),
-            ('3', 'Free')
+            ('1', 'Items Only'),
+            ('2', 'Free')
         )
         # create a random debug item for each image
         for picture in pictures_list:
@@ -207,7 +206,7 @@ class Command(BaseCommand):
                                price=random.random()*100,
                                category=self.categories[picture],
                                description=fake.text(),
-                               trade_options=random.choice(['0','2','3']))
+                               trade_options=random.choice(['0','1','2']))
             item.bid_counter = random.choice(range(100))
             item.save()
 
