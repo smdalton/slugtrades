@@ -90,58 +90,64 @@ def products(request):
         types.append({ 'name': name, 'value': value })
         type_values.append(value)
 
-    if request.user.is_authenticated():
-        items_list = ItemImage.objects.all()
 
-        if request.GET.get('categories', False):
-            selected_values = []
-            for key, values in request.GET.lists():
-                if key =='categories':
-                    for value in values:
-                        selected_values.append(value)
+    items_list = ItemImage.objects.all()
 
-            for category in category_values:
-                if category not in selected_values:
-                    items_list = items_list.exclude(item__category=category)
+    if request.GET.get('categories', False):
+        selected_values = []
+        for key, values in request.GET.lists():
+            if key =='categories':
+                for value in values:
+                    selected_values.append(value)
 
-        if request.GET.get('types', False):
-            selected_types = []
-            for key, values in request.GET.lists():
-                if key =='types':
-                    for value in values:
-                        selected_types.append(value)
+        for category in category_values:
+            if category not in selected_values:
+                items_list = items_list.exclude(item__category=category)
 
-            for type in type_values:
-                if type not in selected_types:
-                    items_list = items_list.exclude(item__trade_options=type)
+    if request.GET.get('types', False):
+        selected_types = []
+        for key, values in request.GET.lists():
+            if key =='types':
+                for value in values:
+                    selected_types.append(value)
 
-        if request.GET.get('order_by', False):
-            if request.GET['order_by'] == 'Popular':
-                items_list = items_list.order_by('-item__bid_counter')
-                order_by_selected = 'Popular'
-            elif request.GET['order_by'] == 'Recent':
-                items_list = items_list.order_by('-item__time_stamp')
-                order_by_selected = 'Recent'
-        else:
-            items_list = items_list.order_by(default_order_filter)
-            order_by_selected = default_order_name
+        for type in type_values:
+            if type not in selected_types:
+                items_list = items_list.exclude(item__trade_options=type)
 
-
-        item_count = items_list.count()
-        paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
-        page = request.GET.get('page', 1)
-
-        try:
-            items = paginator.page(page)
-        except PageNotAnInteger:
-            items = paginator.page(1)
-        except EmptyPage:
-            items = paginator.page(paginator.num_pages)
-
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count, 'order_by': order_by, 'order_by_selected': order_by_selected})
-
+    if request.GET.get('order_by', False):
+        if request.GET['order_by'] == 'Popular':
+            items_list = items_list.order_by('-item__bid_counter')
+            order_by_selected = 'Popular'
+        elif request.GET['order_by'] == 'Recent':
+            items_list = items_list.order_by('-item__time_stamp')
+            order_by_selected = 'Recent'
     else:
-        return render(request, 'slug_trade_app/not_authenticated.html')
+        items_list = items_list.order_by(default_order_filter)
+        order_by_selected = default_order_name
+
+
+    item_count = items_list.count()
+    paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
+    page = request.GET.get('page', 1)
+
+    try:
+        items = paginator.page(page)
+    except PageNotAnInteger:
+        items = paginator.page(1)
+    except EmptyPage:
+        items = paginator.page(paginator.num_pages)
+
+    return render(request, 'slug_trade_app/products.html', {
+    'items': items,
+    'categories': categories,
+    'selected_values': selected_values,
+    'types': types,
+    'selected_types': selected_types,
+    'item_count': item_count,
+    'order_by': order_by,
+    'order_by_selected': order_by_selected
+    })
 
 # debug route
 def show_users(request):
@@ -162,42 +168,47 @@ def public_profile_inspect(request, user_id):
         :return: render template
     """
 
-    # verify that the given user_id is in the database, and if no prompt a redirect
-    if not User.objects.filter(id=user_id).exists():
-        return HttpResponse('<h1>No user exists for your query <a href="/">Go home</a></h1>')
+    if request.user.is_authenticated():
 
-    if request.user.is_authenticated() and int(user_id) == int(request.user.id):
-        return redirect('/profile')
+        # verify that the given user_id is in the database, and if no prompt a redirect
+        if not User.objects.filter(id=user_id).exists():
+            return HttpResponse('<h1>No user exists for your query <a href="/">Go home</a></h1>')
 
-    # get the user model object
-    user_to_view = User.objects.get(id=user_id)
+        if request.user.is_authenticated() and int(user_id) == int(request.user.id):
+            return redirect('/profile')
 
-    # get all of the items for the given user
-    items_list = Item.objects.filter(user__id=user_id)
+        # get the user model object
+        user_to_view = User.objects.get(id=user_id)
 
-    paginator = Paginator(items_list, 6)
-    page = request.GET.get('page', 1)
+        # get all of the items for the given user
+        items_list = Item.objects.filter(user__id=user_id)
 
-    try:
-        items = paginator.page(page)
-    except PageNotAnInteger:
-        items = paginator.page(1)
-    except EmptyPage:
-        items = paginator.page(paginator.num_pages)
+        paginator = Paginator(items_list, 6)
+        page = request.GET.get('page', 1)
 
-    images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
-    items_and_images = zip(items,images)
+        try:
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+        except EmptyPage:
+            items = paginator.page(paginator.num_pages)
 
-    wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
+        images= [ItemImage.objects.get(item=item).get_image_list() for item in items]
+        items_and_images = zip(items,images)
 
-    return render(request, 'slug_trade_app/profile.html', {
-                      'user_to_view': user_to_view,
-                      'public': True,
-                      'item_data': items_and_images,
-                      'wishlist': wishlist,
-                      'show_add_button': False,
-                      'items': items
-                  })
+        wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
+
+        return render(request, 'slug_trade_app/profile.html', {
+                          'user_to_view': user_to_view,
+                          'public': True,
+                          'item_data': items_and_images,
+                          'wishlist': wishlist,
+                          'show_add_button': False,
+                          'items': items
+                      })
+
+    else:
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
 
 def profile(request):
