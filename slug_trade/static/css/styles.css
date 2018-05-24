@@ -50,15 +50,6 @@ footer {
   display: none;
 }
 
-/* .products, .cols{
-  -webkit-column-count: 3; /* Chrome, Safari, Opera */
-  -moz-column-count: 3; /* Firefox */
-  column-count: 3;
-}
-.products label {
-  font-size: 50px;
-} */
-
 .active {
   color: #F2CE60;
 }
@@ -1097,7 +1088,7 @@ margin-left: 10px;
   max-width: 650px;
   background: #fff;
   padding: 100px 60px;
-  margin-bottom: 140px 0;
+  margin: 140px 0;
 }
 
 .closet-body {
@@ -1905,8 +1896,9 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
 }
 
 #delete-closet-item:hover {
-  background-color: #F2CE60;
-  color: #fff;
+    background-color: #F2CE60;
+    color: #fff;
+}
 
 
 /******** Item Details Page ***********/
@@ -2262,9 +2254,10 @@ item-details-image-row-wrapper{
 }
 
 .pagination li:hover {
-  border-radius: 5px;
-  background-color: #fff3ce;
-  cursor: pointer;
+    border-radius: 5px;
+    background-color: #fff3ce;
+    cursor: pointer;
+}
 
 
 /************ item details slider **********/
