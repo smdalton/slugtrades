@@ -169,7 +169,7 @@ def item_details(request, item_id=None):
     # render the details into a useful dictionary object
 
     if not item_id:
-        return render(request, 'slug_trade_app/not_authenticated.html')
+        return redirect('/products')
 
     # load the item assosciated with item_id
     bid_item = models.Item.objects.get(id=item_id)
@@ -776,145 +776,145 @@ def delete_closet_item(request):
     return HttpResponse('Deleted!')
 
 
-        form = ClosetItem(request.POST, instance=item_instance)
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.user = request.user
-            if item.price < 0:
-                item.price = 0
-            form.save()
+    form = ClosetItem(request.POST, instance=item_instance)
+    if form.is_valid():
+        item = form.save(commit=False)
+        item.user = request.user
+        if item.price < 0:
+            item.price = 0
+        form.save()
 
-            files = request.FILES
-            temps = request.POST
+        files = request.FILES
+        temps = request.POST
 
-            image1 = files.get('image1', '')
-            image2 = files.get('image2', '')
-            image3 = files.get('image3', '')
-            image4 = files.get('image4', '')
-            image5 = files.get('image5', '')
+        image1 = files.get('image1', '')
+        image2 = files.get('image2', '')
+        image3 = files.get('image3', '')
+        image4 = files.get('image4', '')
+        image5 = files.get('image5', '')
 
-            temp1 = temps.get('temp-image1', '')
-            temp2 = temps.get('temp-image2', '')
-            temp3 = temps.get('temp-image3', '')
-            temp4 = temps.get('temp-image4', '')
-            temp5 = temps.get('temp-image5', '')
+        temp1 = temps.get('temp-image1', '')
+        temp2 = temps.get('temp-image2', '')
+        temp3 = temps.get('temp-image3', '')
+        temp4 = temps.get('temp-image4', '')
+        temp5 = temps.get('temp-image5', '')
 
-            if image1:
-                image1_action = 'update'
-            elif not image1 and not temp1:
-                image1_action = 'delete'
-            else:
-                image1_action = 'none'
+        if image1:
+            image1_action = 'update'
+        elif not image1 and not temp1:
+            image1_action = 'delete'
+        else:
+            image1_action = 'none'
 
-            if image2:
-                image2_action = 'update'
-            elif not image2 and not temp2:
-                image2_action = 'delete'
-            else:
-                image2_action = 'none'
+        if image2:
+            image2_action = 'update'
+        elif not image2 and not temp2:
+            image2_action = 'delete'
+        else:
+            image2_action = 'none'
 
-            if image3:
-                image3_action = 'update'
-            elif(not image3 and not temp3):
-                image3_action = 'delete'
-            else:
-                image3_action = 'none'
+        if image3:
+            image3_action = 'update'
+        elif(not image3 and not temp3):
+            image3_action = 'delete'
+        else:
+            image3_action = 'none'
 
-            if image4:
-                image4_action = 'update'
-            elif(not image4 and not temp4):
-                image4_action = 'delete'
-            else:
-                image4_action = 'none'
+        if image4:
+            image4_action = 'update'
+        elif(not image4 and not temp4):
+            image4_action = 'delete'
+        else:
+            image4_action = 'none'
 
-            if image5:
-                image5_action = 'update'
-            elif not image5 and not temp5:
-                image5_action = 'delete'
-            else:
-                image5_action = 'none'
+        if image5:
+            image5_action = 'update'
+        elif not image5 and not temp5:
+            image5_action = 'delete'
+        else:
+            image5_action = 'none'
 
-            images = {
-                'image1': image1,
-                'image2': image2,
-                'image3': image3,
-                'image4': image4,
-                'image5': image5
-            }
+        images = {
+            'image1': image1,
+            'image2': image2,
+            'image3': image3,
+            'image4': image4,
+            'image5': image5
+        }
 
-            actions = {
-                'image1': image1_action,
-                'image2': image2_action,
-                'image3': image3_action,
-                'image4': image4_action,
-                'image5': image5_action
-            }
+        actions = {
+            'image1': image1_action,
+            'image2': image2_action,
+            'image3': image3_action,
+            'image4': image4_action,
+            'image5': image5_action
+        }
 
-            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+        update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
 
-            if actions['image1'] == 'update':
-                update.image1 = images['image1']
-            elif actions['image1'] == 'delete':
-                update.image1 = None
+        if actions['image1'] == 'update':
+            update.image1 = images['image1']
+        elif actions['image1'] == 'delete':
+            update.image1 = None
 
-            if actions['image2'] == 'update':
-                update.image2 = images['image2']
-            elif actions['image2'] == 'delete':
-                update.image2 = None
+        if actions['image2'] == 'update':
+            update.image2 = images['image2']
+        elif actions['image2'] == 'delete':
+            update.image2 = None
 
-            if actions['image3'] == 'update':
-                update.image3 = images['image3']
-            elif actions['image3'] == 'delete':
-                update.image3 = None
+        if actions['image3'] == 'update':
+            update.image3 = images['image3']
+        elif actions['image3'] == 'delete':
+            update.image3 = None
 
-            if actions['image4'] == 'update':
-                update.image4 = images['image4']
-            elif actions['image4'] == 'delete':
-                update.image4 = None
+        if actions['image4'] == 'update':
+            update.image4 = images['image4']
+        elif actions['image4'] == 'delete':
+            update.image4 = None
 
-            if actions['image5'] == 'update':
-                update.image5 = images['image5']
-            elif actions['image5'] == 'delete':
-                update.image5 = None
+        if actions['image5'] == 'update':
+            update.image5 = images['image5']
+        elif actions['image5'] == 'delete':
+            update.image5 = None
 
-            update.save()
+        update.save()
 
-            pics = []
+        pics = []
 
-            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+        update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
 
-            if update.image1: pics.append(update.image1)
-            if update.image2: pics.append(update.image2)
-            if update.image3: pics.append(update.image3)
-            if update.image4: pics.append(update.image4)
-            if update.image5: pics.append(update.image5)
+        if update.image1: pics.append(update.image1)
+        if update.image2: pics.append(update.image2)
+        if update.image3: pics.append(update.image3)
+        if update.image4: pics.append(update.image4)
+        if update.image5: pics.append(update.image5)
 
-            if len(pics)>=1:
-                update.image1 = pics.pop(0)
-            else:
-                update.image1 = None
+        if len(pics)>=1:
+            update.image1 = pics.pop(0)
+        else:
+            update.image1 = None
 
-            if len(pics)>=1:
-                update.image2 = pics.pop(0)
-            else:
-                update.image2 = None
+        if len(pics)>=1:
+            update.image2 = pics.pop(0)
+        else:
+            update.image2 = None
 
-            if len(pics)>=1:
-                update.image3 = pics.pop(0)
-            else:
-                update.image3 = None
+        if len(pics)>=1:
+            update.image3 = pics.pop(0)
+        else:
+            update.image3 = None
 
-            if len(pics)>=1:
-                update.image4 = pics.pop(0)
-            else:
-                update.image4 = None
+        if len(pics)>=1:
+            update.image4 = pics.pop(0)
+        else:
+            update.image4 = None
 
-            if len(pics)>=1:
-                update.image5 = pics.pop(0)
-            else:
-                update.image5 = None
+        if len(pics)>=1:
+            update.image5 = pics.pop(0)
+        else:
+            update.image5 = None
 
-            update.save()
+        update.save()
 
         return redirect('/profile')
 
