@@ -20,6 +20,7 @@ debug = False
 
 
 def index(request):
+
     items = Item.objects.all()[:4]
     images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
     items_and_images = zip(items,images)
@@ -130,6 +131,7 @@ def products(request):
             order_by_selected = default_order_name
 
 
+
         item_count = items_list.count()
         paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
@@ -145,7 +147,6 @@ def products(request):
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
-
 
 def show_users(request):
     users = User.objects.all()
@@ -167,7 +168,9 @@ def item_details(request, item_id=None):
     # render the details into a useful dictionary object
 
     if not item_id:
-        return render(request, 'slug_trade_app/not_authenticated.html')
+
+        return redirect('/products')
+
 
     # load the item assosciated with item_id
     bid_item = models.Item.objects.get(id=item_id)
@@ -194,6 +197,7 @@ def item_details(request, item_id=None):
 def cash_transaction(request, item_id=None):
 
     if not request.user.is_authenticated():
+
         return redirect('/products')
     # declare outside scope of try block
     sale_item = None
@@ -250,7 +254,7 @@ def cash_transaction(request, item_id=None):
             print(f"offer_amount detected {request.POST['offer_amount']}")
 
 
-        return redirect('/transaction/cash_only/22')
+        return redirect('/products')
 
     else:
         # render the appropriate transaction form
@@ -285,15 +289,10 @@ def trade_transaction(request, item_id=None):
     # If user enters wrong id for some reason the item will not exist and redirect them to home
     # ensure that no incorrect querys ever end up in this view
     if not request.user.is_authenticated():
-        return redirect('/products')
 
-    sale_item = None
-
+        return redirect('/home')
     try:
         sale_item = Item.objects.get(id=item_id)
-        if sale_item.user == request.user:
-            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
-                                f" <a href='/products'>go back to products page</a>")
         if sale_item.trade_options is not '2':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item"
@@ -340,8 +339,12 @@ def trade_transaction(request, item_id=None):
             # create an offer comment and save it to the database
             new_comment = models.OfferComment(
                 item=sale_item,
+# <<<<<<< complex-offer-pages
                 item_owner=request.user,
                 comment_placed_by=sale_item.user,
+# =======
+#                 user=request.user,
+# >>>>>>> offers-merge-conflicts
                 comment=comment,
             )
             new_comment.save()
@@ -376,6 +379,7 @@ def free_transaction(request, item_id=None):
     if not request.user.is_authenticated():
         return redirect('/home')
 
+
     free_item = None
     try:
         # check existence
@@ -383,6 +387,7 @@ def free_transaction(request, item_id=None):
         if free_item.user == request.user:
             return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
                                 f" <a href='/products'>go back to products page</a>")
+          
         # check free
         if free_item.trade_options is not '3':
             # redirect them to item details that is appropriate for this specific item
@@ -459,6 +464,7 @@ def public_profile_inspect(request, user_id):
                       'show_add_button': False,
                       'items': items
                   })
+
 
 
 def profile(request):
@@ -786,6 +792,164 @@ def delete_closet_item(request):
     item_images.delete()
     item.delete()
     return HttpResponse('Deleted!')
+
+
+
+    form = ClosetItem(request.POST, instance=item_instance)
+    if form.is_valid():
+        item = form.save(commit=False)
+        item.user = request.user
+        if item.price < 0:
+            item.price = 0
+        form.save()
+
+        files = request.FILES
+        temps = request.POST
+
+        image1 = files.get('image1', '')
+        image2 = files.get('image2', '')
+        image3 = files.get('image3', '')
+        image4 = files.get('image4', '')
+        image5 = files.get('image5', '')
+
+        temp1 = temps.get('temp-image1', '')
+        temp2 = temps.get('temp-image2', '')
+        temp3 = temps.get('temp-image3', '')
+        temp4 = temps.get('temp-image4', '')
+        temp5 = temps.get('temp-image5', '')
+
+        if image1:
+            image1_action = 'update'
+        elif not image1 and not temp1:
+            image1_action = 'delete'
+        else:
+            image1_action = 'none'
+
+        if image2:
+            image2_action = 'update'
+        elif not image2 and not temp2:
+            image2_action = 'delete'
+        else:
+            image2_action = 'none'
+
+        if image3:
+            image3_action = 'update'
+        elif(not image3 and not temp3):
+            image3_action = 'delete'
+        else:
+            image3_action = 'none'
+
+        if image4:
+            image4_action = 'update'
+        elif(not image4 and not temp4):
+            image4_action = 'delete'
+        else:
+            image4_action = 'none'
+
+        if image5:
+            image5_action = 'update'
+        elif not image5 and not temp5:
+            image5_action = 'delete'
+        else:
+            image5_action = 'none'
+
+        images = {
+            'image1': image1,
+            'image2': image2,
+            'image3': image3,
+            'image4': image4,
+            'image5': image5
+        }
+
+        actions = {
+            'image1': image1_action,
+            'image2': image2_action,
+            'image3': image3_action,
+            'image4': image4_action,
+            'image5': image5_action
+        }
+
+        update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+        if actions['image1'] == 'update':
+            update.image1 = images['image1']
+        elif actions['image1'] == 'delete':
+            update.image1 = None
+
+        if actions['image2'] == 'update':
+            update.image2 = images['image2']
+        elif actions['image2'] == 'delete':
+            update.image2 = None
+
+        if actions['image3'] == 'update':
+            update.image3 = images['image3']
+        elif actions['image3'] == 'delete':
+            update.image3 = None
+
+        if actions['image4'] == 'update':
+            update.image4 = images['image4']
+        elif actions['image4'] == 'delete':
+            update.image4 = None
+
+        if actions['image5'] == 'update':
+            update.image5 = images['image5']
+        elif actions['image5'] == 'delete':
+            update.image5 = None
+
+        update.save()
+
+        pics = []
+
+        update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+        if update.image1: pics.append(update.image1)
+        if update.image2: pics.append(update.image2)
+        if update.image3: pics.append(update.image3)
+        if update.image4: pics.append(update.image4)
+        if update.image5: pics.append(update.image5)
+
+        if len(pics)>=1:
+            update.image1 = pics.pop(0)
+        else:
+            update.image1 = None
+
+        if len(pics)>=1:
+            update.image2 = pics.pop(0)
+        else:
+            update.image2 = None
+
+        if len(pics)>=1:
+            update.image3 = pics.pop(0)
+        else:
+            update.image3 = None
+
+        if len(pics)>=1:
+            update.image4 = pics.pop(0)
+        else:
+            update.image4 = None
+
+        if len(pics)>=1:
+            update.image5 = pics.pop(0)
+        else:
+            update.image5 = None
+
+        update.save()
+
+        return redirect('/profile')
+
+    else:
+        if request.user.is_authenticated():
+            item = Item.objects.get(id=request.GET.get('id', None))
+            if request.user == item.user:
+                item_images = ItemImage.objects.get(item=item)
+                form = ClosetItem(instance=item)
+                photos = ClosetItemPhotos(instance=item_images)
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images, 'item_id': item.id})
+            else:
+                return HttpResponse("You can't edit someone else's items.")
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
+
 
 def signup(request):
     if request.user.is_authenticated():
