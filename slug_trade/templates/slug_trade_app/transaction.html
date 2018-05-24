@@ -1,0 +1,97 @@
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+{% block nav_block %}
+{% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
+{% block body_block %}
+
+<div class="transaction-wrapper">
+    <div class="trasaction-body">
+
+        <div class="item-review-header-title">Make an Offer</div>
+
+        <div class="item-review-wrapper">
+            <div class="item-review-image-wrapper">
+                <img src="{{ sale_item_image }}" width="200" alt="">
+            </div>
+            <div class="item-review-info-wrapper">
+                <div class="item-review-title review-title"><span>Item &nbsp;</span>{{sale_item.name.title}}</div>
+                <div class="item-review-owner review-title"><span>Owner &nbsp;</span><a
+                        href="/profile/{{sale_item.user.id}}">{{sale_item.user.first_name}}
+                    {{sale_item.user.last_name}}</a></div>
+
+                {% if transaction_type == "cash" %}
+                <div class="item-review-price review-title"><span>Price &nbsp;</span>${{sale_item.price}}</div>
+                {% elif transaction_type == "trade" %}
+                <div class="item-review-price review-title"><span>Trade &nbsp;</span>Make an offer</div>
+                {% else %}
+                <div class="item-review-price review-title">Free</div>
+                {% endif %}
+                <!--<div class="item-review-price review-title"><span>Trade</span></div>-->
+            </div>
+        </div>
+
+
+        {% if transaction_type == 'cash'%}
+        <form method="post">
+            {% csrf_token %}
+            <p>Cash Form here</p>
+            {{cash_transaction_form.as_p}}
+            <p>Comment Here</p>
+            {{offer_comment_form.as_p}}
+            <input id="signup-submit" type="submit" name="" value="Place Cash Offer">
+        </form>
+        {% endif %}
+
+
+        {% if transaction_type == 'trade'%}
+        <form method="post">
+            {% csrf_token %}
+
+            <p>Comment Here</p>
+            {{offer_comment_form.as_p}}
+
+            {% for item in logged_in_users_items%}
+            <div>
+                <img src="{{item.image}}" width="120" alt="">
+            <input type="checkbox" name="selected-item" value="{{item.id}}">
+            <label>{{item.name}}</label>
+            </div>
+            <hr>
+            {% endfor %}
+            <input id="signup-submit" type="submit" name="" value="Place Trade">
+        </form>
+        {% endif %}
+
+
+        <body>
+
+
+        {% if transaction_type == 'free'%}
+        <form method="post">
+            {% csrf_token %}
+            <p>Cash Form here</p>
+            {{cash_transaction_form.as_p}}
+            <p>Comment Here</p>
+            {{offer_comment_form.comment}}
+            <input id="signup-submit" type="submit" name="" value="Grab it!">
+        </form>
+        {% endif %}
+
+    </div>
+</div>
+
+
+<p>
+    Transaction Type <br>
+    {{transaction_type}}
+</p>
+
+
+{% endblock %}
+
+{% block footer_block %}
+{% include "slug_trade_app/header-footer/footer.html" %}
+{% endblock %}
