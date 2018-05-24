@@ -1,14 +1,303 @@
 <!DOCTYPE html>
 {% extends "slug_trade_app/base.html" %}
-
+{% load staticfiles %}
 <title>Home</title>
 
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/home-navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
-  <h2>Homepage</h2>
-
-  {{test}}
-
-  <div class="" style="padding: 40px 0;">
-      <a href="{% url 'slug_trade_app:products' %}">Products Page</a>
+  <div class="hero-wrapper">
+    <div class="hero-wrapper-body">
+      <div class="categories-wrapper">
+        <div class="categories-title">
+          Get what you need without having to leave the hill.
+        </div>
+        <div class="categories-body">
+          <div class="categories-body-title"><strong>Search by Category</strong></div>
+          <div class="dropdown-lists-wrapper">
+            <div class="drop-wrapper" id="drop-wrapper-left">
+              <div class="category-title">Category</div>
+            	<form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
+                <select name="category" id="home-filter-category">
+                  {% for category in categories %}
+                    <option value="{{category.value}}">{{category.name}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="drop-wrapper" id="drop-wrapper-right">
+              <div class="category-title">Type</div>
+              <select id="home-filter-type">
+                {% for type in types %}
+                  <option value="{{type.value}}">{{type.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input id="home-filter" type="button" value="Submit" >
+            </form><br>
+            <div class="drop-wrapper" id="drop-wrapper-right">
+              <div class="category-title"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <!-- ======================= Recent Item Section ======================= -->
+
+  <div class="angle-box">
+    <div class="items-preview-wrapper angle-wrapper">
+      <div class="items-preview-body top-padding-100">
+        <div class="items-preview-title">Recent Items</div>
+        <div class="items-preview-subtitle">Looking for something you haven't seen yet? Check out our latest items.</div>
+        {% if recent_and_images %}
+        <div class="items-horizontal-wrapper">
+
+          {% for recent, images in recent_and_images %}
+
+            <div class="item-wrapper">
+                <div class="item-image-wrapper">
+                  <img src="{{images.0}}" width="300" alt="">
+                </div>
+
+                <div class="item-seller-wrapper">
+                  <div class="seller-title">Category:&nbsp;</div>
+                  <div class="seller-name">{{recent.get_category_display|title}}</div>
+                </div>
+
+                <div class="item-title">{{recent.name|title}}</div>
+                <div class="item-price-wrapper">
+
+                  {% if recent.get_trade_options_display == "Cash with items on top" %}
+                    <div class="item-type-title">Trade Only</div>
+                  {% else%}
+                    <div class="item-type-price">{{recent.get_trade_options_display}}</div>
+                  {% endif %}
+
+                  {% if recent.get_trade_options_display == "Cash Only" %}
+                    <div class="item-type-price">${{recent.price}}</div>
+                  {% elif recent.get_trade_options_display == "Trade Only" %}
+                    <div class="item-type-price">Make an Offer</div>
+                  {% elif recent.get_trade_options_display == "Cash with items on top" %}
+                    <div class="item-type-price">Make an Offer</div>
+                  {% else %}
+                    <div class="item-type-price">Free</div>
+                  {% endif %}
+
+                </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+        </div>
+      </div>
+
+      <!-- ======================= Categories Section ======================= -->
+
+      <div class="go-to-category-wrapper">
+        <a href="/products?order_by=Recent"><div class="go-to-category-button">View Recent Items</div></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="categories-icons-wrapper">
+    <div class="categories-icons-body">
+      <div class="categories-icons-title">Shop Categories</div>
+      <div class="categories-icons-subtitle">Simplify your search. Find what you're looking for faster.</div>
+      <div class="categories-tiles-wrapper">
+        <a href="/products?categories=BI"><div class="box bikes-box">Bikes</div></a>
+        <a href="/products?categories=C"><div class="box clothes-box">Clothes</div></a>
+        <a href="/products?categories=E"><div class="box electronics-box">Electronics</div></a>
+        <a href="/products?categories=BO"><div class="box textbooks-box">Textbooks</div></a>
+      </div>
+    </div>
+  </div>
+
+      <!-- ======================= MISC Section ======================= -->
+
+  <div class="add-wrapper">
+    <div class="add-wrapper-body">
+      <div class="ad-image"></div>
+      <div class="ad-text-wrapper">
+        <div class="ad-title-wrapper">
+          <div class="ad-title">Go ahead,</div>
+          <div class="ad-subtitle">Raid someone's wardrobe.</div>
+        </div>
+        <p>It's time to update your steez. Slug Trade helps you find those hidden gems that are being neglected in someone's closet so you can make them an essential piece of your wardrobe. </p>
+        <span style="font-weight: 800; color: #333;">Let's get started.</span>
+        <a href="/products?categories=C"><div class="shop-button">Shop Clothes</div></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-wrapper" id="steps-anchor">
+    <div class="items-preview-title">How it Works</div>
+    <div class="items-preview-subtitle">Super easy, super simple. Let's get you trading.</div>
+    <div class="steps-body">
+      <div class="steps-item-wrapper">
+        <img src="https://smilerepublic.com/static/images/00001.gif" width="345" alt="">
+        <div class="steps-item-step">Step 1</div>
+        <div class="steps-item-title">Sign Up</div>
+        <div class="steps-item-description">
+          Make an account! After signing up you can <i>snag</i> items you are interested in.
+        </div>
+      </div>
+
+      <div class="steps-item-wrapper">
+        <img src="https://smilerepublic.com/static/images/00002.gif" width="345" alt="">
+        <div class="steps-item-step">Step 2</div>
+        <div class="steps-item-title">Snag Items</div>
+        <div class="steps-item-description">
+          Once you see an item you are interested, click <i>snag</i> to place a bid on that item.
+        </div>
+      </div>
+
+      <div class="steps-item-wrapper">
+        <img src="https://smilerepublic.com/static/images/00003.gif" width="345" alt="">
+        <div class="steps-item-step">Step 3</div>
+        <div class="steps-item-title">Meet Up</div>
+        <div class="steps-item-description">
+          Set a place to trade. Have confidence knowing who you are trading with.
+        </div>
+      </div>
+    </div>
+    <div class="go-to-category-wrapper">
+      <a href="{% url 'slug_trade_app:products' %}"><div class="go-to-category-button">Shop Now</div></a>
+    </div>
+  </div>
+
+    <!-- ======================= Popular Section ======================= -->
+
+  <div class="items-preview-wrapper">
+    <div class="items-preview-body top-padding-100">
+      <div class="items-preview-title">Popular Items</div>
+      <div class="items-preview-subtitle">Check out the stuff everyone has been talking about.</div>
+      {% if popular_and_images %}
+      <div class="items-horizontal-wrapper">
+        {% for popular, images in popular_and_images %}
+
+          <div class="item-wrapper">
+              <div class="item-image-wrapper">
+                <img src="{{images.0}}" width="300" alt="">
+              </div>
+
+              <div class="item-seller-wrapper">
+                <div class="seller-title">Category:&nbsp;</div>
+                <div class="seller-name">{{popular.get_category_display|title}}</div>
+              </div>
+
+              <div class="item-title">{{popular.name|title}}</div>
+              <div class="item-price-wrapper">
+
+                {% if popular.get_trade_options_display == "Cash with items on top" %}
+                  <div class="item-type-title">Trade Only</div>
+                {% else%}
+                  <div class="item-type-price">{{popular.get_trade_options_display}}</div>
+                {% endif %}
+
+                {% if popular.get_trade_options_display == "Cash Only" %}
+                  <div class="item-type-price">${{popular.price}}</div>
+                {% elif popular.get_trade_options_display == "Trade Only" %}
+                  <div class="item-type-price">Make an Offer</div>
+                {% elif popular.get_trade_options_display == "Cash with items on top" %}
+                  <div class="item-type-price">Make an Offer</div>
+                {% else %}
+                  <div class="item-type-price">Free</div>
+                {% endif %}
+
+              </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+  </div>
+
+  <div class="go-to-category-wrapper">
+    <a href="/products?order_by=Popular"><div class="go-to-category-button">View Popular Items</div></a>
+  </div>
+</div>
+
+<div class="add-wrapper2">
+  <div class="add-wrapper-body2">
+    <div class="ad-text-wrapper2">
+      <div class="ad-title-wrapper2">
+        <div class="ad-title2">Need a textbook?</div>
+        <div class="ad-subtitle2">Don't pay full price.</div>
+      </div>
+      <p>There are hundreds of students on campus that have the book you are looking for lying around in their closet. </p>
+      <span style="font-weight: 800; color: #333;">Lose the bookstore.</span>
+      <a href="/products?categories=BO"><div class="shop-button2">Shop Textbooks</div></a>
+    </div>
+    <div class="ad-image2"></div>
+  </div>
+</div>
+
+<div class="description-wrapper">
+    <div class="description-body">
+      <div class="description-title">So, why Slug Trade?</div>
+      <div class="description-description">
+        SlugTrade.com is made as a place for UCSC students, faculty, &amp; residents of nearby neighborhoods to have a place to buy, sell, &amp; trade items without needing services like craigslist. Feel safe knowing exactly who you’re trading with by viewing trader profiles &amp; meeting in a public place. SlugTrade.com allows you to trade with students like you, taking the classes you’re taking, that know the people you know.
+      </div>
+    </div>
+</div>
+
+<hr style="width: 100%; max-width: 500px; border: 1px solid #efefef;" />
+
+  <!-- ======================= Textbook Section ======================= -->
+
+<div class="items-preview-wrapper">
+  <div class="items-preview-body top-padding-100">
+    <div class="items-preview-title">Shop Textbooks</div>
+    <div class="items-preview-subtitle">Looks like you need to learn a thing or two. Checkout textbooks.</div>
+    {% if books_and_images %}
+    <div class="items-horizontal-wrapper">
+      {% for book, images in books_and_images %}
+
+        <div class="item-wrapper">
+            <div class="item-image-wrapper">
+              <img src="{{images.0}}" width="300" alt="">
+            </div>
+
+            <div class="item-seller-wrapper">
+              <div class="seller-title">Category:&nbsp;</div>
+              <div class="seller-name">{{book.get_category_display|title}}</div>
+            </div>
+
+            <div class="item-title">{{book.name|title}}</div>
+            <div class="item-price-wrapper">
+
+              {% if book.get_trade_options_display == "Cash with items on top" %}
+                <div class="item-type-title">Trade Only</div>
+              {% else%}
+                <div class="item-type-price">{{book.get_trade_options_display}}</div>
+              {% endif %}
+
+              {% if book.get_trade_options_display == "Cash Only" %}
+                <div class="item-type-price">${{book.price}}</div>
+              {% elif book.get_trade_options_display == "Trade Only" %}
+                <div class="item-type-price">Make an Offer</div>
+              {% elif book.get_trade_options_display == "Cash with items on top" %}
+                <div class="item-type-price">Make an Offer</div>
+              {% else %}
+                <div class="item-type-price">Free</div>
+              {% endif %}
+
+            </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+    </div>
+
+    <div class="go-to-category-wrapper">
+      <a href="/products?categories=BO"><div class="go-to-category-button">View Textbooks</div></a>
+    </div>
+  </div>
+</div>
+
+<div class="buffer"></div>
+
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

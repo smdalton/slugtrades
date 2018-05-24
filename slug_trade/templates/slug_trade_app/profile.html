@@ -1,25 +1,189 @@
-<!DOCTYPE html>
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
 
-<title>Products</title>
+{% block title_block %}
+<title>{{user_to_view.first_name|title}}'s Profile</title>
+{% endblock %}
+
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 
 {% block body_block %}
-<h1>{{user.first_name}}'s Profile</h1>
-<p>Welcome back!</p>
+<div class="profile-wrapper">
 
-{% if user.userprofile.profile_picture %}
-<h4>Current Photo:</h4>
-<p>
-URL is: {{ user.userprofile.profile_picture.url }}
-</p><img src="{{user.userprofile.profile_picture.url}}" width="240">
-{% endif %}
+  <div class="profile-body">
+    <div class="profile-info-wrapper">
 
-<p>It looks like you live {{user.userprofile.on_off_campus}} campus</p>
+      <div class="profile-info-image-wrapper">
+        {% if user_to_view.userprofile.profile_picture %}
+          <img src="{{user_to_view.userprofile.profile_picture.url}}" height="200">
+        {% endif %}
+      </div>
 
-<h4>This is your public bio:</h4>
-<p>{{user.userprofile.bio}}</p><br><br>
+      <div class="profile-info-content-wrapper">
+        <div class="profile-info-name-wrapper">
+          <div class="profile-info-title">Name</div>
+          <div class="profile-info-name">
+            {{user_to_view.first_name|title}}
+            {{user_to_view.last_name|title}}
+          </div>
+        </div>
 
-<a href="/edit_profile/">Edit Profile</a><br>
-<a href="/add_closet_item/">Add Item to Closet</a>
+        <div class="profile-info-location-wrapper">
+          <div class="profile-info-location-title-wrapper">
+            <div class="profile-info-title">Location</div>
+            <div class="profile-info-location">
+              {{user_to_view.userprofile.on_off_campus|title}}&nbsp;campus
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-info-bio-wrapper">
+          <div class="profile-info-bio-title-wrapper">
+            <div class="profile-info-title">Bio</div>
+            <div class="profile-info-bio">
+              {{user_to_view.userprofile.bio}}
+            </div>
+          </div>
+        </div>
+
+        {% if not public %}
+        <a href="{% url 'slug_trade_app:edit_profile' %}" style="text-decoration: none !important;">
+          <div class="profile-edit-link">Edit Profile</div>
+        </a>
+        {% endif %}
+
+      </div>
+    </div>
+
+      <form enctype="multipart/form-data" method="post">
+      <div class="wishlist-wrapper">
+        {% if item_added %}
+          <h2 id="wishlist_scroll_anchor">Wishlist</h2>
+        {% else %}
+          <h2>Wishlist</h2>
+        {% endif %}
+        <div class="wishlist-title-description">
+          Items {{ user_to_view.first_name }} is interested in trading for.
+        </div>
+        <div class="wishlist-input-wrapper">
+          {% if show_add_button %}
+            {% csrf_token %}
+            <input type="text" class="wishlist-input" id="wishlist_item_description" name="description" placeholder="Add Wishlist Item">
+            <input id="wishlist-button" type="submit" name="add" value="Add">
+          {% endif %}
+        </div>
+      </div>
+      </form>
+
+
+    <div class="wishlist-list-wrapper">
+      {% if empty_wishlist %}
+        {{user_to_view.first_name}}'s wishlist is empty
+      {% else %}
+
+          {% for item in wishlist %}
+            <div class="wishlist-item-wrapper" id="wishlist_{{item.id}}">
+              {{ item.wishlist_item_description }}
+              {% if show_add_button %}
+                <button class="delete_from_wishlist" id="delete-x" value="{{item.id}}" >x</button>
+              {% endif %}
+            </div>
+          {% endfor %}
+
+      {% endif %}
+    </div>
+  </div>
+  <div class="closet-body">
+      <div class="profile-closet-title-wrapper">
+
+          <h2>Closet</h2>
+
+          {% if not public %}
+            <a href="{% url 'slug_trade_app:add_closet_item' %}">
+              <div class="profile-add-item-link">Add Closet Item</div>
+            </a>
+          {% endif %}
+
+      </div>
+
+
+
+      {% if item_data %}
+        <div class="closet-item-wrapper">
+
+        {% for item, images in item_data %}
+
+            <div class="profile-item-wrapper">
+
+            <div class="profile-item-image-wrapper">
+              <img src="{{images.0}}" width="240" alt="">
+            </div>
+
+            {% if not public %}
+              <div class="profile-item-edit">
+                <div class="item-seller-wrapper">
+                  <div class="seller-title">CATEGORY: &nbsp;</div>
+                  <div class="seller-name">{{item.get_category_display|title}}</div>
+                </div>
+                <div class="profile-edit-profile-link" onclick="clickItem({{item.id}})">Edit Item</div>
+              </div>
+            {% else %}
+              <div class="item-seller-wrapper">
+                <div class="seller-title">CATEGORY: &nbsp;</div>
+                <div class="seller-name">{{item.get_category_display|title}}</div>
+              </div>
+            {% endif %}
+
+            <div class="item-title">{{item.name|title}}</div>
+            <div class="item-price-wrapper">
+              <div class="item-type-price">{{item.get_trade_options_display}}</div>
+              {% if item.get_trade_options_display == "Cash Only" %}
+                <div class="item-type-price">${{item.price}}</div>
+              {% elif item.get_trade_options_display == "Free" %}
+                <div class="item-type-price">$0.00</div>
+              {% else %}
+                <div class="item-type-price">Offers Welcome!</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+      {% if items.has_other_pages %}
+        <ul class="pagination">
+          {% if items.number|add:'-4' > 1 %}
+            <li class="button" onclick="changePage({{ items.number|add:'-5' }})">&laquo;</li>
+          {% endif %}
+
+          {% if items.has_previous %}
+            <li class="button" onclick="changePage({{ items.previous_page_number }})">&lsaquo;</li>
+          {% endif %}
+
+          {% for i in items.paginator.page_range %}
+            {% if items.number == i %}
+              <li class="active"><span>{{ i }}</span></li>
+            {% elif i > items.number|add:'-5' and i < items.number|add:'5' %}
+              <li onclick="changePage({{ i }})">{{ i }}</li>
+            {% endif %}
+          {% endfor %}
+
+          {% if items.has_next %}
+            <li onclick="changePage({{ items.next_page_number }})">&rsaquo;</li>
+          {% endif %}
+
+          {% if items.paginator.num_pages > items.number|add:'4' %}
+            <li class="button" onclick="changePage({{ items.number|add:'5' }})">&raquo;</li>
+          {% endif %}
+        </ul>
+      {% endif %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}

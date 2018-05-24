@@ -6,23 +6,35 @@ from django.core.validators import RegexValidator
 
 
 ITEM_CATEGORIES = (
-    ('E','Electronics'),
-    ('H','Household goods'),
-    ('C','Clothing'),
-    ('O', 'Other')
+    ('E', 'Electronics'),
+    ('H', 'Household'),
+    ('C', 'Clothing'),
+    ('O', 'Other'),
+    ('BI', 'Bikes'),
+    ('BO', 'Books'),
+    ('MO', 'Movies'),
+    ('MU', 'Music'),
+    ('I', 'Instruments'),
+    ('TI', 'Tickets'),
+    ('TO', 'Tools'),
+    ('TOY', 'Toys'),
+    ('G', 'Gaming'),
+    ('OU', 'Outdoors'),
+    ('OF', 'Office'),
+    ('F', 'Furniture'),
+    ('A', 'Appliances'),
+    ('FI', 'Fitness')
 )
-
 
 CAMPUS_STATUS = (
     ('on', 'Located on campus'),
     ('off', 'Located off campus')
 )
 
-
 TRADE_OPTIONS = (
     ('0','Cash Only'),
-    ('1','Cash with items on top'),
-    ('2','Trade only'),
+    ('1','Cash and Items'),
+    ('2','Items Only'),
     ('3','Free')
 )
 
@@ -35,13 +47,13 @@ ITEM_CONDITION = (
     ('4','New')
 )
 
-
 #class User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_picture = models.ImageField(upload_to='static/profile_pictures', blank=True)
     bio = models.TextField(max_length=500, blank=True)
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
     on_off_campus = models.CharField(max_length=3,
                                 default="on",
                                 choices=CAMPUS_STATUS)
@@ -54,10 +66,11 @@ class Wishlist(models.Model):
 
 class Item(models.Model):
     # who owns the item
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=80, blank=False)
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=False)
-    category = models.CharField(max_length=1,
+    category = models.CharField(max_length=8,
                                 default="O",
                                 choices=ITEM_CATEGORIES,
                                 blank=False)
@@ -67,6 +80,7 @@ class Item(models.Model):
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
     description = models.TextField(blank=False, default='')
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
                                 blank=False,
@@ -83,40 +97,57 @@ class ItemImage(models.Model):
     image4 = models.ImageField(upload_to='static/item_images', blank=True)
     image5 = models.ImageField(upload_to='static/item_images', blank=True)
 
+    def get_image_list(self):
+        result = []
+        if self.image1:
+            result.append(self.image1.url)
+        if self.image2:
+            result.append(self.image2.url)
+        if self.image3:
+            result.append(self.image3.url)
+        if self.image4:
+            result.append(self.image4.url)
+        if self.image5:
+            result.append(self.image5.url)
+        return result
+
     def __str__(self):
-        return f"You are accessing the ItemImage correctly {self.item}"
+        return f"{self.item}"
 
 
 class ItemComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    time_stamp = models.DateTimeField()
+    time_stamp = models.DateTimeField(auto_now=True)
     comment = models.TextField(blank=False)
-
 
 
 class OfferComment(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    time_stamp = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=250)
 
+
 class ItemOffer(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="primary_item")
-    offer_item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="offer_item")
-    is_current = models.BooleanField(default=True)
-    current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_item_bidder")
-    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_item_bidder")
+    item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="item_offers_item_bid_on")
+    item_bid_with = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="item_offers_bid_with")
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_offers_original_bidder")
+
 
 class CashOffer(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE)
     offer_amount = models.DecimalField(max_digits=9,
                                        decimal_places=2,
                                        blank=False)
-    is_current = models.BooleanField(default=True)
-    current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="current_cash_bidder")
-    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="original_cash_bidder")
+    time_stamp = models.DateTimeField(auto_now=True, null=True)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cash_offers_item_owner")
+    original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cash_offers_original_bidder")
+
 
 class Offer(models.Model):
     bid_on = models.ForeignKey(Item, related_name='item_bid_on', on_delete=models.CASCADE)
     bid_with = models.ForeignKey(Item, related_name='item_bid_with', on_delete=models.CASCADE)
-
+    time_stamp = models.DateTimeField(auto_now=True, null=True)

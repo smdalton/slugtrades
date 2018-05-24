@@ -2,37 +2,71 @@
 
 <title>Sign Up</title>
 
-{% block body_block %}
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation-basic.html" %}
+{% endblock %}
 
-  <div class="" style="padding: 40px 0;">
-      <a href="{% url 'slug_trade_app:index' %}">Home</a>
-  </div>
+{% block body_block %}
 
   {% if registered %}
     <h1>Thank you for registering!</h1>
   {% else %}
-    <h2>Sign Up</h2>
-    <form method="post" enctype="multipart/form-data" >
-      {% csrf_token %}
-      {{ user_form.username }}
-      {{ user_form.first_name }}
-      {{ user_form.first_name.errors }}
-      {{ user_form.last_name }}
-      {{ user_form.last_name.errors }}
-      {{ user_form.email }}
-      {{ user_form.email.errors }}
-      {{ user_form.password1 }}
-      {{ user_form.password1.errors }}
-      {{ user_form.password2 }}
-      {{ user_form.password2.errors }}<br>
 
-      <img id="signup_img" src="" width="240"><br>
+    <div class="signup-form-wrapper">
+      <div class="signup-form-body">
+        <div class="signup-title">Sign Up</div>
+        <div class="signup-subtitle">Time to find some great new stuff, let's get you trading.</div>
+        <form method="post" enctype="multipart/form-data" >
 
-      {{ profile_form.as_p }}
+          <div class="signup-form-inputs-wrapper">
+            {% csrf_token %}
+            {{ user_form.username }}
+            <div class="signup-form-inputs-first-last">
+              {{ user_form.first_name }}
+              {{ user_form.first_name.errors }}
+              {{ user_form.last_name }}
+              {{ user_form.last_name.errors }}
+            </div>
 
+            {{ user_form.email }}
+            {{ user_form.email.errors }}
 
-      <input type="submit" name="" value="Sign Up">
-    </form>
+            <div class="signup-form-inputs-first-last">
+              {{ user_form.password1 }}
+              {{ user_form.password2 }}
+            </div>
+            {{ user_form.password1.errors }}
+            {{ user_form.password2.errors }}
+
+            <div class="signup-img-wrapper">
+              <div class="signup-img-body" style="">
+                <div class="signup-img-container">
+                  <img id="signup_img" src="https://www.innotechcollege.com/wp-content/uploads/2016/09/Profile-sky-ovnis.jpg" height="100">
+                </div>
+              </div>
+
+              {{ profile_form.profile_picture }}
+            </div>
+
+            {{ profile_form.bio }}
+            {{ profile_form.bio.errors }}
+            {{ profile_form.on_off_campus }}
+          </div>
+
+          <div class="signup-form-button-wrapper">
+            <input id="signup-submit" type="submit" name="" value="Sign Up">
+          </div>
+
+          <div class="already-member-wrapper">
+            Already a member? &nbsp; <a href="{% url 'slug_trade_app:login' %}">Click Here</a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
   {% endif %}
 
 {% endblock %}
+
+{% block footer_block %}{% endblock %}

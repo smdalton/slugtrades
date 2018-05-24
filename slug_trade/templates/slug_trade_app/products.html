@@ -1,16 +1,179 @@
-<!DOCTYPE html>
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
 
 <title>Products</title>
 
+{% block nav_block %}
+  {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
-  <h2>Products Page</h2>
-  <div class="products-container">
-    <a href="{% url 'slug_trade_app:index' %}">Home</a>
-    <button id="toggle-button" type="button" name="button" onclick="toggle()">Click me!</button>
 
-    <img class="pop-img" src="{% static "images/destiny2.jpg" %}" alt="Destiny 2">
+<div class="products-wrapper">
+  <form method="get" id="products-form">
+    <div class="products-categories-wrapper">
+
+      <div class="products-categories-title">Filters</div>
+
+
+      <div class="products-categories-subtitle">Order By</div>
+      <div class="products-filter-container">
+        <select name="order_by" id="products-filter-select">
+          {% for option in order_by %}
+            {% if order_by_selected == option.value %}
+              <option value="{{option.value}}" selected>{{option.name}}</option>
+            {% else %}
+              <option value="{{option.value}}">{{option.name}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+
+      {% if selected_types %}
+        <div class="products-categories-subtitle">Trade Options</div>
+      {% else %}
+        <div class="products-categories-subtitle">Trade Options <span class="showing-all">(Showing All)</span></div>
+      {% endif %}
+
+      <div class="products-filter-container">
+
+        {% for type in types %}
+          <div class="products-filter">
+            {% if selected_types %}
+              {% if type.value in selected_types %}
+                <input type="checkbox" name="types" value="{{type.value}}" checked="checked"> <span>{{type.name}}</span>
+              {% else %}
+                <input type="checkbox" name="types" value="{{type.value}}"> <span>{{type.name}}</span>
+              {% endif %}
+            {% else %}
+              <input type="checkbox" name="types" value="{{type.value}}"> <span>{{type.name}}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+      </div>
+
+      {% if selected_values %}
+        <div class="products-categories-subtitle">Categories</div>
+      {% else %}
+        <div class="products-categories-subtitle">Categories <span class="showing-all">(Showing All)</span></div>
+      {% endif %}
+
+      <div class="products-filter-container">
+        {% for category in categories %}
+          <div class="products-filter">
+            {% if selected_values %}
+              {% if category.value in selected_values %}
+                <input type="checkbox" name="categories" value="{{category.value}}" checked="checked"> <span>{{category.name}}</span>
+              {% else %}
+                <input type="checkbox" name="categories" value="{{category.value}}"> <span>{{category.name}}</span>
+              {% endif %}
+            {% else %}
+              <input type="checkbox" name="categories" value="{{category.value}}"> <span>{{category.name}}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <input type="submit" value="Submit" id="products-form-submit">
+      </div>
+    </div>
+  </form>
+  <div class="products-list-wrapper">
+
+    <div class="pagination-title-wrapper">
+      <div class="products-categories-title">Products</div>
+      {% if items.has_other_pages %}
+        <ul class="pagination">
+          {% if items.number|add:'-4' > 1 %}
+            <li class="button" onclick="changePage({{ items.number|add:'-5' }})">&laquo;</li>
+          {% endif %}
+
+          {% if items.has_previous %}
+            <li class="button" onclick="changePage({{ items.previous_page_number }})">&lsaquo;</li>
+          {% endif %}
+
+          {% for i in items.paginator.page_range %}
+            {% if items.number == i %}
+              <li class="active"><span>{{ i }}</span></li>
+            {% elif i > items.number|add:'-5' and i < items.number|add:'5' %}
+              <li onclick="changePage({{ i }})">{{ i }}</li>
+            {% endif %}
+          {% endfor %}
+
+          {% if items.has_next %}
+            <li onclick="changePage({{ items.next_page_number }})">&rsaquo;</li>
+          {% endif %}
+
+          {% if items.paginator.num_pages > items.number|add:'4' %}
+            <li class="button" onclick="changePage({{ items.number|add:'5' }})">&raquo;</li>
+          {% endif %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <div class="products-list-container">
+      {% if item_count == 0 %}
+        <h4>Nothing to see here!</h4>
+      {% endif %}
+      {% for item in items %}
+      <div class="products-item-wrapper">
+        <div class="item-image-wrapper">
+          <img src="{{item.image1.url}}" width="300" alt="">
+        </div>
+        <div class="item-seller-wrapper">
+          <div class="seller-title">SOLD BY: &nbsp;</div>
+          <div class="seller-name"><a href="/profile/{{item.item.user.id}}">{{item.item.user.first_name | title}}</a></div>
+        </div>
+        <div class="item-title">{{item.item.name|title}}</div>
+        <div class="item-price-wrapper">
+
+          <div class="item-type-title">{{item.item.get_trade_options_display}}</div>
+
+          {% if item.item.get_trade_options_display == "Cash Only" %}
+            <div class="item-type-price">${{item.item.price}}</div>
+          {% elif item.item.get_trade_options_display == "Free" %}
+            <div class="item-type-price">$0.00</div>
+          {% else %}
+            <div class="item-type-price">Offers Welcome!</div>
+          {% endif %}
+
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+
+    {% if items.has_other_pages %}
+      <ul class="pagination">
+        {% if items.number|add:'-4' > 1 %}
+          <li class="button" onclick="changePage({{ items.number|add:'-5' }})">&laquo;</li>
+        {% endif %}
+
+        {% if items.has_previous %}
+          <li class="button" onclick="changePage({{ items.previous_page_number }})">&lsaquo;</li>
+        {% endif %}
+
+        {% for i in items.paginator.page_range %}
+          {% if items.number == i %}
+            <li class="active"><span>{{ i }}</span></li>
+          {% elif i > items.number|add:'-5' and i < items.number|add:'5' %}
+            <li onclick="changePage({{ i }})">{{ i }}</li>
+          {% endif %}
+        {% endfor %}
+
+        {% if items.has_next %}
+          <li onclick="changePage({{ items.next_page_number }})">&rsaquo;</li>
+        {% endif %}
+
+        {% if items.paginator.num_pages > items.number|add:'4' %}
+          <li class="button" onclick="changePage({{ items.number|add:'5' }})">&raquo;</li>
+        {% endif %}
+      </ul>
+    {% endif %}
   </div>
+</div>
 
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}
