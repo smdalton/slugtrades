@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,  HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -20,8 +20,49 @@ debug = False
 
 
 def index(request):
-    test = "This was passed from the backend!"
-    return render(request, 'slug_trade_app/index.html',{'test':test})
+
+    items = Item.objects.all()[:4]
+    images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
+    items_and_images = zip(items,images)
+
+    books = Item.objects.filter(category="BO")[:4]
+    b_images = [ItemImage.objects.get(item=book).get_image_list() for book in books]
+    books_and_images = zip(books,b_images)
+
+    popular = Item.objects.all().order_by('-bid_counter')[:4]
+    p_images = [ItemImage.objects.get(item=p).get_image_list() for p in popular]
+    popular_and_images = zip(popular,p_images)
+
+    recent = Item.objects.all().order_by('-time_stamp')[:4]
+    r_images = [ItemImage.objects.get(item=r).get_image_list() for r in recent]
+    recent_and_images = zip(recent,r_images)
+
+
+    if debug:
+        print("in index view")
+
+    categories = [
+        { 'name': 'All', 'value': 'All' }
+    ]
+    types = [
+        { 'name': 'All', 'value': 'All' }
+    ]
+
+    for value, name in ITEM_CATEGORIES:
+        categories.append({ 'name': name, 'value': value})
+
+    for value, name in TRADE_OPTIONS:
+        types.append({ 'name': name, 'value': value })
+
+    print("At home")
+    return render(request, 'slug_trade_app/index.html',{
+        'items_and_images':items_and_images,
+        'books_and_images': books_and_images,
+        'popular_and_images': popular_and_images,
+        'recent_and_images': recent_and_images,
+        'categories': categories,
+        'types': types
+    })
 
 
 def products(request):
@@ -33,6 +74,17 @@ def products(request):
     types = []
     type_values = []
     selected_types = []
+
+    order_by = [
+        { 'name': 'Popular', 'value': 'Popular' },
+        { 'name': 'Recent', 'value': 'Recent' }
+    ]
+
+    order_by_selected = 'Nothing'
+
+    default_order_name = 'Recent'
+    default_order_filter = '-item__time_stamp'
+
 
     for value, name in ITEM_CATEGORIES:
         categories.append({ 'name': name, 'value': value})
@@ -67,6 +119,19 @@ def products(request):
                 if type not in selected_types:
                     items_list = items_list.exclude(item__trade_options=type)
 
+        if request.GET.get('order_by', False):
+            if request.GET['order_by'] == 'Popular':
+                items_list = items_list.order_by('-item__bid_counter')
+                order_by_selected = 'Popular'
+            elif request.GET['order_by'] == 'Recent':
+                items_list = items_list.order_by('-item__time_stamp')
+                order_by_selected = 'Recent'
+        else:
+            items_list = items_list.order_by(default_order_filter)
+            order_by_selected = default_order_name
+
+
+
         item_count = items_list.count()
         paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
         page = request.GET.get('page', 1)
@@ -78,12 +143,12 @@ def products(request):
         except EmptyPage:
             items = paginator.page(paginator.num_pages)
 
-        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count})
+        return render(request, 'slug_trade_app/products.html', {'items': items, 'categories': categories, 'selected_values': selected_values, 'types': types, 'selected_types': selected_types, 'item_count': item_count, 'order_by': order_by, 'order_by_selected': order_by_selected})
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
-
+ 
 def show_users(request):
     users = User.objects.all()
 
@@ -374,12 +439,14 @@ def public_profile_inspect(request, user_id):
     wishlist = Wishlist.objects.filter(user=User.objects.get(id=user_id))
 
     return render(request, 'slug_trade_app/profile.html', {
-        'user': user_to_view,
-        'public': True,
-        'item_data': items_and_images,
-        'wishlist': wishlist,
-        'show_add_button': False
-    })
+                      'user_to_view': user_to_view,
+                      'public': True,
+                      'item_data': items_and_images,
+                      'wishlist': wishlist,
+                      'show_add_button': False,
+                      'items': items
+                  })
+
 
 
 def profile(request):
@@ -544,6 +611,170 @@ def edit_closet_item(request):
     if request.method == 'POST':
         item_images_instance = ItemImage.objects.get(id=request.POST.get('id', None))
         item_instance = item_images_instance.item
+
+        form = ClosetItem(request.POST, instance=item_instance)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.user = request.user
+            if item.price < 0:
+                item.price = 0
+            form.save()
+
+            files = request.FILES
+            temps = request.POST
+
+            image1 = files.get('image1', '')
+            image2 = files.get('image2', '')
+            image3 = files.get('image3', '')
+            image4 = files.get('image4', '')
+            image5 = files.get('image5', '')
+
+            temp1 = temps.get('temp-image1', '')
+            temp2 = temps.get('temp-image2', '')
+            temp3 = temps.get('temp-image3', '')
+            temp4 = temps.get('temp-image4', '')
+            temp5 = temps.get('temp-image5', '')
+
+            if image1:
+                image1_action = 'update'
+            elif not image1 and not temp1:
+                image1_action = 'delete'
+            else:
+                image1_action = 'none'
+
+            if image2:
+                image2_action = 'update'
+            elif not image2 and not temp2:
+                image2_action = 'delete'
+            else:
+                image2_action = 'none'
+
+            if image3:
+                image3_action = 'update'
+            elif(not image3 and not temp3):
+                image3_action = 'delete'
+            else:
+                image3_action = 'none'
+
+            if image4:
+                image4_action = 'update'
+            elif(not image4 and not temp4):
+                image4_action = 'delete'
+            else:
+                image4_action = 'none'
+
+            if image5:
+                image5_action = 'update'
+            elif not image5 and not temp5:
+                image5_action = 'delete'
+            else:
+                image5_action = 'none'
+
+            images = {
+                'image1': image1,
+                'image2': image2,
+                'image3': image3,
+                'image4': image4,
+                'image5': image5
+            }
+
+            actions = {
+                'image1': image1_action,
+                'image2': image2_action,
+                'image3': image3_action,
+                'image4': image4_action,
+                'image5': image5_action
+            }
+
+            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+            if actions['image1'] == 'update':
+                update.image1 = images['image1']
+            elif actions['image1'] == 'delete':
+                update.image1 = None
+
+            if actions['image2'] == 'update':
+                update.image2 = images['image2']
+            elif actions['image2'] == 'delete':
+                update.image2 = None
+
+            if actions['image3'] == 'update':
+                update.image3 = images['image3']
+            elif actions['image3'] == 'delete':
+                update.image3 = None
+
+            if actions['image4'] == 'update':
+                update.image4 = images['image4']
+            elif actions['image4'] == 'delete':
+                update.image4 = None
+
+            if actions['image5'] == 'update':
+                update.image5 = images['image5']
+            elif actions['image5'] == 'delete':
+                update.image5 = None
+
+            update.save()
+
+            pics = []
+
+            update = ItemImage.objects.get(item=Item.objects.get(id=request.GET.get('id', None)))
+
+            if update.image1: pics.append(update.image1)
+            if update.image2: pics.append(update.image2)
+            if update.image3: pics.append(update.image3)
+            if update.image4: pics.append(update.image4)
+            if update.image5: pics.append(update.image5)
+
+            if len(pics)>=1:
+                update.image1 = pics.pop(0)
+            else:
+                update.image1 = None
+
+            if len(pics)>=1:
+                update.image2 = pics.pop(0)
+            else:
+                update.image2 = None
+
+            if len(pics)>=1:
+                update.image3 = pics.pop(0)
+            else:
+                update.image3 = None
+
+            if len(pics)>=1:
+                update.image4 = pics.pop(0)
+            else:
+                update.image4 = None
+
+            if len(pics)>=1:
+                update.image5 = pics.pop(0)
+            else:
+                update.image5 = None
+
+            update.save()
+
+        return redirect('/profile')
+
+    else:
+        if request.user.is_authenticated():
+            item = Item.objects.get(id=request.GET.get('id', None))
+            if request.user == item.user:
+                item_images = ItemImage.objects.get(item=item)
+                form = ClosetItem(instance=item)
+                photos = ClosetItemPhotos(instance=item_images)
+                return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos, 'id': item_images.id, 'edit': True, 'images': item_images, 'item_id': item.id})
+            else:
+                return HttpResponse("You can't edit someone else's items.")
+        else:
+            return render(request, 'slug_trade_app/not_authenticated.html')
+
+@csrf_exempt
+def delete_closet_item(request):
+    item = Item.objects.get(id=request.POST['item_id'])
+    item_images = ItemImage.objects.get(item=item)
+    item_images.delete()
+    item.delete()
+    return HttpResponse('Deleted!')
+
 
         form = ClosetItem(request.POST, instance=item_instance)
         if form.is_valid():
