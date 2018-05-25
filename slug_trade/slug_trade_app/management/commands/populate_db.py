@@ -6,14 +6,12 @@ from django.core.management import call_command
 from slug_trade_app import models
 from itertools import cycle
 from faker import Faker
-import random
-import os, sys
+import os, sys, time, random, glob
 
 # Modules for image handling
 from PIL import Image
 from django.core.files.base import ContentFile
 from io import BytesIO
-import glob
 
 
 fake = Faker()
@@ -248,15 +246,14 @@ class Command(BaseCommand):
         users = ['Cheyenne', 'Gary', 'Daniel']
         users = [models.User.objects.filter(first_name=user).all()[0] for user in users]
         trade_options = ['0', '1', '2']
+        admin = models.User.objects.filter(first_name='admin').all()[0]
 
+        # set bike to cash mode
+        models.Item.objects.filter(name='bike').update(trade_options='0')
         admin_cash_item_bike = models.Item.objects.filter(user__first_name='admin').filter(trade_options='0')[0]
         admin_trade_item_test = models.Item.objects.filter(user__first_name='admin').filter(trade_options='1')[0]
         admin_free_item_planter = models.Item.objects.filter(user__first_name='admin').filter(trade_options='2')[0]
-        print(admin_cash_item_bike, '\n',
-              admin_trade_item_test, '\n',
-              admin_free_item_planter, '\n')
 
-        admin = models.User.objects.filter(first_name='admin').all()[0]
         # add a cash offer for each user in the selected list
         for user in users:
             cashoffer = models.CashOffer(
@@ -279,12 +276,19 @@ class Command(BaseCommand):
                     original_bidder=user
                 )
                 offer.save()
-        # for user in users:
-
+        #make a bunch of free offers
+        for user in users:
+            free_offer = models.OfferComment(
+                item=admin_free_item_planter,
+                item_owner=admin,
+                comment_placed_by=user,
+                comment=fake.text()
+            )
+            free_offer.save()
 
     def handle(self, **args):
-        #test = False
-        test = True
+        test = False
+        #test = True
 
         if not test:
             self.wipe_db()
@@ -293,8 +297,8 @@ class Command(BaseCommand):
             self.create_user()
             self.create_random_users()
             self.create_one_item_per_user()
+            self.add_offers()
 
         if test:
             # test functions go here
-            self.add_offers()
-
+            pass
