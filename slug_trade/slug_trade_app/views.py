@@ -194,6 +194,9 @@ def item_details(request, item_id=None):
                                                                 'trade_type': trade_type_name,
                                                                 })
 
+
+
+
 def my_offers(request):
 
     # check for authentication
@@ -202,19 +205,38 @@ def my_offers(request):
 
     # load my items
     items = models.Item.objects.filter(user=request.user).all()
-    #
-    # for item in items:
-    #     # cash items
-    #     if item.trade_options == '0':
-    #         pass
-    #     # trade items
-    #     if item.trade_options == '1':
-    #         pass
-    #     #free items
-    #     if item.trade_options == '2':
-    #         pass
-    #     else:
-    #         raise Exception('item trade options wrong in my_offers view')
+    # item_comment_bundle = [[item, [comment for comment in models.OfferComment.objects.filter(item=item)]] for item in items]
+    # [print('comments for item', item[0], ': ', item[1]) for item in item_comment_bundle]
+
+    cash_items = []
+    trade_items = []
+    free_items = []
+
+    for item in items:
+
+        # cash items
+        if item.trade_options == '0':
+            # load the offer amount and
+            print('Item is cash: ', item.name,)
+            cash_offers = models.CashOffer.objects.filter(item_bid_on=item).all()
+            [print(offer) for offer in cash_offers]
+            print('\n')
+
+        # trade items
+        if item.trade_options == '1':
+
+            print('Item is trade: ', item.name)
+            trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
+            [print(trade_offer) for trade_offer in trade_offers]
+            print('\n')
+
+        # free items
+        if item.trade_options == '2':
+            print('Item is free: ', item.name, )
+            free_comments = models.OfferComment.objects.filter(item=item).all()
+            [print(comment) for comment in free_comments]
+            print('\n')
+
     # for each item load the offers that have been placed on it (if any)
 
     # if an item has no offers placed on it don't include it in the output

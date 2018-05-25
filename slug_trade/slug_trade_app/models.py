@@ -54,8 +54,8 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     on_off_campus = models.CharField(max_length=3,
-                                default="on",
-                                choices=CAMPUS_STATUS)
+                                     default="on",
+                                     choices=CAMPUS_STATUS)
 
 
 class Wishlist(models.Model):
@@ -127,6 +127,9 @@ class OfferComment(models.Model):
     comment_placed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     time_stamp = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=250)
+
+    def __str__(self):
+        return f"{self.comment[:20]}"
 
 
 class ItemOffer(models.Model):
