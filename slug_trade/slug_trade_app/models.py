@@ -139,6 +139,8 @@ class ItemOffer(models.Model):
     item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_offers_original_bidder")
 
+    def __str__(self):
+        return f" Bid on: {self.item_bid_on.name} With: {self.item_bid_with}"
 
 class CashOffer(models.Model):
     item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE)

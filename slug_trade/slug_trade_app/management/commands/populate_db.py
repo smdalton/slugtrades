@@ -243,18 +243,58 @@ class Command(BaseCommand):
         for filename in os.listdir(item_path):
             os.remove(item_path + filename)
 
+    def add_offers(self):
+        # get cheyenne's items
+        users = ['Cheyenne', 'Gary', 'Daniel']
+        users = [models.User.objects.filter(first_name=user).all()[0] for user in users]
+        trade_options = ['0', '1', '2']
+
+        admin_cash_item_bike = models.Item.objects.filter(user__first_name='admin').filter(trade_options='0')[0]
+        admin_trade_item_test = models.Item.objects.filter(user__first_name='admin').filter(trade_options='1')[0]
+        admin_free_item_planter = models.Item.objects.filter(user__first_name='admin').filter(trade_options='2')[0]
+        print(admin_cash_item_bike, '\n',
+              admin_trade_item_test, '\n',
+              admin_free_item_planter, '\n')
+
+        admin = models.User.objects.filter(first_name='admin').all()[0]
+        # add a cash offer for each user in the selected list
+        for user in users:
+            cashoffer = models.CashOffer(
+                item_bid_on=admin_cash_item_bike,
+                offer_amount=random.choice([1,2,3,4,5,6,7,8,9,0]),
+                item_owner=admin,
+                original_bidder=user,
+            )
+            cashoffer.save()
+        # add a trade offer for all of each users items on the admin trade item
+        for user in users:
+            # get all of the users items
+            user_items = models.Item.objects.filter(user=user).all()
+            for item in user_items:
+                # create an item_offer
+                offer = models.ItemOffer(
+                    item_bid_on=admin_trade_item_test,
+                    item_bid_with=item,
+                    item_owner=admin,
+                    original_bidder=user
+                )
+                offer.save()
+        # for user in users:
+
+
     def handle(self, **args):
-        test = False
-        #test = True
+        #test = False
+        test = True
 
-        self.wipe_db()
-        self.create_admin()
-        self.create_admin_item()
-        self.create_user()
-        self.create_random_users()
-        self.create_one_item_per_user()
+        if not test:
+            self.wipe_db()
+            self.create_admin()
+            self.create_admin_item()
+            self.create_user()
+            self.create_random_users()
+            self.create_one_item_per_user()
 
-        #if test:
-            #test functions go here
-
+        if test:
+            # test functions go here
+            self.add_offers()
 
