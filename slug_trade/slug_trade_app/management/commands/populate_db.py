@@ -86,51 +86,8 @@ class Command(BaseCommand):
 
         user.userprofile.profile_picture.save(user.first_name + extension, ContentFile(image_bytes.getvalue()))
         user.userprofile.save()
+
         return
-
-    def admin_debug_offers(self):
-
-        # create three offers from three imaginary users user1 user2 user3
-        user1 = User.objects.create_user('user1', password='pass1234')
-        user2 = User.objects.create_user('user2', password='pass1234')
-        user3 = User.objects.create_user('user3', password='pass1234')
-        user_list = [user1, user2, user3]
-        counter = 1
-        for user in user_list:
-            user.is_staff = True
-            user.is_admin = True
-            user.first_name = 'user' + str(counter)
-            user.last_name = 'bangarang'
-            user.email = user.first_name + user.last_name + '@nowhere.com'
-            user.save()
-            profile = models.UserProfile(user=user)
-            profile.save()
-            user.userprofile.bio = 'test user for offers'
-            user.userprofile.on_off_campus = 'off'
-            # get the debug image to use as the profile photo
-            filename = glob.glob(self.debug_profile_pic_path + 'debug.jpeg')[0]
-            extension = '.' + filename.split('.')[len(filename.split('.')) - 1]
-            image = Image.open(filename)
-            image_bytes = BytesIO()
-            image.save(image_bytes, image.format)
-            user.userprofile.profile_picture.save(user.first_name + extension, ContentFile(image_bytes.getvalue()))
-            user.userprofile.save()
-            counter += 1
-
-    def create_offer_user_items(self, user_list):
-
-        for user in user_list:
-            item1 = models.Item(user=user, name=user.name, price='5.99', category='C', description='placeholder')
-            item1.save()
-            item2 = models.Item(user=user, name=user.name, price='5.99', category='C', description='placeholder')
-            item2.save()
-            item3 = models.Item(user=user, name=user.name, price='5.99', category='C', description='placeholder')
-            item3.save()
-
-        # create three items for admin one for each category cash, trade, free
-
-
-
 
 # Creates one user and saves it into the database.
     def create_user(self):
@@ -225,31 +182,6 @@ class Command(BaseCommand):
         modelimage.image1.save('admin' + extension, ContentFile(image_bytes.getvalue()))
         modelimage.save()
 
-        # create three items of each category
-        cash_item = models.Item(user=user,
-                           name='cash_item',
-                           price='5.99',
-                           category='C',
-                           description='offer_test',
-                           trade_options='0')
-        cash_item.save()
-
-        trade_item = models.Item(user=user,
-                                name='trade_item',
-                                price='5.99',
-                                category='C',
-                                description='offer_test',
-                                trade_options='1')
-        trade_item.save()
-
-        free_item = models.Item(user=user,
-                                name='free_item',
-                                price='5.99',
-                                category='C',
-                                description='offer_test',
-                                trade_options='2')
-        free_item.save()
-
         return
 
     def create_one_item_per_user(self):
@@ -318,7 +250,6 @@ class Command(BaseCommand):
         self.wipe_db()
         self.create_admin()
         self.create_admin_item()
-        self.admin_debug_offers()
         self.create_user()
         self.create_random_users()
         self.create_one_item_per_user()
