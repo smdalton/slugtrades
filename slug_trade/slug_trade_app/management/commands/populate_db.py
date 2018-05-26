@@ -275,6 +275,7 @@ class Command(BaseCommand):
                     item_owner=admin,
                     original_bidder=user
                 )
+                print('saving item',offer)
                 offer.save()
         #make a bunch of free offers
         for user in users:

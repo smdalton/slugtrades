@@ -216,7 +216,7 @@ def my_offers(request):
     # [print('comments for item', item[0], ': ', item[1]) for item in item_comment_bundle]
 
     cash_offers = {}
-    trade_offers = {}
+    ordered_trade_offers = {}
     free_items = {}
 
 
@@ -234,40 +234,39 @@ def my_offers(request):
             [print(offer) for offer in cash_offers]
             print('\n')
 
-        # trade items
-        # if item.trade_options == '1':
-        #
-        #     # group trades by user
-        #
-        #     print('Item is trade: ', item.name)
-        #     trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
-        #
-        #     if item not in trade_offers:
-        #         trade_offers[item] = []
-        #
-        #     trade_offers[item].append({
-        #
-        #     })
-        #     [print(trade_offer) for trade_offer in trade_offers]
-        #     print('\n')
+        #trade items
+        if item.trade_options == '1':
+            print(ordered_trade_offers)
+            # add the key for the current item to the trade offers_dict
+            ordered_trade_offers[item] = {}
+            trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
+            # assemble the dictionary of a single users offers
+            storage_dict = {}
+            for offer in trade_offers:
+                if offer.original_bidder not in storage_dict:
+                    storage_dict[offer.original_bidder] = []
+                    storage_dict[offer.original_bidder].append(offer)
+                else:
+                    storage_dict[offer.original_bidder].append(offer)
+            ordered_trade_offers[item] = storage_dict
 
+
+        [print(entry) for entry in ordered_trade_offers]
         # free items
+
+
         if item.trade_options == '2':
             print('Item is free: ', item.name, )
             free_comments = models.OfferComment.objects.filter(item=item).all()
             [print(comment) for comment in free_comments]
             print('\n')
 
-    # for each item load the offers that have been placed on it (if any)
 
-    # if an item has no offers placed on it don't include it in the output
-
-    # if no items have offers placed on them then display a message saying so
     print(cash_offers)
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'cash_offers': cash_offers,
-                    'trade_items': trade_offers,
+                    'trade_items': ordered_trade_offers,
 
                   })
 
