@@ -209,15 +209,24 @@ def my_placed_offers(request):
     ordered_trade_offers = {}
     free_item_offers = {}
 
-    # get all offers that have been placed by the currently logged in user on other items
+    # get all offers that have been placed by request.user
+    my_cash_offers = models.CashOffer.objects.filter(original_bidder=request.user)
+
+    my_item_offers = models.ItemOffer.objects.filter(original_bidder=request.user)
+
+
+    my_free_offers = models.OfferComment.objects\
+        .filter(comment_placed_by=request.user)\
+        .filter(item__trade_options='2')
 
 
     return render(request, 'slug_trade_app/my_offers.html',
                   {
-                    'viewing_offers_on_my_items': True,
-                    'cash_item_offers': cash_item_offers,
-                    'trade_item_offers': ordered_trade_offers,
-                    'free_item_offers': free_item_offers,
+                    'viewing_offers_on_my_items': False,
+                    'viewing_my_placed_offers': True,
+                    'cash_item_offers': my_cash_offers,
+                    'trade_item_offers': my_item_offers,
+                    'free_item_offers': my_free_offers,
 
                   })
 
@@ -230,6 +239,7 @@ def my_received_offers(request):
 
     # load my items as a list of items
     items = models.Item.objects.filter(user=request.user).all()
+    # initialize dicts to be populated with offers
     cash_item_offers = {}
     ordered_trade_offers = {}
     free_item_offers = {}
@@ -238,14 +248,11 @@ def my_received_offers(request):
 
         # cash items
         if item.trade_options == '0':
-            # load the offer amount and
-            print('Item is cash: ', item.name,)
             cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
             cash_item_offers[item] = cash_offer_list
 
         # trade items
         if item.trade_options == '1':
-            print(ordered_trade_offers)
             # add the key for the current item to the trade offers_dict
             ordered_trade_offers[item] = {}
             trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
@@ -270,6 +277,7 @@ def my_received_offers(request):
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'viewing_offers_on_my_items': True,
+                    'viewing_my_placed_offers': False,
                     'cash_item_offers': cash_item_offers,
                     'trade_item_offers': ordered_trade_offers,
                     'free_item_offers': free_item_offers,

@@ -50,10 +50,37 @@
 {% endfor %}
 {% endif %}
 
-{% if not viewing_offers_on_my_items %}
+{% if viewing_my_placed_offers %}
 <div>
     <h1>Viewing Offers I have placed</h1>
 </div>
+
+<!--Cash Offers-->
+{% for item in chas_item_offers%}
+<div>
+    {{item}}
+
+</div>
+{% endfor %}
+<!--Trade Offers-->
+{% for item in trade_item_offers %}
+<div>
+{{item}}
+
+</div>
+{% endfor %}
+
+<!-- Free Offers-->
+{% for item in free_item_offers %}
+<div>
+    {{item}}
+
+</div>
+{% endfor %}
+
+
+
+
 {% endif %}
 {% endblock %}
 
