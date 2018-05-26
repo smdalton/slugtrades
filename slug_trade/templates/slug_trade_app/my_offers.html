@@ -12,8 +12,10 @@
 
 {% block body_block %}
 
+
+{% if viewing_offers_on_my_items%}
 <h1>These are all your offers!</h1>
-{% for item, cash_offer_list in cash_offers.items %}
+{% for item, cash_offer_list in cash_item_offers.items %}
 <div>
     <h1>Cash Offers on {{item}}</h1>
     <h4>item_id = {{item.id}}</h4>
@@ -30,17 +32,29 @@
 </div>
 
 <div>
-    {% for user, users_offers in trade_items.items %}
+    {% for item, offer_dict in trade_item_offers.items %}
     <br>
-    {{user}}
-
-    {{users_offers}}
+    <h3>Item offered on is {{item}}</h3>
     <br>
+    Dict Contents
+    {% for user, offer_list in offer_dict.items %}
+    <h2>{{user}} made offer </h2>
+    <h4>
+        {{offer_list}}
+    </h4>
+    {% endfor %}
     {% endfor %}
 
 </div>
 
 {% endfor %}
+{% endif %}
+
+{% if not viewing_offers_on_my_items %}
+<div>
+    <h1>Viewing Offers I have placed</h1>
+</div>
+{% endif %}
 {% endblock %}
 
 

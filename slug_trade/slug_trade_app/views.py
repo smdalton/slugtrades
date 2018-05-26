@@ -203,8 +203,26 @@ def item_details(request, item_id=None):
                                                                 'trade_type': trade_type_name,
                                                                 })
 
+def my_placed_offers(request):
 
-def my_offers(request):
+    cash_item_offers = {}
+    ordered_trade_offers = {}
+    free_item_offers = {}
+
+    # get all offers that have been placed by the currently logged in user on other items
+
+
+    return render(request, 'slug_trade_app/my_offers.html',
+                  {
+                    'viewing_offers_on_my_items': True,
+                    'cash_item_offers': cash_item_offers,
+                    'trade_item_offers': ordered_trade_offers,
+                    'free_item_offers': free_item_offers,
+
+                  })
+
+
+def my_received_offers(request):
 
     # check for authentication
     if not request.user.is_authenticated():
@@ -212,13 +230,9 @@ def my_offers(request):
 
     # load my items as a list of items
     items = models.Item.objects.filter(user=request.user).all()
-    # item_comment_bundle = [[item, [comment for comment in models.OfferComment.objects.filter(item=item)]] for item in items]
-    # [print('comments for item', item[0], ': ', item[1]) for item in item_comment_bundle]
-
-    cash_offers = {}
+    cash_item_offers = {}
     ordered_trade_offers = {}
-    free_items = {}
-
+    free_item_offers = {}
 
     for item in items:
 
@@ -227,14 +241,9 @@ def my_offers(request):
             # load the offer amount and
             print('Item is cash: ', item.name,)
             cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
-            cash_offers[item] = cash_offer_list
-            # group the offers by user
+            cash_item_offers[item] = cash_offer_list
 
-
-            [print(offer) for offer in cash_offers]
-            print('\n')
-
-        #trade items
+        # trade items
         if item.trade_options == '1':
             print(ordered_trade_offers)
             # add the key for the current item to the trade offers_dict
@@ -250,23 +259,20 @@ def my_offers(request):
                     storage_dict[offer.original_bidder].append(offer)
             ordered_trade_offers[item] = storage_dict
 
-
-        [print(entry) for entry in ordered_trade_offers]
         # free items
 
-
         if item.trade_options == '2':
-            print('Item is free: ', item.name, )
             free_comments = models.OfferComment.objects.filter(item=item).all()
-            [print(comment) for comment in free_comments]
-            print('\n')
+            if len(free_comments) >0:
+                # add it to the list because there are comments
+                free_item_offers[item] = free_comments
 
-
-    print(cash_offers)
     return render(request, 'slug_trade_app/my_offers.html',
                   {
-                    'cash_offers': cash_offers,
-                    'trade_items': ordered_trade_offers,
+                    'viewing_offers_on_my_items': True,
+                    'cash_item_offers': cash_item_offers,
+                    'trade_item_offers': ordered_trade_offers,
+                    'free_item_offers': free_item_offers,
 
                   })
 
