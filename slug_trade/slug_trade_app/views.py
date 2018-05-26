@@ -204,22 +204,21 @@ def item_details(request, item_id=None):
                                                                 })
 
 
-
-
 def my_offers(request):
 
     # check for authentication
     if not request.user.is_authenticated():
         return redirect('/signup')
 
-    # load my items
+    # load my items as a list of items
     items = models.Item.objects.filter(user=request.user).all()
     # item_comment_bundle = [[item, [comment for comment in models.OfferComment.objects.filter(item=item)]] for item in items]
     # [print('comments for item', item[0], ': ', item[1]) for item in item_comment_bundle]
 
-    cash_items = []
-    trade_items = []
-    free_items = []
+    cash_offers = {}
+    trade_offers = {}
+    free_items = {}
+
 
     for item in items:
 
@@ -227,17 +226,30 @@ def my_offers(request):
         if item.trade_options == '0':
             # load the offer amount and
             print('Item is cash: ', item.name,)
-            cash_offers = models.CashOffer.objects.filter(item_bid_on=item).all()
+            cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
+            cash_offers[item] = cash_offer_list
+            # group the offers by user
+
+
             [print(offer) for offer in cash_offers]
             print('\n')
 
         # trade items
-        if item.trade_options == '1':
-
-            print('Item is trade: ', item.name)
-            trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
-            [print(trade_offer) for trade_offer in trade_offers]
-            print('\n')
+        # if item.trade_options == '1':
+        #
+        #     # group trades by user
+        #
+        #     print('Item is trade: ', item.name)
+        #     trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
+        #
+        #     if item not in trade_offers:
+        #         trade_offers[item] = []
+        #
+        #     trade_offers[item].append({
+        #
+        #     })
+        #     [print(trade_offer) for trade_offer in trade_offers]
+        #     print('\n')
 
         # free items
         if item.trade_options == '2':
@@ -251,8 +263,13 @@ def my_offers(request):
     # if an item has no offers placed on it don't include it in the output
 
     # if no items have offers placed on them then display a message saying so
+    print(cash_offers)
+    return render(request, 'slug_trade_app/my_offers.html',
+                  {
+                    'cash_offers': cash_offers,
+                    'trade_items': trade_offers,
 
-    return render(request, 'slug_trade_app/my_offers.html')
+                  })
 
 def cash_transaction(request, item_id=None):
 

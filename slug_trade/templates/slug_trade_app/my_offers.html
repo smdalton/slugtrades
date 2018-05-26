@@ -6,15 +6,36 @@
 {% endblock %}
 
 {% block nav_block %}
-    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% include "slug_trade_app/header-footer/navigation.html" %}
 {% endblock %}
 
 
 {% block body_block %}
+
 <h1>These are all your offers!</h1>
+{% for item, cash_offer_list in cash_offers.items %}
+<div>
+    <h1>{{item}}</h1>
+    <h4>item_id = {{item.id}}</h4>
+    <h4></h4>
+    {% for offer in cash_offer_list %}
+    <h2>
+        {{offer.offer_amount}}
+        {{offer.original_bidder.first_name}}
+        This is for a link {{offer.id}}
+    </h2>
+    {% endfor %}
+</div>
+
+<div>
+
+
+</div>
+
+{% endfor %}
 {% endblock %}
 
 
 {% block footer_block %}
-  {% include "slug_trade_app/header-footer/footer.html" %}
+{% include "slug_trade_app/header-footer/footer.html" %}
 {% endblock %}
