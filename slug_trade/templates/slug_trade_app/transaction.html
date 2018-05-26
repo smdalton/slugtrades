@@ -14,7 +14,7 @@
 
         <div class="item-review-wrapper">
             <div class="item-review-image-wrapper">
-                <img src="{{ sale_item_image }}" width="200" alt="">
+                <img src="{{ sale_item_image }}" width="260" alt="">
             </div>
             <div class="item-review-info-wrapper">
                 <div class="item-review-title review-title"><span>Item &nbsp;</span>{{sale_item.name.title}}</div>
@@ -35,32 +35,37 @@
 
 
         {% if transaction_type == 'cash'%}
-        <form method="post">
+        <form class="item-review-form" method="post">
             {% csrf_token %}
-            <p>Cash Form here</p>
-            {{cash_transaction_form.as_p}}
-            <p>Comment Here</p>
-            {{offer_comment_form.as_p}}
+            <div class="item-review-subtitle">Offer amount</div>
+              <div class="test">
+                {{cash_transaction_form.offer_amount}}
+                {{cash_transaction_form.offer_amount.errors}}
+              </div>
+              <div class="item-review-subtitle">Comment</div>
+              {{offer_comment_form.comment}}
+              {{offer_comment_form.comment.errors}}
             <input id="signup-submit" type="submit" name="" value="Place Cash Offer">
         </form>
         {% endif %}
 
 
         {% if transaction_type == 'trade'%}
-        <form method="post">
+        <form class="item-review-form" method="post">
             {% csrf_token %}
-
-            <p>Comment Here</p>
-            {{offer_comment_form.as_p}}
-
-            {% for item in logged_in_users_items%}
-            <div>
-                <img src="{{item.image}}" width="120" alt="">
-            <input type="checkbox" name="selected-item" value="{{item.id}}">
-            <label>{{item.name}}</label>
+            <div class="item-review-subtitle">Trade Offer</div>
+            <div class="trade-offer-item-container">
+              {% for item in logged_in_users_items%}
+                  <div class="trade-offer-item-wrapper">
+                    <label>{{item.name|title}}</label>
+                    <img src="{{item.image}}" width="120" alt="">
+                    <input type="checkbox" name="selected-item" value="{{item.id}}">
+                  </div>
+              {% endfor %}
             </div>
-            <hr>
-            {% endfor %}
+            <div class="item-review-subtitle">Comment</div>
+            {{offer_comment_form.comment}}
+            {{offer_comment_form.comment.errors}}
             <input id="signup-submit" type="submit" name="" value="Place Trade">
         </form>
         {% endif %}
@@ -70,11 +75,10 @@
 
 
         {% if transaction_type == 'free'%}
-        <form method="post">
+        <form class="item-review-form" method="post">
             {% csrf_token %}
-            <p>Cash Form here</p>
             {{cash_transaction_form.as_p}}
-            <p>Comment Here</p>
+            <div class="item-review-subtitle">Comment</div>
             {{offer_comment_form.comment}}
             <input id="signup-submit" type="submit" name="" value="Grab it!">
         </form>
@@ -82,12 +86,6 @@
 
     </div>
 </div>
-
-
-<p>
-    Transaction Type <br>
-    {{transaction_type}}
-</p>
 
 
 {% endblock %}
