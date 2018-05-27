@@ -9,80 +9,149 @@
 {% include "slug_trade_app/header-footer/navigation.html" %}
 {% endblock %}
 
-
 {% block body_block %}
 
+<div class="my-offers-wrapper">
+  <div class="my-offers-body">
 
-{% if viewing_offers_on_my_items%}
-<h1>These are all your offers!</h1>
-{% for item, cash_offer_list in cash_item_offers.items %}
-<div>
-    <h1>Cash Offers on {{item}}</h1>
-    <h4>item_id = {{item.id}}</h4>
-    <h4></h4>
-    {% for offer in cash_offer_list %}
-    <h4>
-        <p>{{offer.original_bidder.first_name}}</p>
-        <p>{{offer.offer_amount}}</p>
-        <p>This is for a link {{offer.id}}</p>
+  {% if viewing_offers_on_my_items%}
+    <div class="my-offers-title-wrapper">
+      <div class="my-offers-title offer-received">Offer Received</div>
+      <div class="my-offers-title offer-placed">Offer Placed</div>
+    </div>
 
-    </h4>
-    <br>
-    {% endfor %}
+    <!-- <div class="my-offers-item-wrapper">
+      {% for item, cash_offer_list in cash_item_offers.items %} -->
+          <!-- <div class="my-offers-my-item-wrapper">
+            <div class="my-offers-my-item-title">{{item | title}} <span>${{item.price}}</span></div>
+            <!-- Image goes below -->
+            <!-- <div style="width: 75px; height: 75px; background: tomato;"></div>
+          </div>
+          <div class="my-offers-offered-wrapper">
+            <div class="my-offers-offer-person-name">{{offer.original_bidder.first_name}}'s offer</div>
+            <div class="my-offers-offer-images">
+              <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+              <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+              <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+              <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+              <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+            </div>
+          </div> -->
+        <!-- {% endfor %}
+      </div> -->
+
+      <div class="my-offers-item-wrapper">
+        {% for item, offer_dict in trade_item_offers.items %}
+          {% for bidder, offer_list in offer_dict.items %}
+            <div class="" style="display: flex; justify-content: space-between; width: 100%;padding: 15px 5px; border-bottom: 1px solid #e6e6e6;">
+              <div class="my-offers-my-item-wrapper">
+                <div class="my-offers-my-item-title">{{item | title}} <span>${{item.price}}</span></div>
+                <!-- Image goes below -->
+                <div style="width: 75px; height: 75px; background: tomato;"></div>
+              </div>
+              <div class="my-offers-offered-wrapper">
+                  <div class="my-offers-offer-person-name">{{bidder.first_name}}'s offer</div>
+
+                  <div class="my-offers-offer-images">
+                    <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+                    <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+                    <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+                    <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+                    <div style="width: 75px; height: 75px; background: tomato; margin-left: 5px"></div>
+                  </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+  </div>
 </div>
-
-<div>
-    {% for item, offer_dict in trade_item_offers.items %}
-    <br>
-    <h3>Item offered on is {{item}}</h3>
-    <br>
-    Dict Contents
-    {% for user, offer_list in offer_dict.items %}
-    <h2>{{user}} made offer </h2>
-    <h4>
-        {{offer_list}}
-    </h4>
-    {% endfor %}
-    {% endfor %}
-
-</div>
-
-{% endfor %}
-{% endif %}
-
-{% if viewing_my_placed_offers %}
-<div>
-    <h1>Viewing Offers I have placed</h1>
-</div>
-
-<!--Cash Offers-->
-{% for item in chas_item_offers%}
-<div>
-    {{item}}
-
-</div>
-{% endfor %}
-<!--Trade Offers-->
-{% for item in trade_item_offers %}
-<div>
-{{item}}
-
-</div>
-{% endfor %}
-
-<!-- Free Offers-->
-{% for item in free_item_offers %}
-<div>
-    {{item}}
-
-</div>
-{% endfor %}
-
-
-
-
-{% endif %}
 {% endblock %}
+
+<!--
+
+<div class="my-offers-wrapper">
+  <div class="my-offers-body">
+
+    {% if viewing_offers_on_my_items%}
+    <div class="my-offers-title-wrapper">
+      <div class="my-offers-title">Offer Received</div>
+      <div class="my-offers-title">Offer Placed</div>
+
+    </div>
+
+    <h1></h1>
+    {% for item, cash_offer_list in cash_item_offers.items %}
+    <div>
+        <h1>Cash Offers on {{item}}</h1>
+        <h4>item_id = {{item.id}}</h4>
+        <h4></h4>
+        {% for offer in cash_offer_list %}
+        <h4>
+            <p>{{offer.original_bidder.first_name}}</p>
+            <p>{{offer.offer_amount}}</p>
+            <p>This is for a link {{offer.id}}</p>
+
+        </h4>
+        <br>
+        {% endfor %}
+    </div>
+
+    <div>
+        {% for item, offer_dict in trade_item_offers.items %}
+        <br>
+        <h3>Item offered on is {{item}}</h3>
+        <br>
+        Dict Contents
+        {% for user, offer_list in offer_dict.items %}
+        <h2>{{user}} made offer </h2>
+        <h4>
+            {{offer_list}}
+        </h4>
+        {% endfor %}
+        {% endfor %}
+
+    </div>
+
+    {% endfor %}
+    {% endif %}
+
+    {% if viewing_my_placed_offers %}
+    <div>
+        <h1>Viewing Offers I have placed</h1>
+    </div>
+
+    {% for item in chas_item_offers%}
+    <div>
+        {{item}}
+
+    </div>
+    {% endfor %}
+    {% for item in trade_item_offers %}
+    <div>
+    {{item}}
+
+    </div>
+    {% endfor %}
+
+    {% for item in free_item_offers %}
+    <div>
+        {{item}}
+
+    </div>
+    {% endfor %}
+
+
+
+
+    {% endif %}
+  </div>
+</div>
+
+
+ -->
 
 
 {% block footer_block %}

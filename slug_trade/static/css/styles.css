@@ -2469,3 +2469,82 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
     top: 40%;
 
 }
+
+/********** my offers ****************/
+.my-offers-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+
+.my-offers-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+}
+
+.my-offers-title-wrapper {
+  display: flex;
+  align-items: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 600;
+  color: #333;
+  font-size: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 20px;
+}
+
+.my-offers-title {
+  margin-right: 20px;
+}
+
+.offer-received {
+  padding: 10px;
+  border-radius: 5px;
+  background: #fff2ca;
+}
+
+/* .my-offers-title:hover {
+  color: #F2CE60;
+  cursor: pointer;
+} */
+
+.my-offers-my-item-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.my-offers-item-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+
+.my-offers-my-item-title {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+.my-offers-my-item-title span {
+  font-family: 'Questrial', sans-serif;
+}
+
+.my-offers-offered-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-offers-offer-images {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-person-name {
+  text-align: right;
+}
