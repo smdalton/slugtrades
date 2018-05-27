@@ -284,6 +284,7 @@ def my_received_offers(request):
 
                   })
 
+
 def cash_transaction(request, item_id=None):
 
     if not request.user.is_authenticated():
