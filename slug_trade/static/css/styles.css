@@ -2162,6 +2162,8 @@ item-details-image-row-wrapper{
   font-size: 20px;
 }
 
+
+
 .products-list-wrapper {
   width: 100%;
   padding: 40px;
@@ -2241,6 +2243,11 @@ item-details-image-row-wrapper{
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.order-by-wrapper {
+  margin-left: auto;
+  padding-right: 40px;
 }
 
 .pagination {

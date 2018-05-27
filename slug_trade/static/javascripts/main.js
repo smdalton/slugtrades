@@ -159,6 +159,13 @@ var deleteClosetItem = function(itemId) {
 
 
 $(document).ready(function() {
+  //products page order by change event
+  $(function() {
+    $('#products-filter-select').change(function() {
+      $('#products-form').submit();
+    });
+  });
+
   $('.pgwSlider').pgwSlider();
   $(function() {
     $('#home-filter').click(function() {
