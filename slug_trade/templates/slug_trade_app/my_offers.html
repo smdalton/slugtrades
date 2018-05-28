@@ -1,6 +1,5 @@
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
-
 {% block title_block %}
 <title>{{user_to_view.first_name|title}}'s Profile</title>
 {% endblock %}
@@ -16,37 +15,41 @@
 {% if viewing_offers_on_my_items%}
 <h1>These are all your offers!</h1>
 {% for item, cash_offer_list in cash_item_offers.items %}
-<div>
-    <h1>Cash Offers on {{item}}</h1>
-    <h4>item_id = {{item.id}}</h4>
-    <h4>{{item.item_picturexccccccccccccccccccccccccccccccd3333333333c4}}</h4>
-    <h4></h4>
-    {% for offer in cash_offer_list %}
-    <h4>
-        <p>{{offer.original_bidder.first_name}}</p>
-        <p>{{offer.offer_amount}}</p>
-        <p>This is for a link {{offer.id}}</p>
+    <div>
+        <h1>Cash Offers on {{item}}</h1>
+        <h4>item_id = {{item.id}}</h4>
+        <h4>{{ item }}</h4>
+        <h4></h4>
+        {% for offer in cash_offer_list %}
+        <h4>
+            <p>{{offer.original_bidder.first_name}}</p>
+            <p>{{offer.offer_amount}}</p>
+            <p>This is for a link {{offer.id}}</p>
 
-    </h4>
-    <br>
-    {% endfor %}
-</div>
+        </h4>
+        <br>
+        {% endfor %}
+    </div>
 
-<div>
-    {% for item, offer_dict in trade_item_offers.items %}
-    <br>
-    <h3>Item offered on is {{item}}</h3>
-    <br>
-    Dict Contents
-    {% for user, offer_list in offer_dict.items %}
-    <h2>{{user}} made offer </h2>
-    <h4>
-        {{offer_list}}
-    </h4>
-    {% endfor %}
-    {% endfor %}
+    <div>
+        {% for item, offer_dict in trade_item_offers.items %}
+            <br>
+            <h3>Item offered on is {{item}}</h3>
+            <br>
+            Dict Contents
+            {% for user, offer_list in offer_dict.items %}
+            <h2>{{user}} made offer </h2>
+                {% for offer in offer_list %}
+                <h4>
+                    {{offer.offer}}
+                    <br>
+                    {{offer.picture}}
+                </h4>
+                {% endfor %}
+        {% endfor %}
+        {% endfor %}
 
-</div>
+    </div>
 
 {% endfor %}
 {% endif %}
@@ -58,25 +61,24 @@
 
 <!--Cash Offers-->
 {% for item in cash_item_offers%}
-<div>
-    {{item}}
-
-</div>
+    <div>
+        {{item}}
+    </div>
 {% endfor %}
-<!--Trade Offers-->
+
+    <!--Trade Offers-->
 {% for item in trade_item_offers %}
-<div>
-{{item}}
-
-</div>
+    <div>
+    {{item}}
+    </div>
 {% endfor %}
 
-<!-- Free Offers-->
+    <!-- Free Offers-->
 {% for item in free_item_offers %}
-<div>
-    {{item}}
+    <div>
+        {{item}}
 
-</div>
+    </div>
 {% endfor %}
 
 

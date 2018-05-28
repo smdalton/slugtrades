@@ -211,6 +211,13 @@ def my_placed_offers(request):
 
     # get all offers that have been placed by request.user
     my_cash_offers = models.CashOffer.objects.filter(original_bidder=request.user)
+
+    for cash_offer in my_cash_offers:
+        cash_item_offers[cash_offer]={
+            'offer': cash_offer,
+            'picture': cash_offer.item_bid_on.get_images()
+        }
+    print(cash_item_offers)
     my_item_offers = models.ItemOffer.objects.filter(original_bidder=request.user)
     my_free_offers = models.OfferComment.objects\
         .filter(comment_placed_by=request.user)\
@@ -246,7 +253,11 @@ def my_received_offers(request):
         # cash items
         if item.trade_options == '0':
             cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
-            cash_item_offers[item] = cash_offer_list
+            cash_item_offers[item.name] = {
+                'item': item,
+                'item_picture': item.get_images(),
+                'cash_offers': cash_offer_list
+            }
 
         # trade items
         if item.trade_options == '1':
@@ -259,8 +270,9 @@ def my_received_offers(request):
             for offer in trade_offers:
                 if offer.original_bidder not in storage_dict:
                     storage_dict[offer.original_bidder] = []
-                    print(offer.get_images())
-                    storage_dict[offer.original_bidder].append((offer, offer.get_images()))
+                    storage_dict[offer.original_bidder].append({
+                        'offer': offer,
+                        'picture': offer.get_images()})
                 else:
                     storage_dict[offer.original_bidder].append((offer, offer.get_images()))
             storage_dict['item_picture'] = item.get_images()
@@ -273,7 +285,7 @@ def my_received_offers(request):
             if len(free_comments) >0:
                 # add it to the list because there are comments
                 free_item_offers[item] = free_comments
-
+    print(cash_item_offers)
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'viewing_offers_on_my_items': True,
