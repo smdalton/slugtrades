@@ -211,10 +211,7 @@ def my_placed_offers(request):
 
     # get all offers that have been placed by request.user
     my_cash_offers = models.CashOffer.objects.filter(original_bidder=request.user)
-
     my_item_offers = models.ItemOffer.objects.filter(original_bidder=request.user)
-
-
     my_free_offers = models.OfferComment.objects\
         .filter(comment_placed_by=request.user)\
         .filter(item__trade_options='2')
@@ -255,15 +252,18 @@ def my_received_offers(request):
         if item.trade_options == '1':
             # add the key for the current item to the trade offers_dict
             ordered_trade_offers[item] = {}
+
             trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
             # assemble the dictionary of a single users offers
             storage_dict = {}
             for offer in trade_offers:
                 if offer.original_bidder not in storage_dict:
                     storage_dict[offer.original_bidder] = []
-                    storage_dict[offer.original_bidder].append(offer)
+                    print(offer.get_images())
+                    storage_dict[offer.original_bidder].append((offer, offer.get_images()))
                 else:
-                    storage_dict[offer.original_bidder].append(offer)
+                    storage_dict[offer.original_bidder].append((offer, offer.get_images()))
+            storage_dict['item_picture'] = item.get_images()
             ordered_trade_offers[item] = storage_dict
 
         # free items

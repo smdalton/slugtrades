@@ -84,6 +84,13 @@ class Item(models.Model):
                                 max_length=100,
                                 blank=False,
                                  default='2')
+    def get_images(self):
+        try:
+            a = ItemImage.objects.get(item__id=self.id).get_image_list()
+            return a[0]
+        except Exception:
+            return 'error retrieving image'
+
     def __str__(self):
         return self.name
 
@@ -138,6 +145,13 @@ class ItemOffer(models.Model):
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_offers_original_bidder")
+
+    def get_images(self):
+        try:
+            a = ItemImage.objects.get(item__id=self.item_bid_with.id).get_image_list()
+            return a[0]
+        except Exception:
+            return 'error retrieving image'
 
     def __str__(self):
         return f" Bid on: {self.item_bid_on.name} With: {self.item_bid_with}"
