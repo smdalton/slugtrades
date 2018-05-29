@@ -13,45 +13,49 @@
 
 
 {% if viewing_offers_on_my_items%}
-<h1>These are all your offers!</h1>
-{% for item, cash_offer_list in cash_item_offers.items %}
+<h1>Cash</h1>
+{% for offer in cash_offers%}
+<hr>
     <div>
-        <h1>Cash Offers on {{item}}</h1>
-        <h4>item_id = {{item.id}}</h4>
-        <h4>{{ item }}</h4>
-        <h4></h4>
-        {% for offer in cash_offer_list %}
-        <h4>
-            <p>{{offer.original_bidder.first_name}}</p>
-            <p>{{offer.offer_amount}}</p>
-            <p>This is for a link {{offer.id}}</p>
-
-        </h4>
-        <br>
-        {% endfor %}
+        <p>Item Name: {{offer.item_name}}</p>
+        <p>Img link: {{offer.item_image}}</p>
+        <p>Bidders name: {{offer.bidders_name}}</p>
+        <p>Bid amount: {{offer.bid_amount}}</p>
+        <p>Details link: {{offer.details_link}}</p>
     </div>
-
-    <div>
-        {% for item, offer_dict in trade_item_offers.items %}
-            <br>
-            <h3>Item offered on is {{item}}</h3>
-            <br>
-            Dict Contents
-            {% for user, offer_list in offer_dict.items %}
-            <h2>{{user}} made offer </h2>
-                {% for offer in offer_list %}
-                <h4>
-                    {{offer.offer}}
-                    <br>
-                    {{offer.picture}}
-                </h4>
-                {% endfor %}
-        {% endfor %}
-        {% endfor %}
-
-    </div>
-
 {% endfor %}
+<br><br><h1>Trades</h1>
+<hr>
+{% for trade in trade_offers%}
+
+<div>
+    <p>Bidder: {{trade.bidders_name}}</p>
+    <p>Bidding on: {{trade.item_name}}</p>
+    <p>Item bid on image is {{trade.item_image}}</p>
+    <p>With the following:</p>
+    {%for item_picture in trade.bid_items_list%}
+    <div>
+        <p>{{item_picture}}</p>
+    </div>
+    {% endfor %}
+    <p>Details Link : {{trade.trade_details}}</p>
+</div>
+<hr>
+{% endfor %}
+
+
+<br><br><h1>Free</h1>
+
+{% for free_offer_list in free_offers %}
+    {% for free_offer in free_offer_list %}
+    <hr>
+    <p><h5>Item Name:</h5> {{free_offer.item_name}}</p>
+    <p><h5>Item Image:</h5>{{free_offer.item_image}}</p>
+    <p><h5>Comment: </h5>{{free_offer.comment}}</p>
+    <p><h5>Comment Author: </h5> {{free_offer.comment_placed_by}}</p>
+    {% endfor %}
+{% endfor %}
+<div></div>
 {% endif %}
 
 {% if viewing_my_placed_offers %}
@@ -60,31 +64,37 @@
 </div>
 
 <!--Cash Offers-->
-{% for item in cash_item_offers%}
-    <div>
-        {{item}}
-    </div>
-{% endfor %}
+<!--{{cash_item_offers}}-->
+<h1>CASH OFFERS</h1>
+    {% for key, value in cash_item_offers.items %}
+        <div>
+            {{value.picture}}
+            {{value.offer.offer_amount}}
+            {{value.offer.item_owner}}
+        </div>
+    {% endfor %}
 
+<h1>TRADE OFFERS</h1>
     <!--Trade Offers-->
-{% for item in trade_item_offers %}
-    <div>
-    {{item}}
-    </div>
-{% endfor %}
+    {% for item in trade_item_offers %}
+        <div>
+        {{item.item}}
+            {{item.picture}}
+        </div>
+    {% endfor %}
 
+<h1>FREE OFFERS</h1>
     <!-- Free Offers-->
-{% for item in free_item_offers %}
-    <div>
-        {{item}}
-
-    </div>
-{% endfor %}
-
-
-
+    {% for item, list in free_item_offers.items %}
+        <div>
+            {{item}}
+            {{list}}
+        </div>
+    {% endfor %}
+<div>Test Dive this is changing</div>
 
 {% endif %}
+
 {% endblock %}
 
 

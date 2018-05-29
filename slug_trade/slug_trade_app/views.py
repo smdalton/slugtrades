@@ -14,7 +14,7 @@ from slug_trade_app.models import UserProfile, ITEM_CATEGORIES, TRADE_OPTIONS
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+import pprint
 # Create your views here.
 debug = False
 
@@ -213,25 +213,26 @@ def my_placed_offers(request):
     my_cash_offers = models.CashOffer.objects.filter(original_bidder=request.user)
 
     for cash_offer in my_cash_offers:
-        cash_item_offers[cash_offer]={
-            'offer': cash_offer,
-            'picture': cash_offer.item_bid_on.get_images()
+        cash_item_offers[cash_offer.item_bid_on.name] = {
+            'picture': cash_offer.item_bid_on.get_images(),
+            'offer': cash_offer
         }
-    print(cash_item_offers)
+
     my_item_offers = models.ItemOffer.objects.filter(original_bidder=request.user)
+
+
     my_free_offers = models.OfferComment.objects\
         .filter(comment_placed_by=request.user)\
         .filter(item__trade_options='2')
-
+    # print("my placed cash offers", cash_item_offers)
 
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'viewing_offers_on_my_items': False,
                     'viewing_my_placed_offers': True,
-                    'cash_item_offers': my_cash_offers,
+                    'cash_item_offers': cash_item_offers,
                     'trade_item_offers': my_item_offers,
                     'free_item_offers': my_free_offers,
-
                   })
 
 
@@ -244,55 +245,91 @@ def my_received_offers(request):
     # load my items as a list of items
     items = models.Item.objects.filter(user=request.user).all()
     # initialize dicts to be populated with offers
-    cash_item_offers = {}
-    ordered_trade_offers = {}
-    free_item_offers = {}
+    cash_offers = []
+    trade_offers = []
+    free_offers = []
 
     for item in items:
 
         # cash items
         if item.trade_options == '0':
             cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
-            cash_item_offers[item.name] = {
-                'item': item,
-                'item_picture': item.get_images(),
-                'cash_offers': cash_offer_list
-            }
+            for offer in cash_offer_list:
+                cash_offers.append(
+                    {
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'bidders_name': offer.original_bidder.first_name,
+                        'bid_amount': offer.offer_amount,
+                        'details_link': '/trade_details/?Owner=test&Item=id',
+                    }
+                )
 
         # trade items
         if item.trade_options == '1':
             # add the key for the current item to the trade offers_dict
-            ordered_trade_offers[item] = {}
-
-            trade_offers = models.ItemOffer.objects.filter(item_bid_on=item).all()
-            # assemble the dictionary of a single users offers
-            storage_dict = {}
-            for offer in trade_offers:
-                if offer.original_bidder not in storage_dict:
-                    storage_dict[offer.original_bidder] = []
-                    storage_dict[offer.original_bidder].append({
-                        'offer': offer,
-                        'picture': offer.get_images()})
+            trade_offer_list = models.ItemOffer.objects.filter(item_bid_on=item).all()
+            # sort the offers into lists of offers by individual users
+            work_dict = {}
+            for offer in trade_offer_list:
+                if offer.original_bidder not in work_dict:
+                    work_dict[offer.original_bidder] = []
+                    work_dict[offer.original_bidder].append(offer.item_bid_with.get_images())
                 else:
-                    storage_dict[offer.original_bidder].append((offer, offer.get_images()))
-            storage_dict['item_picture'] = item.get_images()
-            ordered_trade_offers[item] = storage_dict
+                    work_dict[offer.original_bidder].append(offer.item_bid_with.get_images())
+
+            # build the front-end object for rendering
+            for user in work_dict:
+                trade_offers.append(
+                    {
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'bidders_name': user.first_name,
+                        'bid_items_list': work_dict[user],
+                        'trade_details': '/trade_details/?Owner=test&Item=id'
+                    }
+                )
+
 
         # free items
 
         if item.trade_options == '2':
             free_comments = models.OfferComment.objects.filter(item=item).all()
-            if len(free_comments) >0:
+
+            work_dict = {}
+            for comment in free_comments:
+                if comment.comment_placed_by not in work_dict:
+                    work_dict[comment.comment_placed_by] = []
+                    work_dict[comment.comment_placed_by].append({
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'comment': comment.comment,
+                        'comment_placed_by':  comment.comment_placed_by,
+                    })
+                else:
+                    work_dict[comment.comment_placed_by].append({
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'comment': comment.comment,
+                        'comment_placed_by': comment.comment_placed_by,
+                    })
+
+            if len(free_comments) > 0:
                 # add it to the list because there are comments
-                free_item_offers[item] = free_comments
-    print(cash_item_offers)
+                for commenter in work_dict:
+                    free_offers.append(work_dict[commenter])
+
+    # print(trade_offers)
+    # print(cash_item_offers)
+    # pprint.pprint(trade_offers)
+    pprint.pprint(free_offers)
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'viewing_offers_on_my_items': True,
                     'viewing_my_placed_offers': False,
-                    'cash_item_offers': cash_item_offers,
-                    'trade_item_offers': ordered_trade_offers,
-                    'free_item_offers': free_item_offers,
+                    'cash_offers': cash_offers,
+                    'trade_offers': trade_offers,
+                    'free_offers': free_offers,
 
                   })
 
