@@ -63,36 +63,36 @@
     <h1>Viewing Offers I have placed</h1>
 </div>
 
-<!--Cash Offers-->
-<!--{{cash_item_offers}}-->
-<h1>CASH OFFERS</h1>
-    {% for key, value in cash_item_offers.items %}
-        <div>
-            {{value.picture}}
-            {{value.offer.offer_amount}}
-            {{value.offer.item_owner}}
-        </div>
-    {% endfor %}
+<br><br><h1>Cash Offers</h1>
+{% for offer in my_cash_offers%}
+<hr>
+<div>
+    <h5>Name: {{offer.item_name}}</h5>
+    <h5>Image: {{offer.item_picture}}</h5>
+    <h5>Amount: {{offer.amount}}</h5>
+    <h5>Link: {{offer.trade_details}}</h5>
+</div>
+{% endfor %}
+<hr>
 
-<h1>TRADE OFFERS</h1>
-    <!--Trade Offers-->
-    {% for item in trade_item_offers %}
-        <div>
-        {{item.item}}
-            {{item.picture}}
-        </div>
-    {% endfor %}
+    <div>
 
-<h1>FREE OFFERS</h1>
-    <!-- Free Offers-->
-    {% for item, list in free_item_offers.items %}
-        <div>
-            {{item}}
-            {{list}}
-        </div>
-    {% endfor %}
-<div>Test Dive this is changing</div>
+    </div>
+<br><br><h1>Trade Offers</h1>
+    <div>
 
+    </div>
+<br><br><h1>Free Offers</h1>
+{% for free_offer in my_free_offers %}
+<hr>
+<div>
+<h5>Item Name:{{free_offer.item_name}}</h5>
+<h5>Item Name:{{free_offer.item_image}}</h5>
+<h5>Item Name:{{free_offer.comment}}</h5>
+</div>
+
+{% endfor %}
+<hr>
 {% endif %}
 
 {% endblock %}
