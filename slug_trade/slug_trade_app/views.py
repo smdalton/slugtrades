@@ -220,6 +220,23 @@ def my_placed_offers(request):
         })
 
     my_item_offers = models.ItemOffer.objects.filter(original_bidder=request.user)
+    work_dict = {}
+    for item_offer in my_item_offers:
+        if item_offer.item_bid_on not in work_dict:
+            work_dict[item_offer.item_bid_on] = []
+            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_with.get_images())
+        else:
+            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_with.get_images())
+
+    for item in work_dict:
+        my_trade_offers.append(
+            {
+                'item_name': item.name,
+                'item_image': item.get_images(),
+                'bid_items_list': work_dict[item],
+                'trade_details': '/trade_details/?Owner=test'
+            }
+        )
 
     my_free_offers_list = models.OfferComment.objects\
         .filter(comment_placed_by=request.user)\
@@ -230,13 +247,14 @@ def my_placed_offers(request):
             'item_image': free_offer.item.get_images(),
             'comment': free_offer.comment,
         })
+
     print(my_trade_offers)
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'viewing_offers_on_my_items': False,
                     'viewing_my_placed_offers': True,
                     'my_cash_offers': my_cash_offers,
-                    'my_trade_offers': my_item_offers,
+                    'my_trade_offers': my_trade_offers,
                     'my_free_offers': my_free_offers,
                   })
 
@@ -324,10 +342,7 @@ def my_received_offers(request):
                 for commenter in work_dict:
                     free_offers.append(work_dict[commenter])
 
-    # print(trade_offers)
-    # print(cash_item_offers)
-    # pprint.pprint(trade_offers)
-    pprint.pprint(free_offers)
+
     return render(request, 'slug_trade_app/my_offers.html',
                   {
                     'viewing_offers_on_my_items': True,

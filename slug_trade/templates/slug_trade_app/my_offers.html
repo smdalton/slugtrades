@@ -80,6 +80,15 @@
     </div>
 <br><br><h1>Trade Offers</h1>
     <div>
+        {%for trade_offer in my_trade_offers%}
+        <div>
+            <h5>Item offer placed on: {{trade_offer.item_name}}</h5>
+                {% for value in trade_offer.bid_items_list %}
+                    <h5>Bid With: {{value}}</h5>
+                {% endfor %}
+            <h5>Item Link {{trade_offer.trade_details}}</h5>
+        </div>
+        {% endfor %}
 
     </div>
 <br><br><h1>Free Offers</h1>
