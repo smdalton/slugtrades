@@ -277,25 +277,18 @@ def my_received_offers(request):
         # cash items
         if item.trade_options == '0':
             cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
-<<<<<<< HEAD
             for offer in cash_offer_list:
+                print(item.price)
                 cash_offers.append(
                     {
                         'item_name': item.name,
+                        'item_price': item.price,
                         'item_image': item.get_images(),
                         'bidders_name': offer.original_bidder.first_name,
                         'bid_amount': offer.offer_amount,
                         'details_link': '/trade_details/?Owner=test&Item=id',
                     }
                 )
-=======
-            cash_item_offers[item.name] = {
-                'item': item,
-                'item_picture': item.get_images(),
-                'bidder_name': offer.original_bidder.first_name,
-                'cash_offers': cash_offer_list
-            }
->>>>>>> received-offers-feed-style
 
         # trade items
         if item.trade_options == '1':
@@ -308,7 +301,6 @@ def my_received_offers(request):
                     work_dict[offer.original_bidder] = []
                     work_dict[offer.original_bidder].append(offer.item_bid_with.get_images())
                 else:
-<<<<<<< HEAD
                     work_dict[offer.original_bidder].append(offer.item_bid_with.get_images())
 
             # build the front-end object for rendering
@@ -323,12 +315,6 @@ def my_received_offers(request):
                     }
                 )
 
-=======
-                    storage_dict[offer.original_bidder].append({
-                        'offer': offer,
-                        'picture': offer.get_images()})
-            ordered_trade_offers[item] = storage_dict
->>>>>>> received-offers-feed-style
 
         # free items
 

@@ -2487,6 +2487,26 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
   max-width: 700px;
 }
 
+.my-offers-list-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.my-offers-list-item-wrapper-link {
+  width: 100%;
+  text-decoration: none;
+  color: #333;
+  padding: 15px 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.my-offers-list-item-wrapper-link:hover {
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
 .my-offers-title-wrapper {
   display: flex;
   align-items: center;
@@ -2543,12 +2563,25 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
   justify-content: flex-end;
 }
 
+.my-offers-offer-cash-wrapper {
+
+}
+
+
 .my-offers-offer-images {
   display: flex;
   width: 75px;
   height: 75px;
-  background: tomato;
   margin-left: 5px;
+  overflow: hidden;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-images2 {
+  display: flex;
+  width: 75px;
+  height: 75px;
+  margin-right: 5px;
   overflow: hidden;
   justify-content: flex-end;
 }
