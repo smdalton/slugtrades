@@ -2495,7 +2495,6 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
   color: #333;
   font-size: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #e6e6e6;
   margin-bottom: 20px;
 }
 
@@ -2503,16 +2502,15 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
   margin-right: 20px;
 }
 
-.offer-received {
-  padding: 10px;
-  border-radius: 5px;
-  background: #fff2ca;
+.offer-received a, .offer-placed a {
+  text-decoration: none;
+  color: #333;
 }
 
-/* .my-offers-title:hover {
-  color: #F2CE60;
+.offer-received a:hover, .offer-placed a:hover {
   cursor: pointer;
-} */
+  text-decoration: underline;
+}
 
 .my-offers-my-item-wrapper {
     display: flex;
@@ -2540,8 +2538,18 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
   flex-direction: column;
 }
 
+.my-offers-offer-images-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .my-offers-offer-images {
   display: flex;
+  width: 75px;
+  height: 75px;
+  background: tomato;
+  margin-left: 5px;
+  overflow: hidden;
   justify-content: flex-end;
 }
 
