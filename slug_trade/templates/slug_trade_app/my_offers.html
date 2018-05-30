@@ -8,10 +8,12 @@
 {% include "slug_trade_app/header-footer/navigation.html" %}
 {% endblock %}
 
-
 {% block body_block %}
 
+<div class="my-offers-wrapper">
+  <div class="my-offers-body">
 
+<<<<<<< HEAD
 {% if viewing_offers_on_my_items%}
 <h1>Cash</h1>
 {% for offer in cash_offers%}
@@ -22,12 +24,20 @@
         <p>Bidders name: {{offer.bidders_name}}</p>
         <p>Bid amount: {{offer.bid_amount}}</p>
         <p>Details link: {{offer.details_link}}</p>
+=======
+  {% if viewing_offers_on_my_items %}
+
+    <div class="my-offers-title-wrapper">
+      <div class="my-offers-title offer-received" style="padding: 10px; border-radius: 5px; background: #fff2ca;"><a href="{% url 'slug_trade_app:view_my_received_offers' %}">Offer Received</a></div>
+      <div class="my-offers-title offer-placed"><a href="{% url 'slug_trade_app:view_my_placed_offers' %}">Offer Placed</a></div>
+>>>>>>> received-offers-feed-style
     </div>
 {% endfor %}
 <br><br><h1>Trades</h1>
 <hr>
 {% for trade in trade_offers%}
 
+<<<<<<< HEAD
 <div>
     <p>Bidder: {{trade.bidders_name}}</p>
     <p>Bidding on: {{trade.item_name}}</p>
@@ -104,6 +114,43 @@
 <hr>
 {% endif %}
 
+=======
+    {% for item, offer_dict in trade_item_offers.items %}
+      {% for user, offer_list in offer_dict.items %}
+        <div class="" style="display: flex; justify-content: space-between; width: 100%;padding: 15px 5px; border-bottom: 1px solid #e6e6e6;">
+          <div class="my-offers-my-item-wrapper">
+            <div class="my-offers-my-item-title">{{item | title}} <span>${{item.price}}</span></div>
+              <div style="width: 75px; height: 75px; background: tomato; overflow: hidden;">
+                <img src="{{ offer_dict }}" alt="">
+              </div>
+          </div>
+          <div class="my-offers-offered-wrapper">
+            <div class="my-offers-offer-person-name">{{user.first_name}}'s offer</div>
+            <div class="my-offers-offer-images-wrapper">
+              {% for offer in offer_list %}
+                <div class="my-offers-offer-images">
+                  <img src="{{offer.picture}}" width="75" alt="">
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+  {% if viewing_my_placed_offers %}
+    <div class="my-offers-title-wrapper">
+      <div class="my-offers-title offer-received"><a href="{% url 'slug_trade_app:view_my_received_offers' %}">Offer Received</a></div>
+      <div class="my-offers-title offer-placed" style="padding: 10px; border-radius: 5px; background: #fff2ca;"><a href="{% url 'slug_trade_app:view_my_placed_offers' %}">Offer Placed</a></div>
+    </div>
+    Placed offers
+  {% endif %}
+
+  </div>
+</div>
+
+>>>>>>> received-offers-feed-style
 {% endblock %}
 
 

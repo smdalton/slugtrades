@@ -2469,3 +2469,90 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
     top: 40%;
 
 }
+
+/********** my offers ****************/
+.my-offers-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+
+.my-offers-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+}
+
+.my-offers-title-wrapper {
+  display: flex;
+  align-items: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 600;
+  color: #333;
+  font-size: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.my-offers-title {
+  margin-right: 20px;
+}
+
+.offer-received a, .offer-placed a {
+  text-decoration: none;
+  color: #333;
+}
+
+.offer-received a:hover, .offer-placed a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.my-offers-my-item-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.my-offers-item-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+
+.my-offers-my-item-title {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+.my-offers-my-item-title span {
+  font-family: 'Questrial', sans-serif;
+}
+
+.my-offers-offered-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-offers-offer-images-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-images {
+  display: flex;
+  width: 75px;
+  height: 75px;
+  background: tomato;
+  margin-left: 5px;
+  overflow: hidden;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-person-name {
+  text-align: right;
+}
