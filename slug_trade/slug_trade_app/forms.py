@@ -31,6 +31,8 @@ class CashTransactionForm(forms.ModelForm):
 
 
 class OfferCommentForm(forms.ModelForm):
+
+    comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'offer-comment'}))
     class Meta:
         model = OfferComment
         fields = (

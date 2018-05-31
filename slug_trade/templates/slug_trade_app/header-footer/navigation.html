@@ -9,6 +9,7 @@
     </div>
 
     <div class="nav-links-wrapper">
+      <div class="nav-link"><a href="{% url 'slug_trade_app:products' %}">Products</a></div>
       <div class="nav-drop">
         {% if request.path != "/login/" %}
           {% if user.is_authenticated %}
