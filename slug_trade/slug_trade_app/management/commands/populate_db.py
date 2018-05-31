@@ -241,51 +241,6 @@ class Command(BaseCommand):
         for filename in os.listdir(item_path):
             os.remove(item_path + filename)
 
-    def add_offers(self):
-        # get cheyenne's items
-        users = ['Cheyenne', 'Gary', 'Daniel']
-        users = [models.User.objects.filter(first_name=user).all()[0] for user in users]
-        trade_options = ['0', '1', '2']
-        admin = models.User.objects.filter(first_name='admin').all()[0]
-
-        # set bike to cash mode
-        models.Item.objects.filter(name='bike').update(trade_options='0')
-        admin_cash_item_bike = models.Item.objects.filter(user__first_name='admin').filter(trade_options='0')[0]
-        admin_trade_item_test = models.Item.objects.filter(user__first_name='admin').filter(trade_options='1')[0]
-        admin_free_item_planter = models.Item.objects.filter(user__first_name='admin').filter(trade_options='2')[0]
-
-        # add a cash offer for each user in the selected list
-        for user in users:
-            cashoffer = models.CashOffer(
-                item_bid_on=admin_cash_item_bike,
-                offer_amount=random.choice([1,2,3,4,5,6,7,8,9,0]),
-                item_owner=admin,
-                original_bidder=user,
-            )
-            cashoffer.save()
-        # add a trade offer for all of each users items on the admin trade item
-        for user in users:
-            # get all of the users items
-            user_items = models.Item.objects.filter(user=user).all()
-            for item in user_items:
-                # create an item_offer
-                offer = models.ItemOffer(
-                    item_bid_on=admin_trade_item_test,
-                    item_bid_with=item,
-                    item_owner=admin,
-                    original_bidder=user
-                )
-                print('saving item', offer)
-                offer.save()
-        #make a bunch of free offers
-        for user in users:
-            free_offer = models.OfferComment(
-                item=admin_free_item_planter,
-                item_owner=admin,
-                comment_placed_by=user,
-                comment=fake.text()
-            )
-            free_offer.save()
 
     def handle(self, **args):
         test = False
@@ -298,7 +253,7 @@ class Command(BaseCommand):
             self.create_user()
             self.create_random_users()
             self.create_one_item_per_user()
-            self.add_offers()
+
 
         if test:
             # test functions go here
