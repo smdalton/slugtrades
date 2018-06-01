@@ -261,66 +261,6 @@ $(document).ready(function() {
     }
   }
 
-// =======
-//   }
-
-//   if (location.pathname.substring(1) == "edit_profile/") {
-//     let firstName = $('#id_first_name').val();
-//     let lastName = $('#id_last_name').val();
-//     let bio = $('#id_bio').val();
-//     let onOffCampus = $('#id_on_off_campus').val();
-//     let profilePicture = $('#id_profile_picture').val();
-//     $(window).on("beforeunload", function() {
-//       if(editProfileFormTouched(firstName, lastName, bio, onOffCampus, profilePicture)) {
-//         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
-//       }
-//     });
-//     //turn off the beforeunload event upon form submission
-//     $(document).ready(function() {
-//       $("#edit_profile_form").on("submit", function(e) {
-//         $(window).off("beforeunload");
-//         return true;
-//       });
-//     });
-//   }
-
-//   if (location.pathname.substring(1) == "edit_closet_item/") {
-//     let name = $('#id_name').val();
-//     let category = $('#id_category').val();
-//     let tradeOptions = $('#id_trade_options').val();
-//     let price = $('#id_price').val();
-//     let description = $('#id_description').val();
-//     let condition = $('#id_condition').val();
-//     let image1 = $('#temp-image1').val();
-//     let image2 = $('#temp-image2').val();
-//     let image3 = $('#temp-image3').val();
-//     let image4 = $('#temp-image4').val();
-//     let image5 = $('#temp-image5').val();
-//     $(window).on("beforeunload", function() {
-//       if(editItemTouched(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5)) {
-//         console.log('triggered!');
-//         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
-//       }
-//     });
-//     //turn off the beforeunload event upon form submission
-//     $(document).ready(function() {
-//       $("#add-closet-item-form").on("submit", function(e) {
-//         $(window).off("beforeunload");
-//         return true;
-//       });
-//     });
-//     //enable / disable the price field
-//     dropChoice = $('#id_trade_options option:selected').text();
-//     if(dropChoice == 'Cash Only') {
-//       $('.add-item-price').css('display', 'flex');
-//     } else {
-//       $('.add-item-price').css('display', 'none');
-//     }
-//   }
-
-// >>>>>>> offers-merge-conflicts
-
-//displays a preview of profile picture in edit_profile page
   $(function() {
     $('#id_file').change(function() {
       var input = this;
