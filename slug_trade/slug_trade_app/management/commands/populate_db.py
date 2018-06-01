@@ -184,6 +184,7 @@ class Command(BaseCommand):
 
         return
 
+# debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
     def create_one_item_per_user(self):
         # create a cycle of all of the users of the database
         from_user_list = cycle([user for user in User.objects.all()])
@@ -199,28 +200,29 @@ class Command(BaseCommand):
             ('3', 'Free')
         )
         # create a random debug item for each image
-        for picture in pictures_list:
-            user = next(from_user_list)
-            picture_name = picture.split('.')[0]
-            item = models.Item(user=user,
-                               name=picture_name,
-                               price=random.random()*100,
-                               category=self.categories[picture],
-                               description=fake.text(),
-                               trade_options=random.choice(['0','2','3']))
-            item.bid_counter = random.choice(range(100))
-            item.save()
+        for i in range(4):
+            for picture in pictures_list:
+                user = next(from_user_list)
+                picture_name = picture.split('.')[0]
+                item = models.Item(user=user,
+                                   name=picture_name,
+                                   price=random.random()*100,
+                                   category=self.categories[picture],
+                                   description=fake.text(),
+                                   trade_options=random.choice(['0','2','3']))
+                item.bid_counter = random.choice(range(100))
+                item.save()
 
-            # get the item image from its name
-            filename = glob.glob(self.debug_item_pic_path + picture)[0]
-            extension = '.' + filename.split('.')[len(filename.split('.'))-1]
-            image = Image.open(filename)
-            image_bytes = BytesIO()
-            image.save(image_bytes, image.format)
+                # get the item image from its name
+                filename = glob.glob(self.debug_item_pic_path + picture)[0]
+                extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+                image = Image.open(filename)
+                image_bytes = BytesIO()
+                image.save(image_bytes, image.format)
 
-            modelimage = models.ItemImage(item=item)
-            modelimage.image1.save(picture_name + extension, ContentFile(image_bytes.getvalue()))
-            modelimage.save()
+                modelimage = models.ItemImage(item=item)
+                modelimage.image1.save(picture_name + extension, ContentFile(image_bytes.getvalue()))
+                modelimage.save()
 
         return
 
@@ -257,5 +259,3 @@ class Command(BaseCommand):
 
         #if test:
             #test functions go here
-
-
