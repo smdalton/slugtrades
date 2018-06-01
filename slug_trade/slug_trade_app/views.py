@@ -54,7 +54,6 @@ def index(request):
     for value, name in TRADE_OPTIONS:
         types.append({ 'name': name, 'value': value })
 
-    print("At home")
     return render(request, 'slug_trade_app/index.html',{
         'items_and_images':items_and_images,
         'books_and_images': books_and_images,
@@ -177,7 +176,6 @@ def item_details(request, item_id=None):
     # render the details into a useful dictionary object
 
     if not item_id:
-
         return redirect('/products')
 
 
@@ -207,7 +205,7 @@ def cash_transaction(request, item_id=None):
 
     if not request.user.is_authenticated():
 
-        return redirect('/products')
+        return render(request, 'slug_trade_app/not_authenticated.html')
     # declare outside scope of try block
     sale_item = None
     try:
@@ -299,10 +297,10 @@ def trade_transaction(request, item_id=None):
     # ensure that no incorrect querys ever end up in this view
     if not request.user.is_authenticated():
 
-        return redirect('/home')
+        return render(request, 'slug_trade_app/not_authenticated.html')
     try:
         sale_item = Item.objects.get(id=item_id)
-        if sale_item.trade_options is not '2':
+        if sale_item.trade_options is not '1':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item"
                                 f" <a href='/item_details/{item_id}'>Go to this items details page</a>")
@@ -382,7 +380,7 @@ def free_transaction(request, item_id=None):
     offer_comment_form = OfferCommentForm(request.POST)
 
     if not request.user.is_authenticated():
-        return redirect('/home')
+        return render(request, 'slug_trade_app/not_authenticated.html')
 
 
     free_item = None
@@ -394,7 +392,7 @@ def free_transaction(request, item_id=None):
                                 f" <a href='/products'>go back to products page</a>")
 
         # check free
-        if free_item.trade_options is not '3':
+        if free_item.trade_options is not '2':
             # redirect them to item details that is appropriate for this specific item
             return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
     except Exception as e:
