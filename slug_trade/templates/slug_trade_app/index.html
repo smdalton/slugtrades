@@ -59,7 +59,9 @@
 
             <div class="item-wrapper">
                 <div class="item-image-wrapper">
-                  <img src="{{images.0}}" width="300" alt="">
+                  <a href="/item_details/{{recent.id}}">
+                    <img src="{{images.0}}" width="300" alt="">
+                  </a>
                 </div>
 
                 <div class="item-seller-wrapper">
@@ -67,7 +69,11 @@
                   <div class="seller-name">{{recent.get_category_display|title}}</div>
                 </div>
 
-                <div class="item-title">{{recent.name|title}}</div>
+                <div class="item-title">
+                  <a class="item-title" style="text-decoration: none" href="/item_details/{{recent.id}}">
+                    {{recent.name|title}}
+                  </a>
+              </div>
                 <div class="item-price-wrapper">
 
                   {% if recent.get_trade_options_display == "Cash with items on top" %}
@@ -179,7 +185,9 @@
 
           <div class="item-wrapper">
               <div class="item-image-wrapper">
-                <img src="{{images.0}}" width="300" alt="">
+                  <a class="item-title" style="text-decoration: none" href="/item_details/{{popular.id}}">
+                    <img src="{{images.0}}" width="300" alt="">
+                  </a>
               </div>
 
               <div class="item-seller-wrapper">
@@ -187,7 +195,11 @@
                 <div class="seller-name">{{popular.get_category_display|title}}</div>
               </div>
 
-              <div class="item-title">{{popular.name|title}}</div>
+              <div class="item-title">
+                <a class="item-title" style="text-decoration: none" href="/item_details/{{popular.id}}">
+                  {{popular.name|title}}
+                </a>
+              </div>
               <div class="item-price-wrapper">
 
                 {% if popular.get_trade_options_display == "Cash with items on top" %}
@@ -255,7 +267,9 @@
 
         <div class="item-wrapper">
             <div class="item-image-wrapper">
-              <img src="{{images.0}}" width="300" alt="">
+              <a class="item-title" style="text-decoration: none" href="/item_details/{{book.id}}">
+                <img src="{{images.0}}" width="300" alt="">
+              </a>
             </div>
 
             <div class="item-seller-wrapper">
@@ -263,7 +277,11 @@
               <div class="seller-name">{{book.get_category_display|title}}</div>
             </div>
 
-            <div class="item-title">{{book.name|title}}</div>
+            <div class="item-title">
+              <a class="item-title" style="text-decoration: none" href="/item_details/{{book.id}}">
+                {{book.name|title}}
+              </a>  
+            </div>
             <div class="item-price-wrapper">
 
               {% if book.get_trade_options_display == "Cash with items on top" %}
