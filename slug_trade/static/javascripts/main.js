@@ -414,7 +414,6 @@ $(document).ready(function() {
   });
 
   $(function() {
-// <<<<<<< develop
     $('#close_img3').click(function() {
       $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
       $('#id_image3').val('');
@@ -422,25 +421,10 @@ $(document).ready(function() {
       $('#picture3').css('display', 'none');
       showAddPhotoButton();
       shuffle();
-// =======
-//     $('#id_image3').change(function() {
-//       var input = this;
-//       var url = $(this).val();
-//       $('#temp-image3').val(url);
-//       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-//       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-//         var reader = new FileReader();
-//         reader.onload = function(e) {
-//           $('#add_closet_img3').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//       }
-// >>>>>>> offers-merge-conflicts
     });
   });
 
   $(function() {
-// <<<<<<< develop
     $('#close_img4').click(function() {
       $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
       $('#id_image4').val('');
@@ -448,55 +432,17 @@ $(document).ready(function() {
       $('#picture4').css('display', 'none');
       showAddPhotoButton();
       shuffle();
-// =======
-//     $('#id_image4').change(function() {
-//       var input = this;
-//       var url = $(this).val();
-//       $('#temp-image4').val(url);
-//       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-//       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-//         var reader = new FileReader();
-//         reader.onload = function(e) {
-//           $('#add_closet_img4').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//       }
-// >>>>>>> offers-merge-conflicts
+
     });
   });
 
   $(function() {
-// <<<<<<< develop
     $('#close_img5').click(function() {
       $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
       $('#id_image5').val('');
       $('#temp-image5').val('');
       $('#picture5').css('display', 'none');
-// =======
-//     $('#id_image5').change(function() {
-//       var input = this;
-//       var url = $(this).val();
-//       $('#temp-image5').val(url);
-//       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-//       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-//         var reader = new FileReader();
-//         reader.onload = function(e) {
-//           $('#add_closet_img5').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//       }
-//     });
-//   });
 
-//   //---- These functions handle the logic when you click an x on the photos
-
-//   $(function() {
-//     $('#close_img1').click(function() {
-//       $('#add_closet_img1').attr('src', addClosetItemDefaultImage);
-//       $('#id_image1').val('');
-//       $('#temp-image1').val('');
-//       $('#picture1').css('display', 'none');
-// >>>>>>> offers-merge-conflicts
       showAddPhotoButton();
       shuffle();
     });
@@ -523,15 +469,7 @@ $(document).ready(function() {
       } else {
         alert('You must choose a photo first.');
       }
-// =======
-//     $('#close_img2').click(function() {
-//       $('#add_closet_img2').attr('src', addClosetItemDefaultImage);
-//       $('#id_image2').val('');
-//       $('#temp-image2').val('');
-//       $('#picture2').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-// >>>>>>> offers-merge-conflicts
+
     });
   });
 
@@ -546,73 +484,6 @@ $(document).ready(function() {
     });
   });
 
-// =======
-//     $('#close_img3').click(function() {
-//       $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
-//       $('#id_image3').val('');
-//       $('#temp-image3').val('');
-//       $('#picture3').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-//     });
-//   });
-
-//   $(function() {
-//     $('#close_img4').click(function() {
-//       $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
-//       $('#id_image4').val('');
-//       $('#temp-image4').val('');
-//       $('#picture4').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-//     });
-//   });
-
-//   $(function() {
-//     $('#close_img5').click(function() {
-//       $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
-//       $('#id_image5').val('');
-//       $('#temp-image5').val('');
-//       $('#picture5').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-//     });
-//   });
-
-//   // ---- This function handles the logic when you click add photo
-
-//   $(function() {
-//     $('#add_picture').click(function() {
-//       if(canAddPhoto()) {
-//         shuffle();
-//         for(var i=0; i<closetPhotos.length; i++) {
-//           var currentId = '#'+closetPhotos[i];
-//           if($(currentId).css('display') == 'none') {
-//             $(currentId).css('display', 'block');
-//             $('#'+closetFiles[i]).trigger('click');
-//             break;
-//           }
-//         }
-//         if(countHiddenPhotos() == 0) {
-//           $('#add_picture').css('display', 'none');
-//         }
-//       } else {
-//         alert('You must choose a photo first.');
-//       }
-//     });
-//   });
-
-//   // -- Validation for add closet item form
-//   $(function() {
-//     $('#add-closet-submit').click(function(event) {
-//       if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
-//         alert('You must add a photo!');
-//         event.preventDefault();
-//       }
-//     });
-//   });
-
-// >>>>>>> offers-merge-conflicts
 // ------------------ END OF ADD ADD CLOSET ITEM FUNCTIONS --------------------
   //this function deletes an item from the wishlist on the profile
 
