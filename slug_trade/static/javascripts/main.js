@@ -2,6 +2,12 @@ var navRedirect = function(url) {
   window.location.href = url;
 };
 
+var scrollToElement = function(id) {
+  $('html, body').animate({
+    scrollTop: $('#'+id).offset().top
+  }, 1000);
+};
+
 // This is the function that manipulates the url when pagination controlls are clicked
 var changePage = function(pageNumber) {
   var url = window.location.href;
@@ -508,16 +514,4 @@ $(document).ready(function() {
     $('#wishlist_item_description').focus();
   }
   // --------------- END OF WISHLIST FUNCTIONS ------------------------
-});
-
-
-//Smooth scrolling on steps
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
 });

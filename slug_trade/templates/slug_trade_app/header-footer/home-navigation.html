@@ -10,7 +10,7 @@
 
     <div class="nav-links-wrapper">
       <button class="nav-link-button" onclick="navRedirect('/products/')">Products</button>
-      <div class="nav-link"><a href="#steps-anchor">How It Works</a></div>
+      <button class="nav-link-button" onclick="scrollToElement('steps-anchor')">How It Works</button>
       <div class="nav-drop">
         {% if request.path != "/login/" %}
           {% if user.is_authenticated %}
@@ -26,14 +26,8 @@
 
 <div class="links-box-wrapper">
   <div class="links-box-body">
-    <div class="links-box-link add-border-top">
-      <a href="{% url 'slug_trade_app:profile' %}">Profile</a>
-    </div>
-    <div class="links-box-link add-border-top">
-      <a href="{% url 'slug_trade_app:edit_profile' %}">Edit Profile</a>
-    </div>
-    <div class="links-box-link add-border-top">
-      <a id="logout" href="{% url 'slug_trade_app:logout' %}">Log Out</a>
-    </div>
+    <button class="links-box-link-button" onclick="navRedirect('/profile/')">Profile</button>
+    <button class="links-box-link-button" onclick="navRedirect('/edit_profile/')">Edit Profile</button>
+    <button class="links-box-link-button" onclick="navRedirect('/logout/')">Log Out</button>
   </div>
 </div>

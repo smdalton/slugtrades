@@ -83,14 +83,7 @@ footer {
   height: 85px;
 }
 
-.nav-link {
-  padding: 20px;
-  color: #333;
-  display: flex;
-  align-items: center;
-}
-
-.nav-link-button {
+.nav-link-button, .nav-link {
   padding:20px;
   color: #333;
   display: flex;
@@ -104,6 +97,7 @@ footer {
 .nav-link-button:hover {
   background-color: #fff3ce;
   border-bottom: 2px solid #333;
+  cursor: pointer;
 }
 
 .nav-link-button:focus {
@@ -115,31 +109,15 @@ footer {
   flex-direction: row;
 }
 
-.nav-link:hover {
-  border-bottom: 2px solid #333;
-}
-
-.nav-link a, .links-box-link a {
-  color: #333;
-  text-decoration: none;
-}
-
-.nav-link a:hover, .links-box-link a:hover {
-  color: #F2CE60;
-}
-
-.nav-link:hover, .links-box-link:hover {
-  cursor: pointer;
-  color: #F2CE60;
-  border-bottom: 1px solid #333;
-}
 
 .nav-logo {
   padding: 10px;
 }
 
-#links-drop:hover + #links-box-body {
-	display: flex;
+.links-drop:hover {
+  background-color: #fff3ce;
+  border-bottom: 2px solid #333;
+  cursor: pointer;
 }
 
 .links-box-wrapper {
@@ -156,10 +134,30 @@ footer {
   z-index: 9999999;
   position: absolute;
   top: 85px;
+  border-bottom: 1px solid #dddddd;
 }
 
-.links-box-link {
-  padding: 30px 40px;
+.links-box-link-button {
+  padding: 30px 0px;
+  width: 100%;
+  text-align: left;
+  padding-left: 30px;
+  background-color: inherit;
+  border: none;
+  border-top: 1px solid #dddddd;
+  border-left: 1px solid #dddddd;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.links-box-link-button:hover {
+  background-color: #fff3ce;
+  border-top: 2px solid #333;
+  cursor: pointer;
+}
+
+.links-box-link-button:focus {
+  outline:0;
 }
 
 .add-border-top {
