@@ -1,3 +1,7 @@
+var navRedirect = function(url) {
+  window.location.href = url;
+};
+
 // This is the function that manipulates the url when pagination controlls are clicked
 var changePage = function(pageNumber) {
   var url = window.location.href;
