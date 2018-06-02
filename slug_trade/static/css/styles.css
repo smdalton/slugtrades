@@ -679,6 +679,64 @@ input[type=submit]:hover {
   background-size: cover;
 }
 
+.furniture-box {
+  background-image: url("../../static/images/furniture.jpg");
+  background-size: cover;
+}
+
+.toys-box {
+  background-image: url("../../static/images/toys.jpg");
+  background-size: cover;
+}
+.gaming-box {
+  background-image: url("../../static/images/gaming.jpg");
+  background-size: cover;
+}
+.household-box {
+  background-image: url("../../static/images/household.jpg");
+  background-size: cover;
+}
+.other-box {
+  background-image: url("../../static/images/other.jpg");
+  background-size: cover;
+}
+.movies-box {
+  background-image: url("../../static/images/movies.jpg");
+  background-size: cover;
+}
+.tools-box {
+  background-image: url("../../static/images/tools.jpg");
+  background-size: cover;
+}
+.outdoors-box {
+  background-image: url("../../static/images/outdoors.jpg");
+  background-size: cover;
+}
+.appliances-box {
+  background-image: url("../../static/images/appliances.jpg");
+  background-size: cover;
+}
+.music-box {
+  background-image: url("../../static/images/music.jpg");
+  background-size: cover;
+}
+.tickets-box {
+  background-image: url("../../static/images/tickets.jpg");
+  background-size: cover;
+}
+.office-box {
+  background-image: url("../../static/images/office.jpg");
+  background-size: cover;
+}
+.fitness-box {
+  background-image: url("../../static/images/fitness.jpg");
+  background-size: cover;
+}
+.instruments-box {
+  background-image: url("../../static/images/instruments.jpg");
+  background-size: cover;
+}
+
 .description-wrapper {
   display: flex;
   align-items: center;
