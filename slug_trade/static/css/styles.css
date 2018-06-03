@@ -1861,6 +1861,7 @@ item-details-image-row-wrapper{
 
 .trade-offer-item-wrapper img {
   margin: 10px 0;
+  height: auto;
 }
 
 /************ item details slider **********/
