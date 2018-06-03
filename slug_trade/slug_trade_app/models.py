@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import RegexValidator
+from datetime import datetime
+from django.utils import timezone
 
 
 ITEM_CATEGORIES = (
@@ -79,7 +81,8 @@ class Item(models.Model):
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
     description = models.TextField(blank=False, default='')
-    time_stamp = models.DateTimeField(auto_now=True, null=True)
+    # time_stamp = models.DateTimeField(auto_now=True, null=True)
+    time_stamp = models.DateTimeField(default=datetime.now(), null=True)
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
                                 blank=False,
