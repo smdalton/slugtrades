@@ -201,6 +201,7 @@ def item_details(request, item_id=None):
                                                                 'trade_type': trade_type_name,
                                                                 })
 
+
 def my_placed_offers(request):
 
     my_cash_offers = []
@@ -414,7 +415,7 @@ def cash_transaction(request, item_id=None):
             print(f"offer_amount detected {request.POST['offer_amount']}")
 
 
-        return redirect('/products')
+        return redirect('/my_placed_offers')
 
     else:
         # render the appropriate transaction form
@@ -505,7 +506,7 @@ def trade_transaction(request, item_id=None):
             )
             new_comment.save()
 
-        return redirect('/home')
+        return redirect('/my_placed_offers')
 
         # # TODO:// offer comment is not currently working correctly
 
@@ -564,7 +565,7 @@ def free_transaction(request, item_id=None):
             )
             comment.save()
 
-            return redirect('/home/')
+            return redirect('/my_placed_offers')
     else:
         sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
 
