@@ -1,8 +1,20 @@
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
-<title>Oops!</title>
+
+<title>Please Login</title>
+
+{% block nav_block %}
+  {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
 {% block body_block %}
-<h1>Shucks, it looks like your not logged in</h1>
-<h2>Please <a href="/login/">login</a> or <a href="/signup/">signup</a></h2>
-<img src="{% static "images/error_images/tenor.gif" %}" alt="profile picture">
+
+  <div class="not-logged-in-wrapper">
+    <div class="not-logged-in-body">
+      <img src="{% static "images/error_images/tenor.gif" %}" alt="profile picture">
+      <div class="not-logged-in-title">Shucks, <br>it looks like your not logged in</div>
+      <div class="not-logged-in-link-wrapper">Please <a href="/login/"><strong>Login</strong></a> or <a href="/signup/"><strong>Signup</strong></a></div>
+    </div>
+  </div>
+
 {% endblock %}
