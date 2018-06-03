@@ -346,8 +346,8 @@ def trade_transaction(request, item_id=None):
             # create an offer comment and save it to the database
             new_comment = models.OfferComment(
                 item=sale_item,
-                item_owner=request.user,
-                comment_placed_by=sale_item.user,
+                item_owner=sale_item.user,
+                comment_placed_by=request.user,
                 comment=comment,
             )
             new_comment.save()
