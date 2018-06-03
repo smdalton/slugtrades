@@ -450,6 +450,8 @@ def public_profile_inspect(request, user_id):
         # get all of the items for the given user
         items_list = Item.objects.filter(user__id=user_id)
 
+        item_count = items_list.count()
+
         paginator = Paginator(items_list, 6)
         page = request.GET.get('page', 1)
 
@@ -471,7 +473,8 @@ def public_profile_inspect(request, user_id):
                           'item_data': items_and_images,
                           'wishlist': wishlist,
                           'show_add_button': False,
-                          'items': items
+                          'items': items,
+                          'item_count': item_count
                       })
 
     else:
@@ -502,6 +505,8 @@ def profile(request):
         wishlist = Wishlist.objects.filter(user=request.user)
         items_list= Item.objects.filter(user__id=request.user.id)
 
+        item_count = items_list.count()
+
         paginator = Paginator(items_list, 6)
         page = request.GET.get('page', 1)
 
@@ -523,7 +528,8 @@ def profile(request):
                     'show_add_button': True,
                     'item_added': request.GET.get('item_added', False),
                     'items': items,
-                    'my_profile': True
+                    'my_profile': True,
+                    'item_count': item_count
                 })
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')

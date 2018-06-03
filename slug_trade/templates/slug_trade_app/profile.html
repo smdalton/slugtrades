@@ -109,6 +109,12 @@
 
       </div>
 
+      {% if item_count == 0 %}
+        <div class="no-closet-items">
+          You have no items in your closet!
+        </div>
+      {% endif %}
+
 
 
       {% if item_data %}

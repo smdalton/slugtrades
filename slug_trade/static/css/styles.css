@@ -102,7 +102,7 @@ footer {
 
 .nav-link-button:focus {
   outline:0;
-} 
+}
 
 .nav-drop {
   display: flex;
@@ -1177,6 +1177,11 @@ margin-left: 10px;
   max-width: 650px;
   background: #fff;
   padding: 100px 60px;
+}
+
+.no-closet-items {
+  text-align: center;
+  padding-top: 75px;
 }
 
 .profile-info-wrapper{
