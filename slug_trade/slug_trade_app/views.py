@@ -485,8 +485,8 @@ def trade_transaction(request, item_id=None):
             new_item_offer = models.ItemOffer(
                 item_bid_on=sale_item,
                 item_bid_with=models.Item.objects.get(id=item),
-                item_owner=sale_item.user,
-                original_bidder=request.user
+                item_owner=request.user,
+                original_bidder=sale_item.user
             )
             new_item_offer.save()
 
