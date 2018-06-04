@@ -1850,12 +1850,16 @@ item-details-image-row-wrapper{
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   padding: 10px 0;
-  -webkit-transition: all 400ms ease-in-out;
-  -moz-transition: all 400ms ease-in-out;
-  -o-transition: all 400ms ease-in-out;
-  -ms-transition: all 400ms ease-in-out;
-  transition: all 400ms ease-in-out;
+  -webkit-transition: all 250ms ease-in-out;
+  -moz-transition: all 250ms ease-in-out;
+  -o-transition: all 250ms ease-in-out;
+  -ms-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
   cursor: pointer;
+}
+
+.trade-offer-item-wrapper:hover {
+  background-color: #edeaea;
 }
 
 .trade-offer-item-wrapper input[type=checkbox] {
