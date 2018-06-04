@@ -111,11 +111,13 @@
             <div class="my-offers-my-item-wrapper">
               <div class="my-offers-my-item-title">{{trade_offer.item_name | title}}</div>
               <div class="my-offers-offer-images-wrapper">
-                {% for value in trade_offer.bid_items_list %}
+
                   <div class="my-offers-offer-images2" style="display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; overflow: hidden;">
-                    <img src="{{value}}" width="135" alt="">
+                    <img src="{{trade_offer.item_image}}" width="135" alt="">
                   </div>
-                {% endfor %}
+                <!--{% for value in trade_offer.bid_items_list %}-->
+
+                <!--{% endfor %}-->
               </div>
             </div>
             <div class="my-offers-offered-wrapper">

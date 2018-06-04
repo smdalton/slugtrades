@@ -223,9 +223,9 @@ def my_placed_offers(request):
     for item_offer in my_item_offers:
         if item_offer.item_bid_on not in work_dict:
             work_dict[item_offer.item_bid_on] = []
-            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_with.get_images())
+            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_on.get_images())
         else:
-            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_with.get_images())
+            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_on.get_images())
 
     for item in work_dict:
         my_trade_offers.append(
@@ -443,7 +443,7 @@ def trade_transaction(request, item_id=None):
     """
 
     :param request: request from a user, maybe be a get or a post
-    :param item_id: id for which the transaction is being placed on
+    :param item_id: id for item which the transaction is being placed on
     :return: redirect to home page, successfully save the transaction in the database with the models
     """
 
