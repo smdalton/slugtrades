@@ -1746,8 +1746,8 @@ item-details-image-row-wrapper{
 .item-review-subtitle {
   font-family: 'Archivo Black', sans-serif;
   font-size: 20px;
-  margin-top: 20px;
-  padding-bottom: 10px;
+  margin-top: 30px;
+  padding-bottom: 20px;
 }
 
 .item-review-wrapper {
@@ -1850,6 +1850,16 @@ item-details-image-row-wrapper{
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   padding: 10px 0;
+  -webkit-transition: all 400ms ease-in-out;
+  -moz-transition: all 400ms ease-in-out;
+  -o-transition: all 400ms ease-in-out;
+  -ms-transition: all 400ms ease-in-out;
+  transition: all 400ms ease-in-out;
+  cursor: pointer;
+}
+
+.trade-offer-item-wrapper input[type=checkbox] {
+  display: none;
 }
 
 .trade-offer-item-wrapper label {
