@@ -18,7 +18,7 @@
 
       <div class="profile-info-image-wrapper">
         {% if user_to_view.userprofile.profile_picture %}
-          <img src="{{user_to_view.userprofile.profile_picture.url}}" height="200">
+          <img src="{{user_to_view.userprofile.profile_picture.url}}" width="200" height="200">
         {% endif %}
       </div>
 
@@ -109,6 +109,12 @@
 
       </div>
 
+      {% if item_count == 0 %}
+        <div class="no-closet-items">
+          You have no items in your closet!
+        </div>
+      {% endif %}
+
 
 
       {% if item_data %}
@@ -119,7 +125,9 @@
             <div class="profile-item-wrapper">
 
             <div class="profile-item-image-wrapper">
-              <img src="{{images.0}}" width="240" alt="">
+              <a href="/item_details/{{item.id}}">
+                <img src="{{images.0}}" width="240" alt="">
+              </a>
             </div>
 
             {% if not public %}

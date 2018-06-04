@@ -59,7 +59,9 @@
 
             <div class="item-wrapper">
                 <div class="item-image-wrapper">
-                  <img src="{{images.0}}" width="300" alt="">
+                  <a href="/item_details/{{recent.id}}">
+                    <img src="{{images.0}}" width="300" alt="">
+                  </a>
                 </div>
 
                 <div class="item-seller-wrapper">
@@ -67,7 +69,11 @@
                   <div class="seller-name">{{recent.get_category_display|title}}</div>
                 </div>
 
-                <div class="item-title">{{recent.name|title}}</div>
+                <div class="item-title">
+                  <a class="item-title" style="text-decoration: none" href="/item_details/{{recent.id}}">
+                    {{recent.name|title}}
+                  </a>
+              </div>
                 <div class="item-price-wrapper">
 
                   {% if recent.get_trade_options_display == "Cash with items on top" %}
@@ -106,10 +112,24 @@
       <div class="categories-icons-title">Shop Categories</div>
       <div class="categories-icons-subtitle">Simplify your search. Find what you're looking for faster.</div>
       <div class="categories-tiles-wrapper">
+        <a href="/products?categories=A"><div class="box appliances-box">Appliances</div></a>
         <a href="/products?categories=BI"><div class="box bikes-box">Bikes</div></a>
         <a href="/products?categories=C"><div class="box clothes-box">Clothes</div></a>
         <a href="/products?categories=E"><div class="box electronics-box">Electronics</div></a>
+        <a href="/products?categories=FI"><div class="box fitness-box">Fitness</div></a>
+        <a href="/products?categories=F"><div class="box furniture-box">Furniture</div></a>
+        <a href="/products?categories=G"><div class="box gaming-box">Gaming</div></a>
+        <a href="/products?categories=H"><div class="box household-box">Household</div></a>
+        <a href="/products?categories=I"><div class="box instruments-box">Instruments</div></a>
+        <a href="/products?categories=MO"><div class="box movies-box">Movies</div></a>
+        <a href="/products?categories=MU"><div class="box music-box">Music</div></a>
+        <a href="/products?categories=OF"><div class="box office-box">Office</div></a>
+        <a href="/products?categories=O"><div class="box other-box">Other</div></a>
+        <a href="/products?categories=OU"><div class="box outdoors-box">Outdoors</div></a>
         <a href="/products?categories=BO"><div class="box textbooks-box">Textbooks</div></a>
+        <a href="/products?categories=TI"><div class="box tickets-box">Tickets</div></a>
+        <a href="/products?categories=TO"><div class="box tools-box">Tools</div></a>
+        <a href="/products?categories=TOY"><div class="box toys-box">Toys</div></a>
       </div>
     </div>
   </div>
@@ -179,7 +199,9 @@
 
           <div class="item-wrapper">
               <div class="item-image-wrapper">
-                <img src="{{images.0}}" width="300" alt="">
+                  <a class="item-title" style="text-decoration: none" href="/item_details/{{popular.id}}">
+                    <img src="{{images.0}}" width="300" alt="">
+                  </a>
               </div>
 
               <div class="item-seller-wrapper">
@@ -187,7 +209,11 @@
                 <div class="seller-name">{{popular.get_category_display|title}}</div>
               </div>
 
-              <div class="item-title">{{popular.name|title}}</div>
+              <div class="item-title">
+                <a class="item-title" style="text-decoration: none" href="/item_details/{{popular.id}}">
+                  {{popular.name|title}}
+                </a>
+              </div>
               <div class="item-price-wrapper">
 
                 {% if popular.get_trade_options_display == "Cash with items on top" %}
@@ -255,7 +281,9 @@
 
         <div class="item-wrapper">
             <div class="item-image-wrapper">
-              <img src="{{images.0}}" width="300" alt="">
+              <a class="item-title" style="text-decoration: none" href="/item_details/{{book.id}}">
+                <img src="{{images.0}}" width="300" alt="">
+              </a>
             </div>
 
             <div class="item-seller-wrapper">
@@ -263,7 +291,11 @@
               <div class="seller-name">{{book.get_category_display|title}}</div>
             </div>
 
-            <div class="item-title">{{book.name|title}}</div>
+            <div class="item-title">
+              <a class="item-title" style="text-decoration: none" href="/item_details/{{book.id}}">
+                {{book.name|title}}
+              </a>  
+            </div>
             <div class="item-price-wrapper">
 
               {% if book.get_trade_options_display == "Cash with items on top" %}
