@@ -1,3 +1,13 @@
+var navRedirect = function(url) {
+  window.location.href = url;
+};
+
+var scrollToElement = function(id) {
+  $('html, body').animate({
+    scrollTop: $('#'+id).offset().top
+  }, 1000);
+};
+
 // This is the function that manipulates the url when pagination controlls are clicked
 var changePage = function(pageNumber) {
   var url = window.location.href;
@@ -257,65 +267,6 @@ $(document).ready(function() {
     }
   }
 
-// =======
-//   }
-
-//   if (location.pathname.substring(1) == "edit_profile/") {
-//     let firstName = $('#id_first_name').val();
-//     let lastName = $('#id_last_name').val();
-//     let bio = $('#id_bio').val();
-//     let onOffCampus = $('#id_on_off_campus').val();
-//     let profilePicture = $('#id_profile_picture').val();
-//     $(window).on("beforeunload", function() {
-//       if(editProfileFormTouched(firstName, lastName, bio, onOffCampus, profilePicture)) {
-//         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
-//       }
-//     });
-//     //turn off the beforeunload event upon form submission
-//     $(document).ready(function() {
-//       $("#edit_profile_form").on("submit", function(e) {
-//         $(window).off("beforeunload");
-//         return true;
-//       });
-//     });
-//   }
-
-//   if (location.pathname.substring(1) == "edit_closet_item/") {
-//     let name = $('#id_name').val();
-//     let category = $('#id_category').val();
-//     let tradeOptions = $('#id_trade_options').val();
-//     let price = $('#id_price').val();
-//     let description = $('#id_description').val();
-//     let condition = $('#id_condition').val();
-//     let image1 = $('#temp-image1').val();
-//     let image2 = $('#temp-image2').val();
-//     let image3 = $('#temp-image3').val();
-//     let image4 = $('#temp-image4').val();
-//     let image5 = $('#temp-image5').val();
-//     $(window).on("beforeunload", function() {
-//       if(editItemTouched(name, category, tradeOptions, price, description, condition, image1, image2, image3, image4, image5)) {
-//         console.log('triggered!');
-//         return 'Are you sure you want to leave?'; // custom alert messages are no longer supported in most browsers :(
-//       }
-//     });
-//     //turn off the beforeunload event upon form submission
-//     $(document).ready(function() {
-//       $("#add-closet-item-form").on("submit", function(e) {
-//         $(window).off("beforeunload");
-//         return true;
-//       });
-//     });
-//     //enable / disable the price field
-//     dropChoice = $('#id_trade_options option:selected').text();
-//     if(dropChoice == 'Cash Only') {
-//       $('.add-item-price').css('display', 'flex');
-//     } else {
-//       $('.add-item-price').css('display', 'none');
-//     }
-//   }
-
-// >>>>>>> offers-merge-conflicts
-
 //displays a preview of profile picture in edit_profile page
   $(function() {
     $('#id_file').change(function() {
@@ -470,7 +421,6 @@ $(document).ready(function() {
   });
 
   $(function() {
-// <<<<<<< develop
     $('#close_img3').click(function() {
       $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
       $('#id_image3').val('');
@@ -478,25 +428,10 @@ $(document).ready(function() {
       $('#picture3').css('display', 'none');
       showAddPhotoButton();
       shuffle();
-// =======
-//     $('#id_image3').change(function() {
-//       var input = this;
-//       var url = $(this).val();
-//       $('#temp-image3').val(url);
-//       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-//       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-//         var reader = new FileReader();
-//         reader.onload = function(e) {
-//           $('#add_closet_img3').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//       }
-// >>>>>>> offers-merge-conflicts
     });
   });
 
   $(function() {
-// <<<<<<< develop
     $('#close_img4').click(function() {
       $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
       $('#id_image4').val('');
@@ -504,55 +439,15 @@ $(document).ready(function() {
       $('#picture4').css('display', 'none');
       showAddPhotoButton();
       shuffle();
-// =======
-//     $('#id_image4').change(function() {
-//       var input = this;
-//       var url = $(this).val();
-//       $('#temp-image4').val(url);
-//       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-//       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-//         var reader = new FileReader();
-//         reader.onload = function(e) {
-//           $('#add_closet_img4').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//       }
-// >>>>>>> offers-merge-conflicts
     });
   });
 
   $(function() {
-// <<<<<<< develop
     $('#close_img5').click(function() {
       $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
       $('#id_image5').val('');
       $('#temp-image5').val('');
       $('#picture5').css('display', 'none');
-// =======
-//     $('#id_image5').change(function() {
-//       var input = this;
-//       var url = $(this).val();
-//       $('#temp-image5').val(url);
-//       var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-//       if(input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) {
-//         var reader = new FileReader();
-//         reader.onload = function(e) {
-//           $('#add_closet_img5').attr('src', e.target.result);
-//         }
-//         reader.readAsDataURL(input.files[0]);
-//       }
-//     });
-//   });
-
-//   //---- These functions handle the logic when you click an x on the photos
-
-//   $(function() {
-//     $('#close_img1').click(function() {
-//       $('#add_closet_img1').attr('src', addClosetItemDefaultImage);
-//       $('#id_image1').val('');
-//       $('#temp-image1').val('');
-//       $('#picture1').css('display', 'none');
-// >>>>>>> offers-merge-conflicts
       showAddPhotoButton();
       shuffle();
     });
@@ -561,7 +456,6 @@ $(document).ready(function() {
   // ---- This function handles the logic when you click add photo
 
   $(function() {
-// <<<<<<< develop
     $('#add_picture').click(function() {
       if(canAddPhoto()) {
         shuffle();
@@ -579,21 +473,11 @@ $(document).ready(function() {
       } else {
         alert('You must choose a photo first.');
       }
-// =======
-//     $('#close_img2').click(function() {
-//       $('#add_closet_img2').attr('src', addClosetItemDefaultImage);
-//       $('#id_image2').val('');
-//       $('#temp-image2').val('');
-//       $('#picture2').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-// >>>>>>> offers-merge-conflicts
     });
   });
 
   // -- Validation for add closet item form
   $(function() {
-// <<<<<<< develop
     $('#add-closet-submit').click(function(event) {
       if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
         alert('You must add a photo!');
@@ -601,74 +485,6 @@ $(document).ready(function() {
       }
     });
   });
-
-// =======
-//     $('#close_img3').click(function() {
-//       $('#add_closet_img3').attr('src', addClosetItemDefaultImage);
-//       $('#id_image3').val('');
-//       $('#temp-image3').val('');
-//       $('#picture3').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-//     });
-//   });
-
-//   $(function() {
-//     $('#close_img4').click(function() {
-//       $('#add_closet_img4').attr('src', addClosetItemDefaultImage);
-//       $('#id_image4').val('');
-//       $('#temp-image4').val('');
-//       $('#picture4').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-//     });
-//   });
-
-//   $(function() {
-//     $('#close_img5').click(function() {
-//       $('#add_closet_img5').attr('src', addClosetItemDefaultImage);
-//       $('#id_image5').val('');
-//       $('#temp-image5').val('');
-//       $('#picture5').css('display', 'none');
-//       showAddPhotoButton();
-//       shuffle();
-//     });
-//   });
-
-//   // ---- This function handles the logic when you click add photo
-
-//   $(function() {
-//     $('#add_picture').click(function() {
-//       if(canAddPhoto()) {
-//         shuffle();
-//         for(var i=0; i<closetPhotos.length; i++) {
-//           var currentId = '#'+closetPhotos[i];
-//           if($(currentId).css('display') == 'none') {
-//             $(currentId).css('display', 'block');
-//             $('#'+closetFiles[i]).trigger('click');
-//             break;
-//           }
-//         }
-//         if(countHiddenPhotos() == 0) {
-//           $('#add_picture').css('display', 'none');
-//         }
-//       } else {
-//         alert('You must choose a photo first.');
-//       }
-//     });
-//   });
-
-//   // -- Validation for add closet item form
-//   $(function() {
-//     $('#add-closet-submit').click(function(event) {
-//       if($('#id_name').val() != '' && $('#id_description').val() != '' && countSelectedPhotos() == 0) {
-//         alert('You must add a photo!');
-//         event.preventDefault();
-//       }
-//     });
-//   });
-
-// >>>>>>> offers-merge-conflicts
 // ------------------ END OF ADD ADD CLOSET ITEM FUNCTIONS --------------------
   //this function deletes an item from the wishlist on the profile
 
@@ -693,16 +509,4 @@ $(document).ready(function() {
     $('#wishlist_item_description').focus();
   }
   // --------------- END OF WISHLIST FUNCTIONS ------------------------
-});
-
-
-//Smooth scrolling on steps
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
 });

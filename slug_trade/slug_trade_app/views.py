@@ -463,6 +463,10 @@ def trade_transaction(request, item_id=None):
         # send them a life preserver if they get lost
         return HttpResponse('This item does not exist <a href="/home">Go to home page<a>')
 
+    if sale_item.user == request.user:
+        return HttpResponse(f"Looks like you own this item, sadly you can't snag your own stuff!"
+                            f" <a href='/products'>go back to products page</a>")
+
     # preload the offer comment form with an offer comment object
 
     offer_comment_form = OfferCommentForm(request.POST)
@@ -500,8 +504,8 @@ def trade_transaction(request, item_id=None):
             # create an offer comment and save it to the database
             new_comment = models.OfferComment(
                 item=sale_item,
-                item_owner=request.user,
-                comment_placed_by=sale_item.user,
+                item_owner=sale_item.user,
+                comment_placed_by=request.user,
                 comment=comment,
             )
             new_comment.save()
