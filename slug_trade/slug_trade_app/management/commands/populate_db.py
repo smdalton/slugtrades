@@ -120,8 +120,6 @@ class Command(BaseCommand):
         # get the debug image to use as the profile photo
         filename = glob.glob(self.debug_profile_pic_path + 'debug.jpeg')[0]
         extension = '.' + filename.split('.')[len(filename.split('.'))-1]
-        # filename = self.debug_profile_pic_path + 'debug.jpeg'
-        # original_path, extension = os.path.splitext(filename)
         image = Image.open(filename)
         image_bytes = BytesIO()
         image.save(image_bytes, image.format)
@@ -196,9 +194,6 @@ class Command(BaseCommand):
         from_user_list = cycle([user for user in User.objects.all()])
 
         # get all of the debug item pictures
-        # file_list = os.listdir(self.debug_item_pic_path)
-        # pictures_list = [item for item in file_list]
-        # dir_list = os.listdir(self.debug_item_pic_path)
         directories = os.listdir(self.debug_item_pic_path)
 
         TRADE_OPTIONS = (
@@ -207,10 +202,6 @@ class Command(BaseCommand):
             ('2', 'Free')
         )
 
-        # time_s = calendar.timegm(time.gmtime())
-        # print (type(datetime.now().time()))
-        # time_s = datetime.now().time()
-        # print (type(time_s))
         for directory in directories:
             if directory == ".DS_Store" or directory == " " :
                 continue

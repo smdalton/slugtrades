@@ -81,7 +81,6 @@ class Item(models.Model):
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
     description = models.TextField(blank=False, default='')
-    # time_stamp = models.DateTimeField(auto_now=True, null=True)
     time_stamp = models.DateTimeField(default=datetime.now(), null=True)
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
