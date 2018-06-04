@@ -14,7 +14,7 @@ from slug_trade_app.models import UserProfile, ITEM_CATEGORIES, TRADE_OPTIONS
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+import pprint
 # Create your views here.
 debug = False
 
@@ -156,6 +156,7 @@ def products(request):
     'order_by_selected': order_by_selected
     })
 
+
 def show_users(request):
     users = User.objects.all()
 
@@ -199,6 +200,159 @@ def item_details(request, item_id=None):
                                                                 'item_id': item_id,
                                                                 'trade_type': trade_type_name,
                                                                 })
+
+
+def my_placed_offers(request):
+
+    my_cash_offers = []
+    my_trade_offers = []
+    my_free_offers = []
+
+    # get all offers that have been placed by request.user
+    my_cash_offers_list = models.CashOffer.objects.filter(original_bidder=request.user)
+    for cash_offer in my_cash_offers_list:
+        my_cash_offers.append({
+            'item_name': cash_offer.item_bid_on.name,
+            'item_picture': cash_offer.item_bid_on.get_images(),
+            'amount': cash_offer.offer_amount,
+            'trade_details': '/trade_details/?thing=whatever&thing2=otherThing'
+        })
+
+    my_item_offers = models.ItemOffer.objects.filter(original_bidder=request.user)
+    work_dict = {}
+    for item_offer in my_item_offers:
+        if item_offer.item_bid_on not in work_dict:
+            work_dict[item_offer.item_bid_on] = []
+            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_on.get_images())
+        else:
+            work_dict[item_offer.item_bid_on].append(item_offer.item_bid_on.get_images())
+
+    for item in work_dict:
+        my_trade_offers.append(
+            {
+                'item_name': item.name,
+                'item_image': item.get_images(),
+                'bid_items_list': work_dict[item],
+                'trade_details': '/trade_details/?Owner=test'
+            }
+        )
+
+    my_free_offers_list = models.OfferComment.objects\
+        .filter(comment_placed_by=request.user)\
+        .filter(item__trade_options='2')
+    for free_offer in my_free_offers_list:
+        my_free_offers.append({
+            'item_name': free_offer.item.name,
+            'item_image': free_offer.item.get_images(),
+            'comment': free_offer.comment,
+        })
+
+    print(my_trade_offers)
+    return render(request, 'slug_trade_app/my_offers.html',
+                  {
+                    'viewing_offers_on_my_items': False,
+                    'viewing_my_placed_offers': True,
+                    'my_cash_offers': my_cash_offers,
+                    'my_trade_offers': my_trade_offers,
+                    'my_free_offers': my_free_offers,
+                  })
+
+
+def my_received_offers(request):
+
+    # check for authentication
+    if not request.user.is_authenticated():
+        return redirect('/signup')
+
+    # load my items as a list of items
+    items = models.Item.objects.filter(user=request.user).all()
+    # initialize dicts to be populated with offers
+    cash_offers = []
+    trade_offers = []
+    free_offers = []
+
+    for item in items:
+
+        # cash items
+        if item.trade_options == '0':
+            cash_offer_list = models.CashOffer.objects.filter(item_bid_on=item).all()
+            for offer in cash_offer_list:
+                print(item.price)
+                cash_offers.append(
+                    {
+                        'item_name': item.name,
+                        'item_price': item.price,
+                        'item_image': item.get_images(),
+                        'bidders_name': offer.original_bidder.first_name,
+                        'bid_amount': offer.offer_amount,
+                        'details_link': '/trade_details/?Owner=test&Item=id',
+                    }
+                )
+
+        # trade items
+        if item.trade_options == '1':
+            # add the key for the current item to the trade offers_dict
+            trade_offer_list = models.ItemOffer.objects.filter(item_bid_on=item).all()
+            # sort the offers into lists of offers by individual users
+            work_dict = {}
+            for offer in trade_offer_list:
+                if offer.original_bidder not in work_dict:
+                    work_dict[offer.original_bidder] = []
+                    work_dict[offer.original_bidder].append(offer.item_bid_with.get_images())
+                else:
+                    work_dict[offer.original_bidder].append(offer.item_bid_with.get_images())
+
+            # build the front-end object for rendering
+            for user in work_dict:
+                trade_offers.append(
+                    {
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'bidders_name': user.first_name,
+                        'bid_items_list': work_dict[user],
+                        'trade_details': '/trade_details/?Owner=test&Item=id'
+                    }
+                )
+
+
+        # free items
+
+        if item.trade_options == '2':
+            free_comments = models.OfferComment.objects.filter(item=item).all()
+
+            work_dict = {}
+            for comment in free_comments:
+                if comment.comment_placed_by not in work_dict:
+                    work_dict[comment.comment_placed_by] = []
+                    work_dict[comment.comment_placed_by].append({
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'comment': comment.comment,
+                        'comment_placed_by':  comment.comment_placed_by.first_name,
+                    })
+                else:
+                    work_dict[comment.comment_placed_by].append({
+                        'item_name': item.name,
+                        'item_image': item.get_images(),
+                        'comment': comment.comment,
+                        'comment_placed_by': comment.comment_placed_by.first_name,
+                    })
+
+            if len(free_comments) > 0:
+                # add it to the list because there are comments
+                for commenter in work_dict:
+                    free_offers.append(work_dict[commenter])
+
+
+    return render(request, 'slug_trade_app/my_offers.html',
+                  {
+                    'viewing_offers_on_my_items': True,
+                    'viewing_my_placed_offers': False,
+                    'cash_offers': cash_offers,
+                    'trade_offers': trade_offers,
+                    'free_offers': free_offers,
+
+                  })
 
 
 def cash_transaction(request, item_id=None):
@@ -261,7 +415,7 @@ def cash_transaction(request, item_id=None):
             print(f"offer_amount detected {request.POST['offer_amount']}")
 
 
-        return redirect('/products')
+        return redirect('/my_placed_offers')
 
     else:
         # render the appropriate transaction form
@@ -289,7 +443,7 @@ def trade_transaction(request, item_id=None):
     """
 
     :param request: request from a user, maybe be a get or a post
-    :param item_id: id for which the transaction is being placed on
+    :param item_id: id for item which the transaction is being placed on
     :return: redirect to home page, successfully save the transaction in the database with the models
     """
 
@@ -356,7 +510,7 @@ def trade_transaction(request, item_id=None):
             )
             new_comment.save()
 
-        return redirect('/home')
+        return redirect('/my_placed_offers')
 
         # # TODO:// offer comment is not currently working correctly
 
@@ -415,7 +569,7 @@ def free_transaction(request, item_id=None):
             )
             comment.save()
 
-            return redirect('/home/')
+            return redirect('/my_placed_offers')
     else:
         sale_item_image = models.ItemImage.objects.get(item=item_id).get_image_list()[0]
 
@@ -476,7 +630,6 @@ def public_profile_inspect(request, user_id):
 
     else:
         return render(request, 'slug_trade_app/not_authenticated.html')
-
 
 
 def profile(request):
