@@ -1874,7 +1874,7 @@ item-details-image-row-wrapper{
 }
 
 .trade-offer-item-wrapper input[type=checkbox] {
-  display: none;
+  visibility: hidden;
 }
 
 .trade-offer-item-wrapper label {
@@ -1885,6 +1885,7 @@ item-details-image-row-wrapper{
 }
 
 .trade-offer-item-wrapper img {
+  padding-top: 15px;
   margin: 10px 0;
   height: auto;
 }
