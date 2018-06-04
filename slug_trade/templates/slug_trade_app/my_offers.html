@@ -1,7 +1,7 @@
 {% extends "slug_trade_app/base.html" %}
 {% load staticfiles %}
 {% block title_block %}
-<title>{{user_to_view.first_name|title}}'s Profile</title>
+<title>{{user.first_name|title}}'s Offers</title>
 {% endblock %}
 
 {% block nav_block %}
@@ -17,15 +17,15 @@
     {% if viewing_offers_on_my_items%}
 
       <div class="my-offers-title-wrapper">
-        <div class="my-offers-title offer-received" style="padding: 10px; border-radius: 5px; background: #fff2ca;"><a href="{% url 'slug_trade_app:view_my_received_offers' %}">Offer Received</a></div>
-        <div class="my-offers-title offer-placed"><a href="{% url 'slug_trade_app:view_my_placed_offers' %}">Offer Placed</a></div>
+        <div class="my-offers-title offer-received" style="padding: 10px; border-radius: 5px; background: #fff2ca;"><a href="{% url 'slug_trade_app:view_my_received_offers' %}">Offers Received</a></div>
+        <div class="my-offers-title offer-placed"><a href="{% url 'slug_trade_app:view_my_placed_offers' %}">Offers Placed</a></div>
       </div>
 
       {% for offer in cash_offers%}
         <a class="my-offers-list-item-wrapper-link" href="#">
           <div class="my-offers-list-item-wrapper">
             <div class="my-offers-my-item-wrapper">
-            <div class="my-offers-my-item-title">{{offer.item_name | title}} <span>${{offer.item_price}}</span></div>
+            <div class="my-offers-my-item-title">{{offer.item_name | title}}</div>
             <div style="width: 75px; height: 75px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
               <img src="{{offer.item_image}}" width="125"alt="">
             </div>
@@ -84,15 +84,15 @@
 
     {% if viewing_my_placed_offers %}
       <div class="my-offers-title-wrapper">
-        <div class="my-offers-title offer-received"><a href="{% url 'slug_trade_app:view_my_received_offers' %}">Offer Received</a></div>
-        <div class="my-offers-title offer-placed" style="padding: 10px; border-radius: 5px; background: #fff2ca;"><a href="{% url 'slug_trade_app:view_my_placed_offers' %}">Offer Placed</a></div>
+        <div class="my-offers-title offer-received"><a href="{% url 'slug_trade_app:view_my_received_offers' %}">Offers Received</a></div>
+        <div class="my-offers-title offer-placed" style="padding: 10px; border-radius: 5px; background: #fff2ca;"><a href="{% url 'slug_trade_app:view_my_placed_offers' %}">Offers Placed</a></div>
       </div>
 
       {% for offer in my_cash_offers%}
         <a class="my-offers-list-item-wrapper-link" href="#">
           <div class="my-offers-list-item-wrapper">
             <div class="my-offers-my-item-wrapper">
-              <div class="my-offers-my-item-title">{{offer.item_name | title}} ${{offer.amount}}</div>
+              <div class="my-offers-my-item-title">{{offer.item_name | title}}</div>
               <div style="width: 75px; height: 75px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                 <img src="{{offer.item_picture}}" width="125"alt="">
               </div>
