@@ -1178,6 +1178,11 @@ margin-left: 10px;
   padding: 100px 60px;
 }
 
+.no-closet-items {
+  text-align: center;
+  padding-top: 75px;
+}
+
 .profile-info-wrapper{
   padding: 10px 0;
   display: flex;
