@@ -11,14 +11,12 @@ from datetime import timedelta
 from slug_trade_app import models
 from itertools import cycle
 from faker import Faker
-import random
-import os, sys
+import os, sys, time, random, glob
 
 # Modules for image handling
 from PIL import Image
 from django.core.files.base import ContentFile
 from io import BytesIO
-import glob
 
 
 fake = Faker()
@@ -278,16 +276,20 @@ class Command(BaseCommand):
         for filename in os.listdir(item_path):
             os.remove(item_path + filename)
 
+
     def handle(self, **args):
         test = False
         #test = True
 
-        self.wipe_db()
-        self.create_admin()
-        self.create_admin_item()
-        self.create_user()
-        self.create_random_users()
-        self.create_one_item_per_user()
+        if not test:
+            self.wipe_db()
+            self.create_admin()
+            self.create_admin_item()
+            self.create_user()
+            self.create_random_users()
+            self.create_one_item_per_user()
 
-        #if test:
-            #test functions go here
+
+        if test:
+            # test functions go here
+            pass

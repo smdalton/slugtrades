@@ -54,8 +54,6 @@ footer {
   color: #F2CE60;
 }
 
-
-
 .pagination li {
   display: inline-block;
   padding: 10px;
@@ -102,7 +100,7 @@ footer {
 
 .nav-link-button:focus {
   outline:0;
-} 
+}
 
 .nav-drop {
   display: flex;
@@ -1170,6 +1168,7 @@ margin-left: 10px;
   background: #fff;
   padding: 100px 60px;
   margin: 140px 0;
+  padding-top: 0;
 }
 
 .closet-body {
@@ -1177,6 +1176,11 @@ margin-left: 10px;
   max-width: 650px;
   background: #fff;
   padding: 100px 60px;
+}
+
+.no-closet-items {
+  text-align: center;
+  padding-top: 75px;
 }
 
 .profile-info-wrapper{
@@ -1192,12 +1196,24 @@ margin-left: 10px;
   justify-content: center;
   border-radius: 200px;
   overflow: hidden;
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  min-width: 200px;
 }
 
 .profile-info-image-wrapper img {
   border-radius: 200px;
+}
+
+@media screen and (max-width: 1215px) {
+  .profile-body {
+    padding-top: 0;
+  }
+  .profile-info-wrapper {
+    flex-direction: column;
+  }
+  .profile-info-image-wrapper {
+    padding-bottom: 40px;
+  }
 }
 
 .profile-info-content-wrapper {
@@ -1326,15 +1342,24 @@ margin-left: 10px;
   margin: 0;
 }
 
+.profile-closet-title-wrapper a {
+  text-decoration: none;
+}
+
 .profile-add-item-link {
   font-weight: 900;
   background-color: #fff;
   color: #333;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 15px;
   font-size: 14px;
 }
 
 .profile-add-item-link:hover {
-  color: #F2CE60;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #333;
 }
 
 .profile-item-wrapper {
@@ -1350,6 +1375,10 @@ margin-left: 10px;
 }
 
 .profile-item-image-wrapper img {
+  width: 100%;
+}
+
+.profile-item-image-wrapper a {
   width: 100%;
 }
 
@@ -1722,8 +1751,8 @@ item-details-image-row-wrapper{
 .item-review-subtitle {
   font-family: 'Archivo Black', sans-serif;
   font-size: 20px;
-  margin-top: 20px;
-  padding-bottom: 10px;
+  margin-top: 30px;
+  padding-bottom: 20px;
 }
 
 .item-review-wrapper {
@@ -1826,6 +1855,20 @@ item-details-image-row-wrapper{
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   padding: 10px 0;
+  -webkit-transition: all 250ms ease-in-out;
+  -moz-transition: all 250ms ease-in-out;
+  -o-transition: all 250ms ease-in-out;
+  -ms-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+  cursor: pointer;
+}
+
+.trade-offer-item-wrapper:hover {
+  background-color: #edeaea;
+}
+
+.trade-offer-item-wrapper input[type=checkbox] {
+  display: none;
 }
 
 .trade-offer-item-wrapper label {
@@ -2620,4 +2663,124 @@ ul.pgwSlider.narrow.listOnTheLeft > li,
 
 .not-logged-in-link-wrapper a:hover {
   text-decoration: underline;
+}
+
+/********** my offers ****************/
+.my-offers-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+}
+
+.my-offers-body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+}
+
+.my-offers-list-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.my-offers-list-item-wrapper-link {
+  width: 100%;
+  text-decoration: none;
+  color: #333;
+  padding: 15px 10px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.my-offers-list-item-wrapper-link:hover {
+  background: #f9f9f9;
+  cursor: pointer;
+}
+
+.my-offers-title-wrapper {
+  display: flex;
+  align-items: center;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 600;
+  color: #333;
+  font-size: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.my-offers-title {
+  margin-right: 20px;
+}
+
+.offer-received a, .offer-placed a {
+  text-decoration: none;
+  color: #333;
+}
+
+.offer-received a:hover, .offer-placed a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.my-offers-my-item-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.my-offers-item-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
+}
+
+.my-offers-my-item-title {
+  font-family: 'Archivo Black', sans-serif;
+}
+
+.my-offers-my-item-title span {
+  font-family: 'Questrial', sans-serif;
+}
+
+.my-offers-offered-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.my-offers-offer-images-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-cash-wrapper {
+
+}
+
+
+.my-offers-offer-images {
+  display: flex;
+  width: 75px;
+  height: 75px;
+  margin-left: 5px;
+  overflow: hidden;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-images2 {
+  display: flex;
+  width: 75px;
+  height: 75px;
+  margin-right: 5px;
+  overflow: hidden;
+  justify-content: flex-end;
+}
+
+.my-offers-offer-person-name {
+  text-align: right;
 }

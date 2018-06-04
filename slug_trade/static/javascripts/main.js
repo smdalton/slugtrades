@@ -509,4 +509,19 @@ $(document).ready(function() {
     $('#wishlist_item_description').focus();
   }
   // --------------- END OF WISHLIST FUNCTIONS ------------------------
+
+  // Handle clicking on closet item in item only offer page
+  $(function() {
+    $('.trade-offer-item-wrapper').click(function() {
+      var checkbox = $(this).find('[type=checkbox]');
+      if(checkbox.prop('checked')) {
+        checkbox.prop('checked', false);
+        $(this).css('background-color', 'inherit')
+      } else {
+        checkbox.prop('checked', true);
+        $(this).css('background-color', '#FFF3CE');
+      }
+    });
+  });
+
 });

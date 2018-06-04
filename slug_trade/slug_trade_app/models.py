@@ -56,8 +56,8 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     on_off_campus = models.CharField(max_length=3,
-                                default="on",
-                                choices=CAMPUS_STATUS)
+                                     default="on",
+                                     choices=CAMPUS_STATUS)
 
 
 class Wishlist(models.Model):
@@ -87,6 +87,13 @@ class Item(models.Model):
                                 max_length=100,
                                 blank=False,
                                  default='2')
+    def get_images(self):
+        try:
+            a = ItemImage.objects.get(item__id=self.id).get_image_list()
+            return a[0]
+        except Exception:
+            return 'error retrieving image'
+
     def __str__(self):
         return self.name
 
@@ -131,6 +138,9 @@ class OfferComment(models.Model):
     time_stamp = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=250)
 
+    def __str__(self):
+        return f"{self.comment[:20]}"
+
 
 class ItemOffer(models.Model):
     item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE,related_name="item_offers_item_bid_on")
@@ -139,6 +149,15 @@ class ItemOffer(models.Model):
     item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_offers_original_bidder")
 
+    def get_images(self):
+        try:
+            a = ItemImage.objects.get(item__id=self.item_bid_with.id).get_image_list()
+            return a[0]
+        except Exception:
+            return 'error retrieving image'
+
+    def __str__(self):
+        return f" Bid on: {self.item_bid_on.name} With: {self.item_bid_with}"
 
 class CashOffer(models.Model):
     item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE)
