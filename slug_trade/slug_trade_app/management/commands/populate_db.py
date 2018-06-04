@@ -2,6 +2,11 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from django.core.management import call_command
+import calendar
+import time
+import random
+from datetime import datetime
+from datetime import timedelta
 
 from slug_trade_app import models
 from itertools import cycle
@@ -30,32 +35,33 @@ class Command(BaseCommand):
 
     # map each item filename to category for item creation script
     categories = {
-         'bike.jpg': 'BI',
-         'book.jpeg': 'BO',
-         'broom.jpeg': 'H',
-         'camera.jpeg': 'E',
+         'Bike': 'BI',
+         'Book': 'BO',
+         'Broom': 'H',
+         'Camera': 'E',
+         'Cooking_Pot': 'A',
+         'Desk_Lamp': 'F',
+         'Dresser': 'F',
          'debug.jpeg': 'O',
-         'dresser.jpeg': 'F',
-         'drill.jpeg': 'TO',
-         'fridge.JPG': 'A',
-         'hat.jpeg': 'C',
-         'jacket.jpeg': 'C',
-         'kettlebell.jpeg': 'OU',
-         'keyboard.jpeg': 'E',
-         'lamp.jpeg': 'F',
-         'pen.jpeg': 'OF',
-         'planter.jpeg': 'OU',
-         'pot.jpeg': 'H',
-         'ps4.jpeg': 'G',
-         'shoes.jpeg': 'C',
-         'stools.jpeg': 'F',
-         'table.jpg': 'F',
-         'treadmill.jpeg': 'FI',
-         'vitamins.jpeg': 'FI'
+         'Hat': 'C',
+         'Jacket': 'C',
+         'Keyboard': 'E',
+         'Pen': 'OF',
+         'Planter_Box': 'OU',
+         'Power_Drill': 'TO',
+         'PS4': 'G',
+         'Refrigerator': 'A',
+         'Shoes': 'C',
+         'Stools': 'F',
+         'Table': 'F',
+         'Treadmill': 'FI',
+         'Vitamins': 'FI',
+         'Weights': 'OU',
+         'Wii': 'E',
     }
 
     debug_profile_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/')
-    debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
+    debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_images/')
 
 # Creates admin account and saves it into the database.
     def create_admin(self):
@@ -170,7 +176,8 @@ class Command(BaseCommand):
         item.save()
 
         # get the debug image to use as the item image
-        filename = glob.glob(self.debug_item_pic_path + 'debug.jpeg')[0]
+        path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
+        filename = glob.glob(path + 'debug.jpeg')[0]
         extension = '.' + filename.split('.')[len(filename.split('.'))-1]
         image = Image.open(filename)
         image_bytes = BytesIO()
@@ -187,37 +194,56 @@ class Command(BaseCommand):
         from_user_list = cycle([user for user in User.objects.all()])
 
         # get all of the debug item pictures
-        file_list = os.listdir(self.debug_item_pic_path)
-        pictures_list = [item for item in file_list]
+        directories = os.listdir(self.debug_item_pic_path)
 
         TRADE_OPTIONS = (
             ('0', 'Cash Only'),
             ('1', 'Items Only'),
             ('2', 'Free')
         )
-        # create a random debug item for each image
-        for picture in pictures_list:
-            user = next(from_user_list)
-            picture_name = picture.split('.')[0]
-            item = models.Item(user=user,
-                               name=picture_name,
-                               price=random.random()*100,
-                               category=self.categories[picture],
-                               description=fake.text(),
-                               trade_options=random.choice(['0','1','2']))
-            item.bid_counter = random.choice(range(100))
-            item.save()
 
-            # get the item image from its name
-            filename = glob.glob(self.debug_item_pic_path + picture)[0]
-            extension = '.' + filename.split('.')[len(filename.split('.'))-1]
-            image = Image.open(filename)
-            image_bytes = BytesIO()
-            image.save(image_bytes, image.format)
+        for directory in directories:
+            if directory == ".DS_Store" or directory == " " :
+                continue
 
-            modelimage = models.ItemImage(item=item)
-            modelimage.image1.save(picture_name + extension, ContentFile(image_bytes.getvalue()))
-            modelimage.save()
+            path =  self.debug_item_pic_path + "/" + directory
+            pictures_list = os.listdir(path)
+
+
+            for picture in pictures_list:
+                if picture == ".DS_Store" or picture == "debug.jpeg":
+                    continue
+
+                # generarte random timestamps
+                # so recent items arent all the same category
+                rand = random.uniform(1,1000)
+                time_s = datetime.now()
+                time_s = time_s - timedelta(milliseconds=rand)
+
+                user = next(from_user_list)
+                picture_name = picture.split('.')[0]
+                item = models.Item(user=user,
+                                   name=directory,
+                                   price=random.random()*100,
+                                   category=self.categories[directory],
+                                   description=fake.text(),
+                                   time_stamp = time_s,
+                                   trade_options=random.choice(['0','1','2']))
+                item.bid_counter = random.choice(range(100))
+                item.save()
+
+                # get the item image from its name
+                # filename = glob.glob(self.debug_item_pic_path + picture)[0]
+                # extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+                filename = path + "/" + picture
+                original_path, extension = os.path.splitext(filename)
+                image = Image.open(filename)
+                image_bytes = BytesIO()
+                image.save(image_bytes, image.format)
+
+                modelimage = models.ItemImage(item=item)
+                modelimage.image1.save(directory + extension, ContentFile(image_bytes.getvalue()))
+                modelimage.save()
 
         return
 
