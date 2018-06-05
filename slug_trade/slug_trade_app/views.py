@@ -474,6 +474,19 @@ def trade_transaction(request, item_id=None):
     # get the currently logged in users items for sending to the template or the form
     logged_in_users_items = models.Item.objects.filter(user=request.user).values()
 
+    for item in logged_in_users_items:
+        if len(item['description']) > 90:
+            words = item['description'].split(' ')
+            new_description = ''
+            for word in words:
+                if len(new_description + word) >= 90:
+                    new_description = new_description[:-1]
+                    new_description += '...'
+                    break;
+                else:
+                    new_description += word + ' '
+            item['description'] = new_description
+
     for item_representation_dict in logged_in_users_items:
         # fore each get the image link for representation in the template
         item_representation_dict['image'] = models.ItemImage.objects.get(item=item_representation_dict['id'])\
