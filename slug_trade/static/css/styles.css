@@ -1874,7 +1874,7 @@ item-details-image-row-wrapper{
 }
 
 .trade-offer-item-wrapper input[type=checkbox] {
-  visibility: hidden;
+  display: none;
 }
 
 .trade-offer-item-wrapper label {
@@ -1888,6 +1888,12 @@ item-details-image-row-wrapper{
   padding-top: 15px;
   margin: 10px 0;
   height: auto;
+}
+
+.trade-offer-item-wrapper p {
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 12px;
 }
 
 /************ item details slider **********/
