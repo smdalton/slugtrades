@@ -32,7 +32,7 @@ class CashTransactionForm(forms.ModelForm):
 
 class OfferCommentForm(forms.ModelForm):
 
-    comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'offer-comment'}))
+    comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'input-textarea'}))
     class Meta:
         model = OfferComment
         fields = (
@@ -75,7 +75,7 @@ class ClosetItem(forms.ModelForm):
                                                   'class': 'add-closet-wrapper-input'
                                                   })
         self.fields['description'].widget.attrs.update({'required': True,
-                                                        'class': 'add-closet-wrapper-input'
+                                                        'class': 'input-textarea'
                                                         })
         self.fields['category'].widget.attrs.update({'class': 'add-closet-wrapper-input'})
         self.fields['condition'].widget.attrs.update({'class': 'add-closet-wrapper-input'})
