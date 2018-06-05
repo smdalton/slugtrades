@@ -830,8 +830,8 @@ input[type=submit]:hover {
 }
 
 .add-closet-wrapper-input {
-    padding: 20px;
     font-size: 18px;
+    font-family: inherit;
 }
 
 .profile-picture-wrapper img {
