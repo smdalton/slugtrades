@@ -1864,7 +1864,7 @@ item-details-image-row-wrapper{
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 1px 1px 1px 1px gray;
+  border: 1px solid #b1b1b1;
   border-radius: 5px;
   padding: 10px 0;
   -webkit-transition: all 250ms ease-in-out;
