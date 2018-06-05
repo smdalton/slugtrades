@@ -1857,7 +1857,7 @@ item-details-image-row-wrapper{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border: 1px solid #b1b1b1;
   border-radius: 5px;
   padding: 10px 0;
@@ -1874,7 +1874,7 @@ item-details-image-row-wrapper{
 }
 
 .trade-offer-item-wrapper input[type=checkbox] {
-  display: none;
+  visibility: hidden;
 }
 
 .trade-offer-item-wrapper label {
@@ -1885,7 +1885,9 @@ item-details-image-row-wrapper{
 }
 
 .trade-offer-item-wrapper img {
+  padding-top: 15px;
   margin: 10px 0;
+  height: auto;
 }
 
 /************ item details slider **********/
