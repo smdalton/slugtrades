@@ -4,6 +4,12 @@
   border: none;
 }
 
+.input-textarea {
+  padding: 10px;
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .top-padding-100 {
   margin-top: 100px;
 }
