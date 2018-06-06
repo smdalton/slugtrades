@@ -1866,13 +1866,13 @@ item-details-image-row-wrapper{
   justify-content: space-between;
   border: 1px solid #b1b1b1;
   border-radius: 5px;
-  padding: 10px 0;
   -webkit-transition: all 250ms ease-in-out;
   -moz-transition: all 250ms ease-in-out;
   -o-transition: all 250ms ease-in-out;
   -ms-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
   cursor: pointer;
+  padding-top: 15px;
 }
 
 .trade-offer-item-wrapper:hover {
@@ -1891,8 +1891,6 @@ item-details-image-row-wrapper{
 }
 
 .trade-offer-item-wrapper img {
-  padding-top: 15px;
-  margin: 10px 0;
   height: auto;
 }
 
