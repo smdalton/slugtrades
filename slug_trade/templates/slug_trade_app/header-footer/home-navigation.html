@@ -9,15 +9,15 @@
     </div>
 
     <div class="nav-links-wrapper">
-      <div class="nav-link"><a href="{% url 'slug_trade_app:products' %}">Products</a></div>
-      <div class="nav-link"><a href="#steps-anchor">How It Works</a></div>
+      <button class="nav-link-button" onclick="navRedirect('/products/')">Products</button>
+      <button class="nav-link-button" onclick="scrollToElement('steps-anchor')">How It Works</button>
       <div class="nav-drop">
         {% if request.path != "/login/" %}
           {% if user.is_authenticated %}
             <div id="links_drop" class="nav-link links-drop">Welcome, {{ user.first_name }}!</div>
           {% else %}
-            <div class="nav-link"><a id="login" href="/login/">Login</a></div>
-            <div class="nav-link"><a href="/signup/">Sign Up</a></div>
+            <button class="nav-link-button" id="login" onclick="navRedirect('/login/')">Login</button>
+            <button class="nav-link-button" onclick="navRedirect('/signup/')">Sign Up</button>
           {% endif %}
         {% endif %}
       </div>
@@ -26,14 +26,8 @@
 
 <div class="links-box-wrapper">
   <div class="links-box-body">
-    <div class="links-box-link add-border-top">
-      <a href="{% url 'slug_trade_app:profile' %}">Profile</a>
-    </div>
-    <div class="links-box-link add-border-top">
-      <a href="{% url 'slug_trade_app:edit_profile' %}">Edit Profile</a>
-    </div>
-    <div class="links-box-link add-border-top">
-      <a id="logout" href="{% url 'slug_trade_app:logout' %}">Log Out</a>
-    </div>
+    <button class="links-box-link-button" onclick="navRedirect('/profile/')">Profile</button>
+    <button class="links-box-link-button" onclick="navRedirect('/my_received_offers/')">Offers</button>
+    <button class="links-box-link-button" onclick="navRedirect('/logout/')">Log Out</button>
   </div>
 </div>

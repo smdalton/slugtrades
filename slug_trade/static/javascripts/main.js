@@ -1,3 +1,13 @@
+var navRedirect = function(url) {
+  window.location.href = url;
+};
+
+var scrollToElement = function(id) {
+  $('html, body').animate({
+    scrollTop: $('#'+id).offset().top
+  }, 1000);
+};
+
 // This is the function that manipulates the url when pagination controlls are clicked
 var changePage = function(pageNumber) {
   var url = window.location.href;
@@ -119,6 +129,10 @@ var swapDivElements = function(id1, id2) {
   // remove temporary marker node
   temp.parentNode.removeChild(temp);
 
+
+  $('.pgwSlider').pgwSlider();
+
+
   var index1 = closetPhotos.indexOf(id1);
   var index2 = closetPhotos.indexOf(id2)
   swapArrayElements(closetPhotos, index1, index2);
@@ -153,8 +167,16 @@ var deleteClosetItem = function(itemId) {
   }
 };
 
-$(document).ready(function() {
 
+$(document).ready(function() {
+  //products page order by change event
+  $(function() {
+    $('#products-filter-select').change(function() {
+      $('#products-form').submit();
+    });
+  });
+
+  $('.pgwSlider').pgwSlider();
   $(function() {
     $('#home-filter').click(function() {
       category = $('#home-filter-category').val();
@@ -170,6 +192,7 @@ $(document).ready(function() {
       }
     });
   });
+
   // show drop links on hover
   $(".links-drop, .links-box-wrapper").hover(function(){
       $('.links-box-wrapper').css('display','flex');
@@ -187,6 +210,7 @@ $(document).ready(function() {
     $(window).load(function () {
       $('#id_username').focus();
     });
+
   }
 
   if (location.pathname.substring(1) == "edit_profile/") {
@@ -242,7 +266,6 @@ $(document).ready(function() {
       $('.add-item-price').css('display', 'none');
     }
   }
-
 
 //displays a preview of profile picture in edit_profile page
   $(function() {
@@ -307,6 +330,7 @@ $(document).ready(function() {
       }
     });
   });
+
 
   $(function() {
     $('#id_image2').change(function() {
@@ -461,7 +485,6 @@ $(document).ready(function() {
       }
     });
   });
-
 // ------------------ END OF ADD ADD CLOSET ITEM FUNCTIONS --------------------
   //this function deletes an item from the wishlist on the profile
 
@@ -486,16 +509,19 @@ $(document).ready(function() {
     $('#wishlist_item_description').focus();
   }
   // --------------- END OF WISHLIST FUNCTIONS ------------------------
-});
 
-
-//Smooth scrolling on steps
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+  // Handle clicking on closet item in item only offer page
+  $(function() {
+    $('.trade-offer-item-wrapper').click(function() {
+      var checkbox = $(this).find('[type=checkbox]');
+      if(checkbox.prop('checked')) {
+        checkbox.prop('checked', false);
+        $(this).css('background-color', 'inherit')
+      } else {
+        checkbox.prop('checked', true);
+        $(this).css('background-color', '#FFF3CE');
+      }
     });
+  });
+
 });

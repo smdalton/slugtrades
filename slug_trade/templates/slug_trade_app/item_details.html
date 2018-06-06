@@ -1,0 +1,58 @@
+{% extends "slug_trade_app/base.html" %}
+{% load staticfiles %}
+
+<title>Item Details for {{inspect_item.name}}</title>
+
+{% block nav_block %}
+    {% include "slug_trade_app/header-footer/navigation.html" %}
+{% endblock %}
+
+{% block body_block %}
+
+<div class="item-details-wrapper">
+  <div class="item-details-body">
+    <div class="item-details-item-info-wrapper">
+      <div class="item-details-title-wrapper">
+        <div class="item-details-title">{{ inspect_item.name | title }}</div>
+        {% if inspect_item.get_trade_options_display == "Cash Only" %}
+          <div class="item-details-price">Price ${{ inspect_item.price }}</div>
+        {% elif inspect_item.get_trade_options_display == "Items Only" %}
+          <div class="item-details-price">Offers Welcome!</div>
+        {% elif inspect_item.get_trade_options_display == "Free" %}
+          <div class="item-details-price">Free</div>
+        {% endif %}
+      </div>
+      {{get_trade_type_display}}
+      <a style="text-decoration: none;" href="/transaction/{{trade_type}}/{{item_id}}">
+        <div class="item-details-snag-item-button">Snag Item</div>
+      </a>
+    </div>
+
+    <div class="item-details-carousel-wrapper">
+      <ul class="pgwSlider">
+          {% for item_photo in item_photos%}
+            <li><img src="{{item_photo}}"></li>
+          {% endfor %}
+
+      </ul>
+    </div>
+
+    <div class="item-details-addl-info-wrapper">
+      <div class="item-details-name-category-wrapper">
+        <div class="item-details-owner-name">SOLD BY: <a href="/profile/{{ inspect_item.user.id}}"> {{ inspect_item.user.first_name}}</a></div>
+        <div class="item-details-category">CATEGORY: <a href="/products?categories={{inspect_item.category}}">{{ inspect_item.get_category_display }}</a></div>
+      </div>
+    </div>
+
+    <div class="item-details-description-wrapper">
+      <div class="item-details-description-title">Description</div>
+      <div class="item-details-description-description">{{ inspect_item.description }}</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer_block %}
+  {% include "slug_trade_app/header-footer/footer.html" %}
+{% endblock %}

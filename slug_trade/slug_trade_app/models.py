@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import RegexValidator
+from datetime import datetime
+from django.utils import timezone
 
 
 ITEM_CATEGORIES = (
@@ -33,9 +35,8 @@ CAMPUS_STATUS = (
 
 TRADE_OPTIONS = (
     ('0','Cash Only'),
-    ('1','Cash and Items'),
-    ('2','Items Only'),
-    ('3','Free')
+    ('1','Items Only'),
+    ('2','Free')
 )
 
 
@@ -55,8 +56,8 @@ class UserProfile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     time_stamp = models.DateTimeField(auto_now=True, null=True)
     on_off_campus = models.CharField(max_length=3,
-                                default="on",
-                                choices=CAMPUS_STATUS)
+                                     default="on",
+                                     choices=CAMPUS_STATUS)
 
 
 class Wishlist(models.Model):
@@ -80,13 +81,20 @@ class Item(models.Model):
                                     blank=False)
     bid_counter = models.IntegerField(default=0, blank=False)
     description = models.TextField(blank=False, default='')
-    time_stamp = models.DateTimeField(auto_now=True, null=True)
+    time_stamp = models.DateTimeField(default=datetime.now(), null=True)
     condition = models.CharField(choices=ITEM_CONDITION,
                                 max_length=100,
                                 blank=False,
                                  default='2')
+    def get_images(self):
+        try:
+            a = ItemImage.objects.get(item__id=self.id).get_image_list()
+            return a[0]
+        except Exception:
+            return 'error retrieving image'
+
     def __str__(self):
-        return f"name: {self.name} price:{self.price} category:{self.category}"
+        return self.name
 
 
 class ItemImage(models.Model):
@@ -124,9 +132,13 @@ class ItemComment(models.Model):
 
 class OfferComment(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item_owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="offer_comments")
+    comment_placed_by = models.ForeignKey(User, on_delete=models.CASCADE)
     time_stamp = models.DateTimeField(auto_now=True)
     comment = models.CharField(max_length=250)
+
+    def __str__(self):
+        return f"{self.comment[:20]}"
 
 
 class ItemOffer(models.Model):
@@ -136,6 +148,15 @@ class ItemOffer(models.Model):
     item_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     original_bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="item_offers_original_bidder")
 
+    def get_images(self):
+        try:
+            a = ItemImage.objects.get(item__id=self.item_bid_with.id).get_image_list()
+            return a[0]
+        except Exception:
+            return 'error retrieving image'
+
+    def __str__(self):
+        return f" Bid on: {self.item_bid_on.name} With: {self.item_bid_with}"
 
 class CashOffer(models.Model):
     item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE)
