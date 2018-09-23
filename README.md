@@ -9,6 +9,6 @@ ucsc buy/sell/trade website
 5. pip install -r slugtrade/requirements.txt
 6. cd slug_trade
 7. ./manage.py makemigrations
-8. ./manage.py migration
+8. ./manage.py migrate
 9. ./manage.py populate_db
 10. ./manage.py runserver
