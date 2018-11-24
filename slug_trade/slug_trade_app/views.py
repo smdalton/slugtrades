@@ -366,12 +366,12 @@ def cash_transaction(request, item_id=None):
         sale_item = Item.objects.get(id=item_id)
         # check to see if
         if sale_item.user == request.user:
-            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
-                                f" <a href='/products'>go back to products page</a>")
+            return HttpResponse("Looks like you own this item, sadly you can't buy your own stuff!\
+                                <a href='/products'>go back to products page</a>")
         if sale_item.trade_options is not '0':
             # redirect them to item details that is appropriate for this specific item
-            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>"
-                                f"Go to this items details page</a>")
+            return HttpResponse(("This is not a trade item <a href='/item_details/{}'>\
+                                Go to this items details page</a>").format(item_id))
     except Exception as e:
         print(e)
         # send them a life preserver if they get lost
@@ -398,7 +398,7 @@ def cash_transaction(request, item_id=None):
                 comment=request.POST['comment']
             )
             comment.save()
-            print(f"comment detected {request.POST['comment']}")
+            print("comment detected {}".fomat(request.POST['comment']))
         else:
             print('no comment')
 
@@ -412,7 +412,7 @@ def cash_transaction(request, item_id=None):
                 original_bidder=request.user
             )
             cash_offer.save()
-            print(f"offer_amount detected {request.POST['offer_amount']}")
+            print("offer_amount detected {}".format(request.POST['offer_amount']))
 
 
         return redirect('/my_placed_offers')
@@ -456,16 +456,16 @@ def trade_transaction(request, item_id=None):
         sale_item = Item.objects.get(id=item_id)
         if sale_item.trade_options is not '1':
             # redirect them to item details that is appropriate for this specific item
-            return HttpResponse(f"This is not a trade item"
-                                f" <a href='/item_details/{item_id}'>Go to this items details page</a>")
+            return HttpResponse("This is not a trade item\
+                                 <a href='/item_details/{}'>Go to this items details page</a>".format(item_id))
     except Exception as e:
         print(e)
         # send them a life preserver if they get lost
         return HttpResponse('This item does not exist <a href="/home">Go to home page<a>')
 
     if sale_item.user == request.user:
-        return HttpResponse(f"Looks like you own this item, sadly you can't snag your own stuff!"
-                            f" <a href='/products'>go back to products page</a>")
+        return HttpResponse("Looks like you own this item, sadly you can't snag your own stuff!\
+                             <a href='/products'>go back to products page</a>")
 
     # preload the offer comment form with an offer comment object
 
@@ -559,13 +559,14 @@ def free_transaction(request, item_id=None):
         # check existence
         free_item = Item.objects.get(id=item_id)
         if free_item.user == request.user:
-            return HttpResponse(f"Looks like you own this item, sadly you can't buy your own stuff!"
-                                f" <a href='/products'>go back to products page</a>")
+            return HttpResponse("Looks like you own this item, sadly you can't buy your own stuff!\
+                                 <a href='/products'>go back to products page</a>")
 
         # check free
         if free_item.trade_options is not '2':
             # redirect them to item details that is appropriate for this specific item
-            return HttpResponse(f"This is not a trade item <a href='/item_details/{item_id}'>Go to this items details page</a>")
+            return HttpResponse("This is not a trade item <a href='/item_details/{}'>\
+                                Go to this items details page</a>".format(item_id))
     except Exception as e:
         print(e)
         # send them a life preserver if they get lost
