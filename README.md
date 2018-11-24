@@ -6,7 +6,7 @@ ucsc buy/sell/trade website
 2. cd slugtrades
 3. python3 -m venv env
 4. source env/bin/activate
-5. pip install -r slugtrade/requirements.txt
+5. pip install -r slug_trade/requirements.txt
 6. cd slug_trade
 7. ./manage.py makemigrations
 8. ./manage.py migrate
