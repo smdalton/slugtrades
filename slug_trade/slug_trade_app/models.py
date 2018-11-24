@@ -120,7 +120,7 @@ class ItemImage(models.Model):
         return result
 
     def __str__(self):
-        return f"{self.item}"
+        return self.item
 
 
 class ItemComment(models.Model):
@@ -138,7 +138,7 @@ class OfferComment(models.Model):
     comment = models.CharField(max_length=250)
 
     def __str__(self):
-        return f"{self.comment[:20]}"
+        return self.comment[:20]
 
 
 class ItemOffer(models.Model):
@@ -156,7 +156,7 @@ class ItemOffer(models.Model):
             return 'error retrieving image'
 
     def __str__(self):
-        return f" Bid on: {self.item_bid_on.name} With: {self.item_bid_with}"
+        return " Bid on: {} With: {}".fomat(self.item_bid_on.name,self.item_bid_with)
 
 class CashOffer(models.Model):
     item_bid_on = models.ForeignKey(Item, on_delete=models.CASCADE)
