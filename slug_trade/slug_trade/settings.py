@@ -51,10 +51,12 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'livereload.middleware.LiveReloadScript'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+   # 'livereload.middleware.LiveReloadScript'
 ]
 
 ROOT_URLCONF = 'slug_trade.urls'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATES = [
     {
@@ -127,8 +129,9 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'slug_trade/media')
 
+
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 LOGIN_REDIRECT_URL = '/home/'
