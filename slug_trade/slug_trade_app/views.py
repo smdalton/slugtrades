@@ -186,7 +186,7 @@ def item_details(request, item_id=None):
     item_images = models.ItemImage.objects.get(item=item_id).get_image_list()
     # load the currently logged in users items
 
-    print(item_images)
+    #print(item_images)
     # assembled the users items into a useful dictionary object
 
     # send that dictionary object to the template for rendering
