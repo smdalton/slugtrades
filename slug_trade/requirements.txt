@@ -16,7 +16,7 @@ six==1.11.0
 text-unidecode==1.2
 tornado==5.0.2
 typed-ast==1.1.0
-urllib3==1.24.1
+urllib3==1.24.2
 virtualenv==15.2.0
 whitenoise==4.1.2
 wrapt==1.10.11
