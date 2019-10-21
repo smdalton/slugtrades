@@ -1,6 +1,6 @@
 astroid==2.1.0
 beautifulsoup4==4.6.0
-Django==1.9.13
+Django==1.11.23
 django-livereload-server==0.3.1
 Faker==0.8.13
 gunicorn==19.9.0
