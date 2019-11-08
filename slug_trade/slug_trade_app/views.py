@@ -2,15 +2,12 @@ from django.http import HttpResponse,  HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-from django.forms import formset_factory
-import datetime
-from .models import UserProfile
-from slug_trade_app.forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, \
+from django.views.generic import ListView, DetailView
+from .forms import UserProfileForm, UserModelForm, ProfilePictureForm, ClosetItem, ClosetItemPhotos, \
     UserForm, SignupUserProfileForm, CashTransactionForm, OfferCommentForm
-
 from . import models
-from slug_trade_app.models import ItemImage, Item, Wishlist
-from slug_trade_app.models import UserProfile, ITEM_CATEGORIES, TRADE_OPTIONS
+from .models import ItemImage, Item, Wishlist
+from .models import UserProfile, ITEM_CATEGORIES, TRADE_OPTIONS
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -19,11 +16,11 @@ import pprint
 debug = False
 
 
-def index(request):
 
+def index(request):
     items = Item.objects.all()[:4]
     images = [ItemImage.objects.get(item=item).get_image_list() for item in items]
-    items_and_images = zip(items,images)
+    items_and_images = zip(items, images)
 
     books = Item.objects.filter(category="BO")[:4]
     b_images = [ItemImage.objects.get(item=book).get_image_list() for book in books]
@@ -36,10 +33,6 @@ def index(request):
     recent = Item.objects.all().order_by('-time_stamp')[:4]
     r_images = [ItemImage.objects.get(item=r).get_image_list() for r in recent]
     recent_and_images = zip(recent,r_images)
-
-
-    if debug:
-        print("in index view")
 
     categories = [
         { 'name': 'All', 'value': 'All' }
@@ -54,8 +47,8 @@ def index(request):
     for value, name in TRADE_OPTIONS:
         types.append({ 'name': name, 'value': value })
 
-    return render(request, 'slug_trade_app/index.html',{
-        'items_and_images':items_and_images,
+    return render(request, 'slug_trade_app/index.html', {
+        'items_and_images': items_and_images,
         'books_and_images': books_and_images,
         'popular_and_images': popular_and_images,
         'recent_and_images': recent_and_images,
@@ -129,11 +122,6 @@ def products(request):
         items_list = items_list.order_by(default_order_filter)
         order_by_selected = default_order_name
 
-
-        item_count = items_list.count()
-        paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
-        page = request.GET.get('page', 1)
-
     item_count = items_list.count()
     paginator = Paginator(items_list, 12) # Alter the second parameter to change number of items per page
     page = request.GET.get('page', 1)
@@ -157,11 +145,16 @@ def products(request):
     })
 
 
-def show_users(request):
-    users = User.objects.all()
+# Easy CBV replacement
+class UserView(ListView):
+    model = User
+    template_name = 'slug_trade_app/users.html'
+    context_object_name = 'users'
 
-    # for each user we want to get the
-    return render(request, 'slug_trade_app/users.html', {'users': users})
+
+# detail CBV
+class ItemDetailView(DetailView):
+    model = Item
 
 
 def item_details(request, item_id=None):
@@ -172,10 +165,6 @@ def item_details(request, item_id=None):
     :return: a template with detailed information on the item with item_id, and the ability
     to continue further in the transaction process of trading
     """
-    # Get the item with specified item id to load it's details
-
-    # render the details into a useful dictionary object
-
     if not item_id:
         return redirect('/products')
 
@@ -186,7 +175,6 @@ def item_details(request, item_id=None):
     item_images = models.ItemImage.objects.get(item=item_id).get_image_list()
     # load the currently logged in users items
 
-    #print(item_images)
     # assembled the users items into a useful dictionary object
 
     # send that dictionary object to the template for rendering
@@ -261,7 +249,7 @@ def my_placed_offers(request):
 def my_received_offers(request):
 
     # check for authentication
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return redirect('/signup')
 
     # load my items as a list of items
@@ -357,7 +345,7 @@ def my_received_offers(request):
 
 def cash_transaction(request, item_id=None):
 
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
 
         return render(request, 'slug_trade_app/not_authenticated.html')
     # declare outside scope of try block
@@ -449,7 +437,7 @@ def trade_transaction(request, item_id=None):
 
     # If user enters wrong id for some reason the item will not exist and redirect them to home
     # ensure that no incorrect querys ever end up in this view
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
 
         return render(request, 'slug_trade_app/not_authenticated.html')
     try:
@@ -550,7 +538,7 @@ def free_transaction(request, item_id=None):
 
     offer_comment_form = OfferCommentForm(request.POST)
 
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return render(request, 'slug_trade_app/not_authenticated.html')
 
 
@@ -603,13 +591,13 @@ def public_profile_inspect(request, user_id):
         :return: render template
     """
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
 
         # verify that the given user_id is in the database, and if no prompt a redirect
         if not User.objects.filter(id=user_id).exists():
             return HttpResponse('<h1>No user exists for your query <a href="/">Go home</a></h1>')
 
-        if request.user.is_authenticated() and int(user_id) == int(request.user.id):
+        if request.user.is_authenticated and int(user_id) == int(request.user.id):
             return redirect('/profile')
 
         # get the user model object
@@ -655,7 +643,7 @@ def profile(request):
         by default it displays relevant information about the user, if no user
         is logged in, it will redirect to a sign-up/broken page
     """
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         if request.method == 'POST' and not request.POST['description'].isspace() and not request.POST['description'] == '':
             # if the wishlist item already exists in the wishlist, do not add it again
             try:
@@ -724,7 +712,7 @@ def edit_profile(request):
             user_profile_instance.save()
         return redirect('/profile')
     else:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             user = User.objects.get(id=request.user.id)
             user_form = UserModelForm(instance=user)
             user_profile = user.userprofile
@@ -803,7 +791,7 @@ def add_closet_item(request):
         return redirect('/profile')
 
     else:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             form = ClosetItem()
             photos = ClosetItemPhotos()
             return render(request, 'slug_trade_app/add_closet_item.html', {'form': form, 'photos': photos})
@@ -958,7 +946,7 @@ def edit_closet_item(request):
         return redirect('/profile')
 
     else:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             item = Item.objects.get(id=request.GET.get('id', None))
             if request.user == item.user:
                 item_images = ItemImage.objects.get(item=item)
@@ -1123,7 +1111,7 @@ def delete_closet_item(request):
         return redirect('/profile')
 
     else:
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             item = Item.objects.get(id=request.GET.get('id', None))
             if request.user == item.user:
                 item_images = ItemImage.objects.get(item=item)
@@ -1137,7 +1125,7 @@ def delete_closet_item(request):
 
 
 def signup(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('/products')
 
     if request.method == 'POST':
