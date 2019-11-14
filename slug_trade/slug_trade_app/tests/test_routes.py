@@ -31,8 +31,8 @@ privileged_routes = [
 
 authentication_routes = ['login']
 
-## test for get request to each route
 
+## test for get request to each route
 class SimpleTest(unittest.TestCase):
 
     def setUp(self):

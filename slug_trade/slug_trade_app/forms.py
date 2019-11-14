@@ -2,7 +2,14 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from slug_trade_app.models import UserProfile, Item, ItemImage, CashOffer, OfferComment, ItemOffer
+from .models import UserProfile, Item, ItemImage, CashOffer, OfferComment, ItemOffer
+
+
+
+class ItemForm(forms.Form):
+    item_text = forms.CharField()
+
+
 
 class UserProfileForm(forms.ModelForm):
 

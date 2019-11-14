@@ -662,7 +662,7 @@ def profile(request):
 
         item_count = items_list.count()
 
-        paginator = Paginator(items_list, 6)
+        paginator = Paginator(items_list, 10)
         page = request.GET.get('page', 1)
 
         try:
@@ -731,15 +731,17 @@ def edit_profile(request):
 def add_closet_item(request):
     if request.method == 'POST':
         form = ClosetItem(request.POST)
-
         pics = []
         files = request.FILES
+        # pic_names = ['image1','image2','image3','image4','image5']
+        # pics = [files.get(name) for name in pic_names if files.get(name, False)]
 
         if files.get('image1', False): pics.append(files['image1'])
         if files.get('image2', False): pics.append(files['image2'])
         if files.get('image3', False): pics.append(files['image3'])
         if files.get('image4', False): pics.append(files['image4'])
         if files.get('image5', False): pics.append(files['image5'])
+
 
         image1 = pics.pop(0)
 
