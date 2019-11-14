@@ -2,22 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="320c465c-1600-40b4-a988-9ca73da1707c" name="Default" comment="&quot; began integrating unit tests&quot;">
-      <change afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/tests/test_models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/tests/test_views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/API/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/management/commands/populate_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/management/commands/populate_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/test_forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/test_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/tests/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/test_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/tests/test_routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/test_views.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/tests/test_forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/test_login_and_logout.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/test_logo_loads.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,11 +44,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/slug_trade/tests/functional_tests" />
       <recent name="$PROJECT_DIR$/slug_trade/static/css" />
       <recent name="$PROJECT_DIR$/slug_trade/static" />
       <recent name="$PROJECT_DIR$/slug_trade/slug_trade_app/tests" />
       <recent name="$PROJECT_DIR$/slug_trade/templates" />
-      <recent name="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/Registration" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -125,7 +116,7 @@
       <workItem from="1572939925027" duration="119000" />
       <workItem from="1572940057599" duration="24307000" />
       <workItem from="1573617972650" duration="1817000" />
-      <workItem from="1573706941265" duration="993000" />
+      <workItem from="1573706941265" duration="3974000" />
     </task>
     <task id="LOCAL-00001" summary="&quot; began integrating unit tests&quot;">
       <created>1573197621687</created>
