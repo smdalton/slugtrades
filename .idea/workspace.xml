@@ -2,13 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="320c465c-1600-40b4-a988-9ca73da1707c" name="Default" comment="&quot; began integrating unit tests&quot;">
-      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint4.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/functional_test_sprint1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/header-footer/navigation.html" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/header-footer/navigation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint1.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint2.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional_test_sprint2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint3.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional_test_sprint3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint4.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional_test_sprint4.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,15 +41,15 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/slug_trade/tests/functional_tests" />
       <recent name="$PROJECT_DIR$/slug_trade/static/css" />
       <recent name="$PROJECT_DIR$/slug_trade/static" />
       <recent name="$PROJECT_DIR$/slug_trade/slug_trade_app/tests" />
-      <recent name="$PROJECT_DIR$/slug_trade/templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -116,7 +117,9 @@
       <workItem from="1572939925027" duration="119000" />
       <workItem from="1572940057599" duration="24307000" />
       <workItem from="1573617972650" duration="1817000" />
-      <workItem from="1573706941265" duration="3974000" />
+      <workItem from="1573706941265" duration="5120000" />
+      <workItem from="1573743731615" duration="2768000" />
+      <workItem from="1573885747853" duration="2538000" />
     </task>
     <task id="LOCAL-00001" summary="&quot; began integrating unit tests&quot;">
       <created>1573197621687</created>

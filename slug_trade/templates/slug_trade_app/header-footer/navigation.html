@@ -16,7 +16,7 @@
             <div class="nav-link links-drop">Welcome, {{ user.first_name }}!</div>
           {% else %}
             <button class="nav-link-button" id="login" onclick="navRedirect('/login/')">Login</button>
-            <button class="nav-link-button" onclick="navRedirect('/signup/')">Sign Up</button>
+            <button id="singup" class="nav-link-button" onclick="navRedirect('/signup/')">Sign Up</button>
           {% endif %}
         {% endif %}
       </div>
