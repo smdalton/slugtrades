@@ -277,8 +277,8 @@ class Command(BaseCommand):
             self.create_admin()
             self.create_admin_item()
             self.create_user()
-            self.create_random_users()
-            self.create_one_item_per_user()
+            # self.create_random_users()
+            # self.create_one_item_per_user()
 
 
         if test:
