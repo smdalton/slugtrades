@@ -11,4 +11,4 @@ services:
     volumes:
       - .:/var/www/myproject
     ports:
-      - "8000:8000"
+      - "80:8000"
