@@ -24,10 +24,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'p9o-yejvrzn%gkc3b79+%2^^rds(p#ly_3l)%ke9r7u@bmjit_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('DEBUG'):
-    DEBUG = True
-else:
-    DEBUG = False
+DEBUG=True
 
 ALLOWED_HOSTS = ['*']
 
@@ -131,6 +128,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'slug_trade/media')
 
+STATIC_ROOT = os.path.join(BASE_DIR,'slug_trade/static_root')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
