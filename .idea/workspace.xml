@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="320c465c-1600-40b4-a988-9ca73da1707c" name="Default" comment="&quot; began integrating unit tests&quot;">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/slug_trade/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/slug_trade/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/start.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/renew_db.sh" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/renew_db.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/management/commands/populate_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/management/commands/populate_db.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,12 +19,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="$PROJECT_DIR$/.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1UjVFPcrlFEVAdP4g4zBVg1mRYy" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/slug_trade" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -44,10 +62,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1525633012300</updated>
+      <workItem from="1575869889261" duration="2097000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

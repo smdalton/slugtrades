@@ -279,8 +279,3 @@ class Command(BaseCommand):
             self.create_user()
             self.create_random_users()
             self.create_one_item_per_user()
-
-
-        if test:
-            # test functions go here
-            pass
