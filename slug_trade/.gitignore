@@ -13,6 +13,7 @@ media/
 
 # Distribution / packaging
 .Python
+static_collected/
 env/
 build/
 develop-eggs/
