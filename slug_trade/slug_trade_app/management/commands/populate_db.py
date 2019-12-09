@@ -249,7 +249,7 @@ class Command(BaseCommand):
 
     def wipe_db(self):
         # delete table entries
-        call_command('flush')
+        #call_command('flush')
 
         # get the path of the profile and item images that are associated with database entries
         profile_path = os.path.join(os.getcwd(), 'slug_trade/media/static/profile_pictures/')

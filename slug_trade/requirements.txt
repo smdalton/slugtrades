@@ -1,10 +1,10 @@
 beautifulsoup4==4.6.0
-Django==1.9.13
+Django==1.9
 django-livereload-server==0.3.1
 Faker==0.8.13
-Pillow==5.1.0
+Pillow
 python-dateutil==2.7.2
-six==1.11.0
+six==1.12
 text-unidecode==1.2
 tornado==5.0.2
 virtualenv==15.2.0
