@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'slug_trade_app',
-    'coverage'
+
 
 ]
 
@@ -52,7 +52,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'livereload.middleware.LiveReloadScript'
 ]
 
 ROOT_URLCONF = 'slug_trade.urls'

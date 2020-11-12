@@ -60,8 +60,10 @@ class Command(BaseCommand):
          'Wii': 'E',
     }
 
-    debug_profile_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/')
-    debug_item_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_images/')
+    # debug_profile_pic_path = '/'.join(os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/').split('/')[2:])
+    # debug_profile_pic_path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/profile_pics/')
+    debug_profile_pic_path =  'slug_trade/slug_trade/media/db_populate/profile_pics/'
+    debug_item_pic_path = 'slug_trade/slug_trade/media/db_populate/item_images/'
 
 # Creates admin account and saves it into the database.
     def create_admin(self):
@@ -82,7 +84,10 @@ class Command(BaseCommand):
         user.userprofile.on_off_campus = 'off'
 
         # get the debug image to use as the profile photo
-        filename = glob.glob(self.debug_profile_pic_path + 'debug.jpeg')[0]
+        print(self.debug_profile_pic_path)
+        print(self.debug_item_pic_path)
+        filename = self.debug_profile_pic_path + 'debug.jpeg'
+        print(os.listdir())
         extension = '.' + filename.split('.')[len(filename.split('.'))-1]
         image = Image.open(filename)
         image_bytes = BytesIO()
@@ -118,7 +123,7 @@ class Command(BaseCommand):
         user.userprofile.on_off_campus = location
 
         # get the debug image to use as the profile photo
-        filename = glob.glob(self.debug_profile_pic_path + 'debug.jpeg')[0]
+        filename = self.debug_profile_pic_path + 'debug.jpeg'
         extension = '.' + filename.split('.')[len(filename.split('.'))-1]
         image = Image.open(filename)
         image_bytes = BytesIO()
@@ -177,7 +182,7 @@ class Command(BaseCommand):
 
         # get the debug image to use as the item image
         path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
-        filename = glob.glob(path + 'debug.jpeg')[0]
+        filename = 'slug_trade/slug_trade/media/db_populate/item_pics/debug.jpeg'
         extension = '.' + filename.split('.')[len(filename.split('.'))-1]
         image = Image.open(filename)
         image_bytes = BytesIO()
@@ -249,7 +254,7 @@ class Command(BaseCommand):
 
     def wipe_db(self):
         # delete table entries
-        call_command('flush')
+        # call_command('flush')
 
         # get the path of the profile and item images that are associated with database entries
         profile_path = os.path.join(os.getcwd(), 'slug_trade/media/static/profile_pictures/')
@@ -273,7 +278,7 @@ class Command(BaseCommand):
         #test = True
 
         if not test:
-            self.wipe_db()
+            # self.wipe_db()
             self.create_admin()
             self.create_admin_item()
             self.create_user()
