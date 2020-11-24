@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="320c465c-1600-40b4-a988-9ca73da1707c" name="Default" comment="&quot; began integrating unit tests&quot;">
-      <change afterPath="$PROJECT_DIR$/functional_test_sprint1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/slugtrade.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/slugtrade.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/header-footer/navigation.html" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/templates/slug_trade_app/header-footer/navigation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint2.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional_test_sprint2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint3.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional_test_sprint3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/slug_trade/tests/functional_tests/functional_test_sprint4.py" beforeDir="false" afterPath="$PROJECT_DIR$/functional_test_sprint4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runslug.sh" beforeDir="false" afterPath="$PROJECT_DIR$/runslug.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/management/commands/populate_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/management/commands/populate_db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slug_trade/slug_trade_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/slug_trade/slug_trade_app/views.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,13 +32,22 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JupyterTrust" id="c4b313e7-e982-4c02-ac07-eaf2d43f5222" />
   <component name="ProjectId" id="1SNWRBwi5Xmoom036V5rojBwFJy" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="sortByType" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
@@ -51,18 +59,6 @@
       <recent name="$PROJECT_DIR$/slug_trade/static" />
       <recent name="$PROJECT_DIR$/slug_trade/slug_trade_app/tests" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
@@ -89,16 +85,7 @@
       <method v="2" />
     </configuration>
   </component>
-  <component name="ServiceViewManager">
-    <option name="allServicesViewState">
-      <serviceView>
-        <treeState>
-          <expand />
-          <select />
-        </treeState>
-      </serviceView>
-    </option>
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -120,6 +107,8 @@
       <workItem from="1573706941265" duration="5120000" />
       <workItem from="1573743731615" duration="2768000" />
       <workItem from="1573885747853" duration="2538000" />
+      <workItem from="1605130652050" duration="9464000" />
+      <workItem from="1606252989372" duration="1806000" />
     </task>
     <task id="LOCAL-00001" summary="&quot; began integrating unit tests&quot;">
       <created>1573197621687</created>
@@ -132,23 +121,33 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="&quot; began integrating unit tests&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot; began integrating unit tests&quot;" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="786" y="369" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1606253323923">
+      <screen x="0" y="23" width="2560" height="1361" />
+    </state>
+    <state x="516" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1680.971@0.23.1680.971" timestamp="1605214821541" />
+    <state x="786" y="369" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.2560.1361@0.23.2560.1361" timestamp="1606253323923" />
+    <state x="900" y="537" width="670" height="676" key="search.everywhere.popup" timestamp="1606254153609">
+      <screen x="0" y="23" width="2560" height="1361" />
+    </state>
+    <state x="900" y="537" width="670" height="676" key="search.everywhere.popup/0.23.2560.1361@0.23.2560.1361" timestamp="1606254153609" />
   </component>
 </project>

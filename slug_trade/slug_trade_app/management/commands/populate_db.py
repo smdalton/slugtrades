@@ -184,6 +184,7 @@ class Command(BaseCommand):
         path = os.path.join(os.getcwd(), 'slug_trade/media/db_populate/item_pics/')
         filename = 'slug_trade/slug_trade/media/db_populate/item_pics/debug.jpeg'
         extension = '.' + filename.split('.')[len(filename.split('.'))-1]
+
         image = Image.open(filename)
         image_bytes = BytesIO()
         image.save(image_bytes, image.format)
@@ -279,11 +280,14 @@ class Command(BaseCommand):
 
         if not test:
             # self.wipe_db()
-            self.create_admin()
+            try:
+                self.create_admin()
+            except:
+                pass
             self.create_admin_item()
             self.create_user()
-            # self.create_random_users()
-            # self.create_one_item_per_user()
+            self.create_random_users()
+            self.create_one_item_per_user()
 
 
         if test:

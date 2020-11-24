@@ -386,7 +386,7 @@ def cash_transaction(request, item_id=None):
                 comment=request.POST['comment']
             )
             comment.save()
-            print("comment detected {}".fomat(request.POST['comment']))
+            print("comment detected {}".format(request.POST['comment']))
         else:
             print('no comment')
 
