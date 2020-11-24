@@ -42,7 +42,7 @@ class BasicFunctionalityTest(unittest.TestCase):
             ■ Profile Picture
         """
         # go to signup route via button
-        self.browser.get('http://localhost:8001')
+        self.browser.get('http://localhost:8015')
         self.browser.find_element_by_xpath('/html/body/div[1]/div[2]/div/button[2]').click()
         fname = self.browser.find_element_by_id('first-name')
         lname = self.browser.find_element_by_id('last-name')
