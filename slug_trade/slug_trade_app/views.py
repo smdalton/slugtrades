@@ -299,7 +299,7 @@ def my_received_offers(request):
                         'bidders_name': user.first_name,
                         'bid_items_list': work_dict[user],
                         'trade_details': '/trade_details/?Owner=test&Item=id'
-                    } 
+                    }
                 )
 
 
