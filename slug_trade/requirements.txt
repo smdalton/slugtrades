@@ -1,5 +1,5 @@
 beautifulsoup4==4.8.1
-Django==2.2.6
+Django==2.2.18
 django-livereload==1.7
 Faker==2.0.3
 Pillow==6.2.1
